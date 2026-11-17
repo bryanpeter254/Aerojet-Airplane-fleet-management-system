@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DISPATCHER MANAGEMENT</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Arial,Helvetica,sans-serif;background:#edf3fa;color:#0f172a}
+.topbar{background:linear-gradient(135deg,#07162d,#0d2c56);padding:20px 30px;color:#fff;display:flex;align-items:center;gap:15px;box-shadow:0 6px 25px rgba(0,0,0,.25)}
+.logo-box{width:65px;height:65px;border-radius:18px;background:linear-gradient(135deg,#00b7ff,#005eff);display:flex;justify-content:center;align-items:center;font-size:30px}
+.topbar h1{font-size:26px}.topbar p{font-size:13px;color:#dbeafe;margin-top:4px}
+.navbar{background:#0f213d;display:flex;flex-wrap:wrap;justify-content:center;gap:10px;padding:14px}
+.navbar a{text-decoration:none;color:#fff;padding:12px 18px;border-radius:12px;font-weight:bold;font-size:14px;background:rgba(255,255,255,.05);transition:.3s}
+.navbar a:hover,.navbar a.active{background:linear-gradient(135deg,#00b7ff,#005eff);transform:translateY(-3px)}
+.subnav{background:#0d2c56;display:flex;flex-wrap:wrap;justify-content:center;gap:6px;padding:8px 14px}
+.subnav button{border:none;background:transparent;color:#fff;font-weight:bold;font-size:13px;padding:10px 16px;border-radius:8px;cursor:pointer;letter-spacing:.5px}
+.subnav button:hover{background:rgba(255,255,255,.12)}
+.subnav button.active{background:linear-gradient(135deg,#00b7ff,#005eff)}
+.container{width:96%;max-width:1700px;margin:34px auto}
+h2{font-size:32px;margin-bottom:6px}.sub{color:#64748b;margin-bottom:22px}
+.card{background:#fff;border-radius:22px;padding:24px;box-shadow:0 10px 30px rgba(0,0,0,.08);margin-bottom:26px;overflow-x:auto}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:16px;align-items:end}
+label{display:block;font-weight:700;margin-bottom:7px;font-size:13px}
+input,select{width:100%;height:44px;border:1px solid #dbe4ef;border-radius:12px;padding:0 12px;font-size:14px;background:#f8fbff;outline:none}
+input:focus,select:focus{border-color:#0ea5e9;box-shadow:0 0 0 4px rgba(14,165,233,.12)}
+.btn{border:none;padding:12px 24px;border-radius:12px;font-size:14px;font-weight:bold;cursor:pointer;color:#fff}
+.b1{background:linear-gradient(135deg,#00aaff,#005eff)}.b2{background:#0f172a}.b3{background:#10b981}
+.btns{display:flex;gap:10px;flex-wrap:wrap}
+.center{justify-content:center;margin-top:22px}
+table{width:100%;border-collapse:collapse}
+thead{background:linear-gradient(135deg,#07162d,#0d2c56);color:#fff}
+th{padding:10px 9px;text-align:left;font-size:12px;white-space:nowrap}
+td{padding:9px;border-bottom:1px solid #e2e8f0;font-size:13px;white-space:nowrap}
+tbody tr:hover{background:#f6faff}
+.ab{border:none;padding:7px 12px;border-radius:9px;color:#fff;font-weight:bold;cursor:pointer;font-size:12px}
+.ed{background:#f59e0b}.dl{background:#ef4444}.up{background:#0ea5e9}
+a.view{font-size:12px;font-weight:bold;color:#005eff;margin-left:6px}
+.exp{background:#fecaca;color:#991b1b;font-weight:bold}.soon{background:#fde68a;color:#92400e;font-weight:bold}
+.addrow td{background:#fde047}
+.addrow input,.addrow select{height:36px;font-size:12px;border-radius:8px;padding:0 6px}
+.ft{width:100%;max-width:900px;margin:0 auto}
+.ft td{border:none;padding:7px 8px;vertical-align:middle;white-space:normal}
+.ft td:nth-child(odd){font-weight:bold;width:150px}
+.ft2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:4px 30px;max-width:1000px;margin:0 auto}
+.ft2 div{display:flex;align-items:center;gap:10px;padding:5px 0}.ft2 label{margin:0;width:120px;flex:none}
+.notfound{background:#fee2e2;color:#991b1b;border-radius:16px;padding:20px 24px;line-height:1.7}
+.notfound b{font-size:17px}
+#err,#msg{display:none;border-radius:16px;padding:16px 22px;margin-bottom:22px;font-weight:bold}
+#err{background:#fee2e2;color:#991b1b}#msg{background:#d1fae5;color:#065f46}
+.pg{display:none}.pg.on{display:block}
+.meta{color:#64748b;font-size:13px;margin-bottom:10px}
+table.g th,table.g td{text-align:center;padding:6px 4px;border:1px solid #cbd5e1;font-size:11px;white-space:normal;min-width:30px}
+table.g.det th,table.g.det td{min-width:78px;font-size:11px}
+table.g .l{text-align:left;white-space:nowrap;padding:6px 10px;min-width:170px;font-weight:bold}
+table.g td.none{background:#f1f5f9}
+.legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px;font-size:12px;font-weight:bold}
+.legend span{padding:6px 12px;border-radius:8px;border:1px solid #cbd5e1}
+table.cal th{text-align:center;font-size:13px}
+table.cal td{vertical-align:top;border:1px solid #cbd5e1;width:14.28%;min-width:130px;height:96px;white-space:normal;padding:6px}
+.cd{font-weight:bold;font-size:12px;margin-bottom:5px;color:#0d2c56}
+.ci{font-size:12px;background:#dbeafe;border-radius:6px;padding:3px 6px;margin-bottom:4px}
+.rest{font-size:11px;background:#d1fae5;color:#065f46;border-radius:6px;padding:3px 6px;margin-bottom:4px}
+.rest.bad{background:#fecaca;color:#991b1b;font-weight:bold}
+@media print{.topbar,.navbar,.subnav,.filters,.btns,.up,.ed,.dl,#err,#msg{display:none!important}body{background:#fff}.card{box-shadow:none;padding:0}}
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="logo-box">📡</div><div><h1>AEROJET AVIATION</h1><p>DISPATCHER MANAGEMENT SYSTEM</p></div></div>
+
+<div class="navbar">
+ <a href="VOYAGE.html">VOYAGE</a><a href="REPORT.html">REPORT</a><a href="CREW.html">CREW</a>
+ <a href="CREWREPORT.html">CREWREPORT</a><a href="CREWROSTER.html">CREWROSTER</a><a href="#" class="active">DISPATCHER</a>
+ <a href="POSTHOLDER.html">POSTHOLDER</a><a href="DOCUMENTS.html">DOCUMENTS</a><a href="SUMMARY.html">SUMMARY</a>
+ <a href="CARGO.html">CARGO</a><a href="MASTER.html">MASTER</a><a href="users.html">USERS</a><a href="#">PASSWORD</a><a href="index.html">LOGOUT</a>
+</div>
+
+<div class="subnav" id="subnav">
+ <button data-t="disp">DISPATCHER</button><button data-t="duty">DUTY</button><button data-t="summary">SUMMARY</button>
+ <button data-t="add">ADD ROSTER</button><button data-t="group">GROUP ROSTER</button><button data-t="monthly">MONTHLY ROSTER</button>
+ <button data-t="rest">REST</button><button data-t="d28">DUTY 28DAYS</button>
+</div>
+
+<div class="container">
+<div id="err"></div><div id="msg"></div>
+<datalist id="dlAc"></datalist><datalist id="dlSt"></datalist>
+
+<!-- ============ DISPATCHER LIST ============ -->
+<div class="pg" id="pg_disp">
+ <div id="dList">
+  <h2>DISPATCHER MANAGEMENT</h2><p class="sub">Dispatcher licences, currency dates and documents.</p>
+  <div class="card filters"><div class="grid">
+   <div><label>Search</label><select id="q_field"><option value="code">Id</option><option value="name">Name</option><option value="licence">Licence</option></select></div>
+   <div><label>&nbsp;</label><select id="q_op"><option value="eq">=</option><option value="starts">Starts with</option><option value="has">Contains</option></select></div>
+   <div><label>Value</label><input id="q_val" placeholder="Search..."></div>
+   <div><label>Sort By</label><select id="s_field"><option value="code">Id</option><option value="name">Name</option><option value="licence">Licence</option></select></div>
+   <div><label>&nbsp;</label><select id="s_dir"><option value="asc">Asc</option><option value="desc">Desc</option></select></div>
+   <div><label>&nbsp;</label><label style="font-weight:normal;display:flex;gap:6px;align-items:center;height:44px"><input type="checkbox" id="q_inactive" style="width:auto;height:auto"> Show inactive</label></div>
+   <div class="btns"><button class="btn b2" onclick="renderDisp()">Search</button><button class="btn b1" onclick="openDisp()">ADD NEW</button></div>
+  </div></div>
+  <div class="card"><table><thead id="dHead"></thead><tbody id="dBody"></tbody></table>
+   <p class="meta" style="margin-top:12px">Red = expired &nbsp;·&nbsp; Amber = expires within 30 days</p>
+   <div class="btns" style="justify-content:flex-end"><button class="btn b3" onclick="window.print()">🖨 Print</button></div></div>
+ </div>
+ <div id="dForm" style="display:none">
+  <h2 id="dfTitle">DISPATCHER MANAGEMENT</h2><p class="sub">Enter the dispatcher's details and currency dates.</p>
+  <div class="card"><div class="ft2" id="dfFields"></div>
+   <div class="btns center"><button class="btn b3" onclick="saveDisp()">Save</button><button class="btn b2" onclick="closeDisp()">Back</button></div></div>
+ </div>
+</div>
+
+<!-- ============ DUTY ============ -->
+<div class="pg" id="pg_duty">
+ <h2>DISPATCHER DUTY MANAGEMENT</h2><p class="sub">Record daily duty, office duty, leave and off days.</p>
+ <div class="card filters"><div class="grid">
+  <div><label>Date From</label><input type="date" id="du_from"></div><div><label>Date To</label><input type="date" id="du_to"></div>
+  <div><label>Crew</label><select id="du_crew"></select></div><div><label>Category</label><select id="du_cat"></select></div>
+  <div class="btns"><button class="btn b2" onclick="loadDuty()">Search</button></div>
+ </div></div>
+ <div class="card"><table>
+  <thead><tr><th>SNo</th><th>DATE</th><th>CREW</th><th>CATEGORY</th><th>START TIME</th><th>END TIME</th><th>TOTAL</th><th>Edit</th><th>Delete</th></tr></thead>
+  <tbody><tr class="addrow"><td>+</td><td><input type="date" id="da_date"></td><td><select id="da_crew"></select></td><td><select id="da_cat"></select></td>
+   <td><input type="time" id="da_st" oninput="dTot()"></td><td><input type="time" id="da_en" oninput="dTot()"></td><td><input id="da_tot" readonly style="width:70px"></td>
+   <td colspan="2"><button class="ab up" id="da_btn" onclick="saveDuty()">Add</button> <button class="ab ed" onclick="resetDuty()">Clear</button></td></tr></tbody>
+  <tbody id="duBody"></tbody></table>
+  <div class="btns" style="justify-content:flex-end;margin-top:14px"><button class="btn b3" onclick="window.print()">🖨 Print</button></div></div>
+</div>
+
+<!-- ============ SUMMARY (28-day roster grid) ============ -->
+<div class="pg" id="pg_summary">
+ <h2>DISPATCHER ROSTER MANAGEMENT</h2><p class="sub">28-day roster summary. The date range must be exactly 28 days.</p>
+ <div class="card filters"><div class="grid">
+  <div><label>Date From</label><input type="date" id="sm_from"></div><div><label>Date To</label><input type="date" id="sm_to"></div>
+  <div class="btns"><button class="btn b2" onclick="showSummary()">Search</button><button class="btn b3" onclick="window.print()">🖨 Print</button></div>
+ </div></div>
+ <div class="card" id="sm_out"></div>
+</div>
+
+<!-- ============ ADD ROSTER (list) ============ -->
+<div class="pg" id="pg_add">
+ <h2>DISPATCHER ROSTER MANAGEMENT</h2><p class="sub">Search roster lines, edit or delete them. Use ADD NEW to schedule dispatchers.</p>
+ <div class="card filters"><div class="grid">
+  <div><label>Date From</label><input type="date" id="ad_from"></div><div><label>Date To</label><input type="date" id="ad_to"></div>
+  <div><label>Dispatcher</label><select id="ad_disp"></select></div><div><label>Station</label><input id="ad_station" list="dlSt" placeholder="All stations"></div>
+  <div class="btns"><button class="btn b2" onclick="loadRoster()">Search</button><button class="btn b1" onclick="newGroup()">ADD NEW</button></div>
+ </div></div>
+ <div class="card"><table><thead><tr><th>SNo</th><th>CREW</th><th>REG</th><th>STATION</th><th>DATE</th><th>STATUS</th><th>Edit</th><th>Delete</th></tr></thead><tbody id="adBody"></tbody></table></div>
+</div>
+
+<!-- ============ GROUP ROSTER (form) ============ -->
+<div class="pg" id="pg_group">
+ <h2>DISPATCHER ROSTER GROUP SCHEDULE MANAGEMENT</h2><p class="sub" id="gSub">Give a dispatcher the same status for every day in a date range.</p>
+ <div class="card"><table class="ft">
+  <tr><td>Crew</td><td><select id="g_crew"></select></td></tr>
+  <tr><td>Aircraft</td><td><input id="g_reg" list="dlAc" placeholder="e.g. 5Y-RNG"></td></tr>
+  <tr><td>Station</td><td><input id="g_station" list="dlSt" placeholder="e.g. NBO"></td></tr>
+  <tr><td>From Date</td><td><input type="date" id="g_from"></td></tr>
+  <tr><td>To Date</td><td><input type="date" id="g_to"></td></tr>
+  <tr><td>Status</td><td><select id="g_status"></select></td></tr>
+ </table>
+ <div class="btns center"><button class="btn b3" onclick="saveGroup()">Save</button><button class="btn b2" onclick="backGroup()">Back</button></div></div>
+</div>
+
+<!-- ============ MONTHLY ROSTER ============ -->
+<div class="pg" id="pg_monthly">
+ <h2>MONTHLY DISPATCHER ROSTER SCHEDULE</h2><p class="sub">Roster for a chosen period (up to 31 days).</p>
+ <div class="card filters"><div class="grid">
+  <div><label>Date From</label><input type="date" id="mo_from"></div><div><label>Date To</label><input type="date" id="mo_to"></div>
+  <div class="btns"><button class="btn b2" onclick="showMonthly()">Search</button><button class="btn b3" onclick="window.print()">🖨 Print</button></div>
+ </div></div>
+ <div class="card" id="mo_out"></div>
+</div>
+
+<!-- ============ REST (fatigue) ============ -->
+<div class="pg" id="pg_rest">
+ <h2>DISPATCHERS FATIGUE MANAGEMENT</h2><p class="sub">Duty and rest between duty periods for one dispatcher.</p>
+ <div class="card filters"><div class="grid">
+  <div><label>Date From</label><input type="date" id="re_from"></div><div><label>Date To</label><input type="date" id="re_to"></div>
+  <div><label>Dispatcher</label><select id="re_disp"></select></div>
+  <div class="btns"><button class="btn b2" onclick="showRest()">Search</button><button class="btn b3" onclick="window.print()">🖨 Print</button></div>
+ </div></div>
+ <div class="card" id="re_out"></div>
+</div>
+
+<!-- ============ DUTY 28 DAYS ============ -->
+<div class="pg" id="pg_d28">
+ <h2>DISPATCHER DUTY REPORT - 28 DAYS</h2><p class="sub">Duty over a 28-day period. The date range must be exactly 28 days.</p>
+ <div class="card filters"><div class="grid">
+  <div><label>Date From</label><input type="date" id="d2_from"></div><div><label>Date To</label><input type="date" id="d2_to"></div>
+  <div><label>Dispatcher</label><select id="d2_disp"></select></div>
+  <div class="btns"><button class="btn b2" onclick="showD28()">Search</button><button class="btn b3" onclick="window.print()">🖨 Print</button></div>
+ </div></div>
+ <div class="card" id="d2_out"></div>
+</div>
+</div>
+
+<script src="js/api.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+const esc=v=>Api.esc(v==null?'':String(v));
+const API='api.php';   /* path to api.php from this page (used for date-filtered lists and file upload) */
+const MIN_REST_H=12;   /* shortest acceptable rest between duties - confirm against your operations manual */
+const CATS=['DISPATCH OJT','DUTY','LEAVE','OFFDAY','OFFICE DUTY','OUTSTATION','POSITIONING'];
+const WORK=['DUTY','OFFICE DUTY','DISPATCH OJT','OUTSTATION','POSITIONING'];
+const STAT={'MORNING_SHIFT':['M','#bfdbfe'],'AFTERNOONS_SHIFT':['A','#fde68a'],'NIGHT_SHIFT':['N','#c7d2fe'],'FLIGHT FOLLOWER':['FF','#bbf7d0'],
+ 'OFFICE DUTY':['OD','#e9d5ff'],'OUTSTATION':['OS','#fed7aa'],'CREW CHANGE':['CC','#fbcfe8'],'STAND BY':['SB','#fef08a'],'DUTY':['D','#86efac'],'OFF':['O','#e2e8f0']};
+const COLS=[['title','TITLE'],['name','NAME'],['licence','LICENCE'],['li_expiry','LI.EXPIRY','d'],['rt_expiry','RT.EXPIRY','d'],['crm','CRM','d'],['dgr','DGR','d'],['avsec','AVSEC','d'],
+ ['famlz','FAMLZ','d'],['sms','SMS','d'],['compet','COMPET','d'],['foo_it','FOO.IT','d'],['foo_rt','FOO.RT','d'],['foo_f50_it','FOO.F50.IT','d'],['foo_f50_rt','FOO.F50.RT','d'],['ojt','OJT','d']];
+const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const WD=['SUN','MON','TUE','WED','THU','FRI','SAT'],WDF=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+
+/* ---------- helpers ---------- */
+const D=s=>new Date(s+'T00:00:00Z'),fmt=d=>d.toISOString().slice(0,10);
+const addD=(s,n)=>fmt(new Date(D(s).getTime()+n*864e5));
+const days=(a,b)=>Math.round((D(b)-D(a))/864e5)+1;
+const today=()=>fmt(new Date(Date.now()-new Date().getTimezoneOffset()*6e4));
+const dmy=s=>s?`${+String(s).slice(8,10)}-${MON[+String(s).slice(5,7)-1]}-${String(s).slice(0,4)}`:'';
+const d10=s=>String(s||'').slice(0,10),t5=s=>String(s||'').slice(0,5);
+const nm=s=>String(s||'').replace(/_/g,' '),lab=nm;
+const byName=(a,b)=>String(a.name||'').localeCompare(String(b.name||''));
+const box=m=>`<div class="notfound"><b>Error</b><br>${esc(m)}</div>`;
+const st=s=>STAT[s]||[String(s||'?').slice(0,2),'#e2e8f0'];
+const err=m=>{const b=$('err');b.textContent=m;b.style.display='block';$('msg').style.display='none';scrollTo(0,0)};
+const ok=m=>{const b=$('msg');b.textContent=m;b.style.display='block';$('err').style.display='none';scrollTo(0,0)};
+const clr=()=>{$('err').style.display='none';$('msg').style.display='none'};
+const tmin=t=>{const[a,b]=String(t).split(':').map(Number);return a*60+b};
+const totalH=(s,e)=>{if(!s||!e)return '';let d=tmin(e)-tmin(s);if(d<0)d+=1440;return (d/60).toFixed(2)};
+
+/* list rows, with optional server-side filters; falls back to the plain list if api.php can't be reached from here */
+async function rows(t,p={}){
+ try{
+  const r=await fetch(API+'?'+new URLSearchParams({action:'list',table:t,...p}));const j=await r.json();
+  if(Array.isArray(j))return j;
+ }catch(e){}
+ const r=await Api.list(t);return Array.isArray(r)?r:(r.data||r.rows||[]);
+}
+let DISP=[],AC=[];
+const activeDisp=()=>DISP.filter(d=>d.status!=='Inactive').sort(byName);
+const dname=id=>{const d=DISP.find(x=>x.id==id);return d?nm(d.name):'(removed)'};
+const opts=(list,first)=>(first!=null?`<option value="">${first}</option>`:'')+list.map(x=>`<option value="${esc(x[0])}">${esc(x[1])}</option>`).join('');
+
+function fillSelects(){
+ const p=activeDisp().map(d=>[d.id,nm(d.name)]);
+ $('du_crew').innerHTML=opts(p,'All');$('da_crew').innerHTML=opts(p,'Select');$('ad_disp').innerHTML=opts(p,'All');
+ $('g_crew').innerHTML=opts(p,'Select');$('re_disp').innerHTML=opts(p,'Select');$('d2_disp').innerHTML=opts(p,'All');
+ const c=CATS.map(x=>[x,x]);$('du_cat').innerHTML=opts(c,'All');$('da_cat').innerHTML=opts(c,'Select');
+ $('g_status').innerHTML=opts(Object.keys(STAT).map(x=>[x,lab(x)]));
+ $('dlAc').innerHTML=AC.map(a=>`<option value="${esc(a)}">`).join('');
+}
+function addStations(list){
+ const s=new Set([...document.querySelectorAll('#dlSt option')].map(o=>o.value));
+ list.forEach(r=>{if(r.station)s.add(r.station)});
+ $('dlSt').innerHTML=[...s].sort().map(x=>`<option value="${esc(x)}">`).join('');
+}
+
+/* ---------- tabs ---------- */
+let TAB='disp';
+function go(t){
+ TAB=t;clr();
+ document.querySelectorAll('.pg').forEach(p=>p.classList.toggle('on',p.id==='pg_'+t));
+ document.querySelectorAll('#subnav button').forEach(b=>b.classList.toggle('active',b.dataset.t===t));
+ ({disp:renderDisp,duty:loadDuty,summary:showSummary,add:loadRoster,group:()=>{},monthly:showMonthly,rest:showRest,d28:showD28})[t]();
+}
+document.querySelectorAll('#subnav button').forEach(b=>b.onclick=()=>{if(b.dataset.t==='group')newGroup();else go(b.dataset.t)});
+
+/* ================= DISPATCHER LIST ================= */
+let EDITDISP=null;
+$('dHead').innerHTML='<tr><th>NO</th>'+COLS.map(c=>`<th>${c[1]}</th>`).join('')+'<th>UPLOAD</th><th>Edit</th><th>DELETE</th></tr>';
+function expCls(v){const s=d10(v);if(!s)return '';const t=today();return s<t?'exp':(s<=addD(t,30)?'soon':'')}
+function renderDisp(){
+ closeDisp(true);
+ const fld=$('q_field').value,op=$('q_op').value,val=$('q_val').value.trim().toLowerCase(),sf=$('s_field').value,dir=$('s_dir').value==='desc'?-1:1;
+ let l=DISP.filter(d=>$('q_inactive').checked||d.status!=='Inactive').filter(d=>{
+  if(!val)return true;const v=String(d[fld]||'').toLowerCase();
+  return op==='eq'?v===val:op==='starts'?v.startsWith(val):v.includes(val)});
+ l.sort((a,b)=>String(a[sf]||'').localeCompare(String(b[sf]||''),undefined,{sensitivity:'base'})*dir);
+ $('dBody').innerHTML=l.map((d,i)=>`<tr><td>${i+1}</td>`+COLS.map(c=>c[2]==='d'?`<td class="${expCls(d[c[0]])}">${dmy(d10(d[c[0]]))}</td>`:`<td>${esc(c[0]==='name'?d[c[0]]:d[c[0]])}</td>`).join('')+
+  `<td><button class="ab up" onclick="pickFile(${d.id})">UPLOAD</button>${d.upload_file?`<a class="view" href="${esc(d.upload_file)}" target="_blank">VIEW</a>`:''}</td>
+   <td><button class="ab ed" onclick="openDisp(${d.id})">EDIT</button></td><td><button class="ab dl" onclick="delDisp(${d.id})">DELETE</button></td></tr>`).join('')
+  ||`<tr><td colspan="${COLS.length+4}">No dispatchers found. Click ADD NEW to create one.</td></tr>`;
+}
+async function loadDisp(){DISP=await rows('dispatchers')}
+function openDisp(id){
+ clr();EDITDISP=id||null;const d=id?DISP.find(x=>x.id==id):null;
+ const f=[['code','Id','text'],['title','Title','text'],['name','Name','text'],['licence','Licence','text'],...COLS.filter(c=>c[2]).map(c=>[c[0],c[1],'date']),['status','Status','sel']];
+ $('dfFields').innerHTML=f.map(([k,l,ty])=>`<div><label>${l}</label>`+(ty==='sel'?`<select id="df_${k}"><option>Active</option><option>Inactive</option></select>`:`<input id="df_${k}" type="${ty}">`)+'</div>').join('');
+ f.forEach(([k,,ty])=>{const el=$('df_'+k);el.value=d?(ty==='date'?d10(d[k]):(d[k]??'')):(k==='title'?'DISPATCHER':k==='status'?'Active':'')});
+ $('dList').style.display='none';$('dForm').style.display='block';scrollTo(0,0);
+}
+function closeDisp(quiet){$('dForm').style.display='none';$('dList').style.display='block'}
+async function saveDisp(){
+ const body={};['code','title','name','licence',...COLS.filter(c=>c[2]).map(c=>c[0]),'status'].forEach(k=>body[k]=$('df_'+k).value.trim());
+ if(!body.code||!body.name)return alert('Id and Name are required.');
+ try{EDITDISP?await Api.update('dispatchers',EDITDISP,body):await Api.create('dispatchers',body);await loadDisp();fillSelects();renderDisp()}catch(e){err(e.message)}
+}
+async function delDisp(id){
+ if(confirm('Delete '+dname(id)+'? Their duty and roster records will be deleted too.'))
+  try{await Api.remove('dispatchers',id);await loadDisp();fillSelects();renderDisp()}catch(e){err(e.message)}
+}
+function pickFile(id){
+ const i=document.createElement('input');i.type='file';i.accept='.pdf,.jpg,.jpeg,.png';
+ i.onchange=async()=>{
+  if(!i.files[0])return;const fd=new FormData();fd.append('file',i.files[0]);
+  try{const r=await fetch(`${API}?action=upload&table=dispatchers&id=${id}`,{method:'POST',body:fd});const j=await r.json();
+   if(!r.ok)throw new Error(j.error||'Upload failed');await loadDisp();renderDisp();ok('File uploaded.')}catch(e){err(e.message)}
+ };i.click();
+}
+
+/* ================= DUTY ================= */
+let DUTY=[],EDITD=null;
+function dTot(){$('da_tot').value=totalH($('da_st').value,$('da_en').value)}
+async function loadDuty(){
+ try{DUTY=await rows('dispatcher_duty',{date_col:'duty_date',from:$('du_from').value,to:$('du_to').value})}catch(e){DUTY=[];err(e.message)}
+ renderDuty();
+}
+function renderDuty(){
+ const c=$('du_crew').value,k=$('du_cat').value;
+ const l=DUTY.filter(r=>(!c||r.dispatcher_id==c)&&(!k||r.category===k)).sort((a,b)=>d10(a.duty_date).localeCompare(d10(b.duty_date))||a.id-b.id);
+ $('duBody').innerHTML=l.map((r,i)=>`<tr><td>${i+1}</td><td>${dmy(d10(r.duty_date))}</td><td>${esc(dname(r.dispatcher_id))}</td><td>${esc(r.category)}</td>
+  <td>${t5(r.start_time)}</td><td>${t5(r.end_time)}</td><td>${r.total_hours==null?'':Number(r.total_hours).toFixed(2)}</td>
+  <td><button class="ab ed" onclick="editDuty(${r.id})">Edit</button></td><td><button class="ab dl" onclick="delDuty(${r.id})">Delete</button></td></tr>`).join('')
+  ||'<tr><td colspan="9">No duty records found for these filters.</td></tr>';
+}
+function resetDuty(){EDITD=null;['da_date','da_crew','da_cat','da_st','da_en','da_tot'].forEach(k=>$(k).value='');$('da_date').value=$('du_from').value||today();$('da_btn').textContent='Add'}
+function editDuty(id){
+ const r=DUTY.find(x=>x.id==id);if(!r)return;EDITD=id;
+ $('da_date').value=d10(r.duty_date);$('da_crew').value=r.dispatcher_id;$('da_cat').value=r.category;$('da_st').value=t5(r.start_time);$('da_en').value=t5(r.end_time);dTot();
+ $('da_btn').textContent='Update';$('da_date').scrollIntoView({block:'center'});
+}
+async function saveDuty(){
+ if(!$('da_date').value||!$('da_crew').value||!$('da_cat').value)return alert('Date, Crew and Category are required.');
+ const body={dispatcher_id:$('da_crew').value,duty_date:$('da_date').value,category:$('da_cat').value,start_time:$('da_st').value,end_time:$('da_en').value,total_hours:$('da_tot').value};
+ try{EDITD?await Api.update('dispatcher_duty',EDITD,body):await Api.create('dispatcher_duty',body);
+  const keep=$('da_date').value;resetDuty();$('da_date').value=keep;await loadDuty()}catch(e){err(e.message)}
+}
+async function delDuty(id){if(confirm('Delete this duty record?'))try{await Api.remove('dispatcher_duty',id);if(EDITD==id)resetDuty();await loadDuty()}catch(e){err(e.message)}}
+
+/* ================= ROSTER GRID (SUMMARY + MONTHLY) ================= */
+function rosterGrid(list,f,t,detail){
+ const ds=Array.from({length:days(f,t)},(_,i)=>addD(f,i)),by={};
+ list.forEach(r=>by[r.dispatcher_id+'|'+d10(r.roster_date)]=r);
+ const people=DISP.filter(d=>d.status!=='Inactive'||list.some(r=>r.dispatcher_id==d.id)).sort(byName);
+ if(!people.length)return box('No dispatchers found. Add them on the DISPATCHER tab first.');
+ let h=`<table class="g ${detail?'det':''}"><thead><tr><th>#</th><th class="l">Dispatcher</th>`+ds.map(d=>`<th>${+d.slice(8)}<br><small>${WD[D(d).getUTCDay()]}</small></th>`).join('')+(detail?'':'<th>DUTY</th><th>OFF</th><th>SB</th><th>NONE</th>')+'</tr></thead><tbody>';
+ people.forEach((p,i)=>{
+  let duty=0,off=0,sb=0,none=0;
+  h+=`<tr><td>${i+1}</td><td class="l">${esc(nm(p.name))}</td>`+ds.map(d=>{
+   const r=by[p.id+'|'+d];if(!r){none++;return '<td class="none"></td>'}
+   if(r.status==='OFF')off++;else if(r.status==='STAND BY')sb++;else duty++;
+   const s=st(r.status),tip=esc(lab(r.status)+' '+(r.station||'')+' '+(r.reg||''));
+   const txt=detail?`${esc(lab(r.status))}${r.station?' '+esc(r.station):''}${r.reg?'<br><small>'+esc(r.reg)+'</small>':''}`:esc(s[0]);
+   return `<td style="background:${s[1]}" title="${tip}">${txt}</td>`}).join('')+(detail?'':`<td><b>${duty}</b></td><td>${off}</td><td>${sb}</td><td>${none}</td>`)+'</tr>';
+ });
+ h+='</tbody></table><div class="legend">'+Object.keys(STAT).map(k=>`<span style="background:${STAT[k][1]}">${detail?'':STAT[k][0]+' = '}${esc(lab(k))}</span>`).join('')+'<span style="background:#f1f5f9">NO DUTY SCHEDULED</span></div>';
+ return h;
+}
+const rangeBad=(f,t)=>!f||!t?'Please choose both dates.':t<f?'Date To must not be before Date From.':'';
+async function showSummary(){
+ const f=$('sm_from').value,t=$('sm_to').value,b=rangeBad(f,t);
+ if(b)return $('sm_out').innerHTML=box(b);
+ if(days(f,t)!==28)return $('sm_out').innerHTML=box('DATA RANGE SHOULD BE 28 DAYS');
+ try{const l=await rows('dispatcher_roster',{date_col:'roster_date',from:f,to:t});$('sm_out').innerHTML=`<p class="meta">Roster ${dmy(f)} to ${dmy(t)}</p>`+rosterGrid(l,f,t,false)}catch(e){$('sm_out').innerHTML=box(e.message)}
+}
+async function showMonthly(){
+ const f=$('mo_from').value,t=$('mo_to').value,b=rangeBad(f,t);
+ if(b)return $('mo_out').innerHTML=box(b);
+ if(days(f,t)>31)return $('mo_out').innerHTML=box('DATA RANGE SHOULD NOT BE MORE THAN 31 DAYS');
+ try{const l=await rows('dispatcher_roster',{date_col:'roster_date',from:f,to:t});
+  $('mo_out').innerHTML=`<h3 style="margin-bottom:14px">AEROJET AVIATION ROSTER : ( ${dmy(f)} TO ${dmy(t)} )</h3>`+rosterGrid(l,f,t,true)}catch(e){$('mo_out').innerHTML=box(e.message)}
+}
+
+/* ================= ADD ROSTER LIST + GROUP FORM ================= */
+let ROST=[],EDITR=null;
+async function loadRoster(){
+ try{ROST=await rows('dispatcher_roster',{date_col:'roster_date',from:$('ad_from').value,to:$('ad_to').value});addStations(ROST)}catch(e){ROST=[];err(e.message)}
+ const p=$('ad_disp').value,s=$('ad_station').value.trim().toLowerCase();
+ const l=ROST.filter(r=>(!p||r.dispatcher_id==p)&&(!s||(r.station||'').toLowerCase().includes(s))).sort((a,b)=>d10(a.roster_date).localeCompare(d10(b.roster_date))||dname(a.dispatcher_id).localeCompare(dname(b.dispatcher_id)));
+ $('adBody').innerHTML=l.map((r,i)=>`<tr><td>${i+1}</td><td>${esc(dname(r.dispatcher_id))}</td><td>${esc(r.reg)}</td><td>${esc(r.station)}</td><td>${dmy(d10(r.roster_date))}</td><td>${esc(r.status)}</td>
+  <td><button class="ab ed" onclick="editRoster(${r.id})">Edit</button></td><td><button class="ab dl" onclick="delRoster(${r.id})">Delete</button></td></tr>`).join('')
+  ||'<tr><td colspan="8">No roster lines found for these filters.</td></tr>';
+}
+function showGroup(){
+ clr();document.querySelectorAll('.pg').forEach(p=>p.classList.toggle('on',p.id==='pg_group'));
+ document.querySelectorAll('#subnav button').forEach(b=>b.classList.toggle('active',b.dataset.t==='group'));scrollTo(0,0);
+}
+function newGroup(){
+ EDITR=null;['g_crew','g_reg','g_station'].forEach(k=>$(k).value='');$('g_from').value=$('g_to').value=today();$('g_status').selectedIndex=0;
+ $('g_to').disabled=false;$('gSub').textContent='Give a dispatcher the same status for every day in a date range.';showGroup();
+}
+function editRoster(id){
+ const r=ROST.find(x=>x.id==id);if(!r)return;EDITR=id;
+ $('g_crew').value=r.dispatcher_id;$('g_reg').value=r.reg||'';$('g_station').value=r.station||'';$('g_from').value=$('g_to').value=d10(r.roster_date);
+ if(![...$('g_status').options].some(o=>o.value===r.status))$('g_status').insertAdjacentHTML('beforeend',`<option value="${esc(r.status)}">${esc(lab(r.status))}</option>`);
+ $('g_status').value=r.status;$('g_to').disabled=true;$('gSub').textContent='Editing one roster line.';showGroup();
+}
+function backGroup(){EDITR=null;go('add')}
+async function saveGroup(){
+ const id=$('g_crew').value,f=$('g_from').value,t=EDITR?$('g_from').value:$('g_to').value,s=$('g_status').value;
+ if(!id||!f||!t||!s)return alert('Crew, From Date, To Date and Status are required.');
+ if(t<f)return alert('To Date must not be before From Date.');
+ const n=days(f,t);if(n>62)return alert('A group schedule can cover at most 62 days.');
+ const base={dispatcher_id:id,reg:$('g_reg').value.trim().toUpperCase(),station:$('g_station').value.trim().toUpperCase(),status:s};
+ try{
+  if(EDITR){await Api.update('dispatcher_roster',EDITR,{...base,roster_date:f});EDITR=null;$('ad_from').value=$('ad_to').value=f;go('add');return ok('Roster line updated.')}
+  const ex=await rows('dispatcher_roster',{dispatcher_id:id,date_col:'roster_date',from:f,to:t}),have={};ex.forEach(r=>have[d10(r.roster_date)]=r);
+  if(ex.length&&!confirm(`${ex.length} of these ${n} day(s) already have a roster line for ${dname(id)}. Replace them?`))return;
+  for(let i=0;i<n;i++){const d=addD(f,i),body={...base,roster_date:d};have[d]?await Api.update('dispatcher_roster',have[d].id,body):await Api.create('dispatcher_roster',body)}
+  $('ad_from').value=f;$('ad_to').value=t;go('add');ok(`Roster saved for ${n} day${n===1?'':'s'}.`);
+ }catch(e){err(e.message)}
+}
+async function delRoster(id){if(confirm('Delete this roster line?'))try{await Api.remove('dispatcher_roster',id);await loadRoster()}catch(e){err(e.message)}}
+
+/* ================= REST (fatigue calendar) ================= */
+const ts=(d,tm)=>Date.parse(d+'T'+t5(tm)+':00Z');
+const hm=ms=>{const m=Math.round(ms/6e4);return String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0')};
+const clock=ms=>new Date(ms).toISOString().slice(11,16);
+async function showRest(){
+ const id=$('re_disp').value,f=$('re_from').value,t=$('re_to').value,b=rangeBad(f,t);
+ if(b)return $('re_out').innerHTML=box(b);
+ if(!id)return $('re_out').innerHTML=box('Please select a dispatcher.');
+ if(days(f,t)>62)return $('re_out').innerHTML=box('DATA RANGE SHOULD NOT BE MORE THAN 62 DAYS');
+ let du;try{du=await rows('dispatcher_duty',{dispatcher_id:id,date_col:'duty_date',from:addD(f,-1),to:t})}catch(e){return $('re_out').innerHTML=box(e.message)}
+ const P=du.filter(x=>WORK.includes(x.category)&&x.start_time&&x.end_time).map(x=>{const d=d10(x.duty_date),s=ts(d,x.start_time);let e=ts(d,x.end_time);if(e<=s)e+=864e5;return{d,s,e}}).sort((a,b)=>a.s-b.s);
+ const restOf={};let short=0,min=null;
+ P.forEach((p,i)=>{if(!i)return;const r=Math.max(0,p.s-P[i-1].e);restOf[p.s]={r,from:P[i-1].e,to:p.s};if(p.d>=f&&p.d<=t){if(min===null||r<min)min=r;if(r<MIN_REST_H*36e5)short++}});
+ const ds=Array.from({length:days(f,t)},(_,i)=>addD(f,i)),wd0=D(f).getUTCDay();
+ const cell=d=>{
+  const items=du.filter(x=>d10(x.duty_date)===d).sort((a,b)=>String(a.start_time).localeCompare(String(b.start_time)));
+  let h=`<td><div class="cd">${dmy(d)}</div>`;
+  items.forEach(x=>{h+=`<div class="ci">${esc(x.category)}${x.start_time?' '+t5(x.start_time)+'–'+t5(x.end_time):''}</div>`;
+   const p=P.find(q=>q.d===d&&q.s===ts(d,x.start_time)),r=p&&restOf[p.s];
+   if(r)h+=`<div class="rest ${r.r<MIN_REST_H*36e5?'bad':''}">REST TIME ${hm(r.r)}<br>From ${clock(r.from)} To ${clock(r.to)}</div>`});
+  return h+'</td>';
+ };
+ let h=`<p class="meta">${esc(dname(id))} · ${dmy(f)} to ${dmy(t)} · rest below ${MIN_REST_H}:00 is shown in red</p><table class="cal"><thead><tr>`+
+  Array.from({length:7},(_,i)=>`<th>${WDF[(wd0+i)%7]}</th>`).join('')+'</tr></thead><tbody>';
+ for(let i=0;i<ds.length;i+=7){h+='<tr>'+ds.slice(i,i+7).map(cell).join('')+('<td></td>'.repeat(Math.max(0,i+7-ds.length)))+'</tr>'}
+ h+='</tbody></table>'+`<p class="meta" style="margin-top:12px">${min===null?'No consecutive duty periods with times in this range.':`Shortest rest: ${hm(min)} · ${short} rest period${short===1?'':'s'} below ${MIN_REST_H}:00`}</p>`;
+ $('re_out').innerHTML=h;
+}
+
+/* ================= DUTY 28 DAYS ================= */
+async function showD28(){
+ const f=$('d2_from').value,t=$('d2_to').value,id=$('d2_disp').value,b=rangeBad(f,t);
+ if(b)return $('d2_out').innerHTML=box(b);
+ if(days(f,t)!==28)return $('d2_out').innerHTML=box('DATA RANGE SHOULD BE 28 DAYS');
+ let du;try{du=await rows('dispatcher_duty',{date_col:'duty_date',from:f,to:t,...(id?{dispatcher_id:id}:{})})}catch(e){return $('d2_out').innerHTML=box(e.message)}
+ const order=['DUTY','OFFICE DUTY','DISPATCH OJT','OUTSTATION','POSITIONING','LEAVE','OFFDAY'];
+ const people=(id?DISP.filter(d=>d.id==id):activeDisp());
+ let h=`<p class="meta">Duty ${dmy(f)} to ${dmy(t)} · figures are number of days, hours are total duty hours</p><table><thead><tr><th>NO</th><th>DISPATCHER</th>`+order.map(c=>`<th>${c}</th>`).join('')+'<th>DAYS WORKED</th><th>TOTAL HOURS</th></tr></thead><tbody>';
+ people.forEach((p,i)=>{
+  const mine=du.filter(x=>x.dispatcher_id==p.id),cnt={},worked=new Set();let hrs=0;
+  mine.forEach(x=>{(cnt[x.category]=cnt[x.category]||new Set()).add(d10(x.duty_date));if(WORK.includes(x.category)){worked.add(d10(x.duty_date));hrs+=Number(x.total_hours!=null?x.total_hours:totalH(t5(x.start_time),t5(x.end_time)))||0}});
+  h+=`<tr><td>${i+1}</td><td>${esc(nm(p.name))}</td>`+order.map(c=>`<td>${cnt[c]?cnt[c].size:0}</td>`).join('')+`<td><b>${worked.size}</b></td><td><b>${hrs.toFixed(2)}</b></td></tr>`;
+ });
+ h+='</tbody></table>';
+ if(id){
+  const l=du.sort((a,b)=>d10(a.duty_date).localeCompare(d10(b.duty_date)));
+  h+=`<h3 style="margin:22px 0 10px">Duty detail</h3><table><thead><tr><th>DATE</th><th>CATEGORY</th><th>START TIME</th><th>END TIME</th><th>TOTAL</th></tr></thead><tbody>`+
+   (l.map(x=>`<tr><td>${dmy(d10(x.duty_date))}</td><td>${esc(x.category)}</td><td>${t5(x.start_time)}</td><td>${t5(x.end_time)}</td><td>${x.total_hours==null?'':Number(x.total_hours).toFixed(2)}</td></tr>`).join('')||'<tr><td colspan="5">No duty records in this period.</td></tr>')+'</tbody></table>';
+ }
+ $('d2_out').innerHTML=h;
+}
+
+/* ================= INIT ================= */
+['q_val'].forEach(i=>$(i).addEventListener('keydown',e=>{if(e.key==='Enter')renderDisp()}));
+(async()=>{
+ const T=today();
+ $('du_from').value=$('du_to').value=$('da_date').value=T;
+ $('sm_from').value=$('mo_from').value=$('re_from').value=$('ad_from').value=T;
+ $('sm_to').value=$('mo_to').value=$('re_to').value=$('ad_to').value=addD(T,27);
+ $('d2_from').value=addD(T,-27);$('d2_to').value=T;
+ try{await loadDisp()}catch(e){err('Could not load dispatchers: '+e.message+'. Run dispatcher_migration.sql and replace api.php.')}
+ try{AC=(await rows('aircraft_docs')).map(a=>a.aircraft).filter(Boolean)}catch(e){}
+ fillSelects();go('disp');
+})();
+</script>
+</body>
+</html>

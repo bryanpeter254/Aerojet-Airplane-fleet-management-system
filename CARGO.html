@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CARGO SUMMARY</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Arial,Helvetica,sans-serif;background:#edf3fa;color:#0f172a}
+.topbar{width:100%;background:linear-gradient(135deg,#07162d,#0d2c56);padding:20px 30px;display:flex;justify-content:space-between;align-items:center;color:white}
+.logo{display:flex;align-items:center;gap:15px}
+.logo-box{width:65px;height:65px;border-radius:18px;background:linear-gradient(135deg,#00b7ff,#005eff);display:flex;align-items:center;justify-content:center;font-size:30px}
+.title h1{font-size:26px}
+.title p{font-size:13px;color:#dbeafe}
+.navbar{background:#0f213d;display:flex;flex-wrap:wrap;justify-content:center;gap:10px;padding:14px}
+.navbar a{text-decoration:none;color:white;padding:12px 18px;border-radius:12px;font-weight:bold;font-size:14px;background:rgba(255,255,255,0.05);transition:0.3s}
+.navbar a:hover,.navbar a.active{background:linear-gradient(135deg,#00b7ff,#005eff);transform:translateY(-3px)}
+.container{width:95%;max-width:1700px;margin:40px auto}
+.page-title{margin-bottom:25px}
+.page-title h2{font-size:38px}
+.page-title p{color:#64748b;margin-top:6px}
+.card{background:white;padding:25px;border-radius:25px;box-shadow:0 10px 30px rgba(0,0,0,0.08);margin-bottom:30px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px}
+.input-group{display:flex;flex-direction:column}
+label{font-weight:bold;margin-bottom:8px;font-size:14px}
+input,select{height:50px;border-radius:12px;border:1px solid #dbe4ef;padding:0 15px;background:#f8fbff;outline:none;width:100%;font-size:14px}
+input:focus,select:focus{border-color:#00aaff;box-shadow:0 0 0 4px rgba(0,170,255,0.12)}
+.buttons{margin-top:20px;display:flex;gap:15px;flex-wrap:wrap}
+.btn{padding:14px 22px;border:none;border-radius:12px;font-weight:bold;cursor:pointer;transition:0.3s;font-size:14px}
+.primary{background:linear-gradient(135deg,#00b7ff,#005eff);color:white}
+.dark{background:#0f172a;color:white}
+.btn:hover{transform:translateY(-4px)}
+.table-card{background:white;padding:25px;border-radius:25px;box-shadow:0 10px 30px rgba(0,0,0,0.08);overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:1300px}
+thead{background:linear-gradient(135deg,#07162d,#0d2c56);color:white}
+th,td{padding:12px;font-size:13px;text-align:left}
+th small{display:block;font-weight:normal;color:#bfdbfe;margin-top:2px}
+tbody tr{border-bottom:1px solid #e2e8f0}
+tbody tr:hover{background:#f8fbff}
+td.num,th.num{text-align:right}
+tfoot td{font-weight:bold;background:#f1f5f9;border-top:2px solid #0d2c56}
+.empty{text-align:center;color:#64748b;padding:30px}
+.print-area{margin-top:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.count{color:#64748b;font-size:13px}
+.print-btn{background:linear-gradient(135deg,#10b981,#059669);color:white;border:none;padding:14px 24px;border-radius:14px;cursor:pointer;font-weight:bold}
+@media print{.navbar,.search-card,.print-btn{display:none!important}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+    <div class="logo">
+        <div class="logo-box">📦</div>
+        <div class="title">
+            <h1>AEROJET AVIATION</h1>
+            <p>CARGO SUMMARY</p>
+        </div>
+    </div>
+</div>
+
+<div class="navbar">
+    
+    <a href="VOYAGE.html">VOYAGE</a>
+    <a href="REPORT.html">REPORT</a>
+    <a href="CREW.html">CREW</a>
+    <a href="CREWREPORT.html">CREWREPORT</a>
+    <a href="CREWROSTER.html">CREWROSTER</a>
+    <a href="DISPATCHER.html">DISPATCHER</a>
+    <a href="POSTHOLDER.html">POSTHOLDER</a>
+    <a href="DOCUMENTS.html">DOCUMENTS</a>
+    <a href="SUMMARY.html">SUMMARY</a>
+    <a href="#" class="active">CARGO</a>
+    <a href="MASTER.html">MASTER</a>
+    <a href="users.html">USERS</a>
+    <a href="#">PASSWORD</a>
+    <a href="index.html">LOGOUT</a>
+</div>
+
+<div class="container">
+
+    <div class="page-title">
+        <h2>Cargo Summary</h2>
+        <p>Flown sectors from the voyage records for the selected period</p>
+    </div>
+
+    <div class="card search-card">
+        <div class="grid">
+            <div class="input-group"><label>Date From</label><input type="date" id="dFrom"></div>
+            <div class="input-group"><label>Date To</label><input type="date" id="dTo"></div>
+            <div class="input-group"><label>Origin</label><select id="sOrigin"><option value="">Select</option></select></div>
+            <div class="input-group"><label>Destination</label><select id="sDest"><option value="">Select</option></select></div>
+        </div>
+        <div class="buttons">
+            <button class="btn primary" id="btnSearch">Search</button>
+            <button class="btn dark" id="btnReset">Reset</button>
+        </div>
+    </div>
+
+    <div class="table-card">
+        <table>
+            <thead>
+                <tr>
+                    <th>SNO</th>
+                    <th>Date Format<small>(dd/mm) (A)</small></th>
+                    <th>Type<small>(B)</small></th>
+                    <th>Regn No<small>(C)</small></th>
+                    <th>Flight No<small>(D)</small></th>
+                    <th>From<small>(E)</small></th>
+                    <th>To<small>(F)</small></th>
+                    <th>Type of Service<small>(G)</small></th>
+                    <th class="num">Pax<small>(Number) (H)</small></th>
+                    <th class="num">Cargo<small>(Kg) (I)</small></th>
+                    <th class="num">Seats<small>(Number) (J)</small></th>
+                    <th class="num">Payload<small>(Kg) (K)</small></th>
+                    <th class="num">Distance Flown<small>(Kms) (L)</small></th>
+                    <th class="num">Aircraft Hours<small>(Flown) (M)</small></th>
+                </tr>
+            </thead>
+            <tbody id="tbody"><tr><td colspan="14" class="empty">Loading…</td></tr></tbody>
+            <tfoot id="tfoot"></tfoot>
+        </table>
+        <div class="print-area">
+            <span class="count" id="count"></span>
+            <button class="print-btn" onclick="window.print()">🖨 Print Cargo Summary</button>
+        </div>
+    </div>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const iso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+const n=(v,dp=0)=>v==null||v===''?'':Number(v).toLocaleString('en',{minimumFractionDigits:dp,maximumFractionDigits:dp});
+let placesLoaded=false;
+
+async function load(){
+    const p=new URLSearchParams({action:'list',table:'voyages',date_col:'trip_date'});
+    if($('dFrom').value) p.set('from',$('dFrom').value);
+    if($('dTo').value) p.set('to',$('dTo').value);
+    if($('sOrigin').value) p.set('origin',$('sOrigin').value);
+    if($('sDest').value) p.set('destination',$('sDest').value);
+    let data;
+    try{
+        const r=await fetch('api.php?'+p,{credentials:'same-origin'});
+        if(r.status===401){location.href='index.html';return;}
+        data=await r.json(); if(!r.ok) throw new Error(data.error||'Request failed');
+    }catch(e){ $('tbody').innerHTML=`<tr><td colspan="14" class="empty">${esc(e.message)}</td></tr>`; $('tfoot').innerHTML=''; return; }
+
+    data.sort((a,b)=>(a.trip_date||'').localeCompare(b.trip_date||'')||a.id-b.id);
+    const sum={pax:0,cargo:0,seats:0,pay:0,dist:0,hrs:0};
+    $('tbody').innerHTML=data.length?data.map((v,i)=>{
+        sum.pax+=+v.pax||0; sum.cargo+=+v.cargo_kg||0; sum.seats+=+v.seats||0; sum.pay+=+v.payload_kg||0; sum.dist+=+v.distance_km||0; sum.hrs+=+v.hours_flown||0;
+        const [y,m,d]=(v.trip_date||'').split('-');
+        return `<tr><td>${i+1}</td><td>${d&&m?d+'/'+m:''}</td><td>${esc(v.ac_type)}</td><td>${esc(v.ac_reg)}</td><td>${esc(v.flight_no)}</td><td>${esc(v.origin)}</td><td>${esc(v.destination)}</td><td>${esc(v.flight_type)}</td>
+        <td class="num">${n(v.pax)}</td><td class="num">${n(v.cargo_kg,1)}</td><td class="num">${n(v.seats)}</td><td class="num">${n(v.payload_kg,1)}</td><td class="num">${n(v.distance_km,1)}</td><td class="num">${n(v.hours_flown,2)}</td></tr>`;
+    }).join(''):'<tr><td colspan="14" class="empty">No flights found for this selection</td></tr>';
+    $('tfoot').innerHTML=data.length?`<tr><td colspan="8">TOTAL</td><td class="num">${n(sum.pax)}</td><td class="num">${n(sum.cargo,1)}</td><td class="num">${n(sum.seats)}</td><td class="num">${n(sum.pay,1)}</td><td class="num">${n(sum.dist,1)}</td><td class="num">${n(sum.hrs,2)}</td></tr>`:'';
+    $('count').textContent=data.length?`${data.length} flight${data.length>1?'s':''}`:'';
+}
+
+/* fill Origin / Destination drop-downs from the voyages already in the database */
+async function loadPlaces(){
+    try{
+        const r=await fetch('api.php?action=list&table=voyages',{credentials:'same-origin'}); const d=await r.json(); if(!r.ok) return;
+        const fill=(el,k)=>{ const cur=el.value; el.innerHTML='<option value="">Select</option>'+[...new Set(d.map(v=>v[k]).filter(Boolean))].sort().map(x=>`<option>${esc(x)}</option>`).join(''); el.value=cur; };
+        fill($('sOrigin'),'origin'); fill($('sDest'),'destination');
+    }catch(e){}
+}
+
+const today=iso(new Date());
+$('dFrom').value=today; $('dTo').value=today;
+$('btnSearch').onclick=load;
+$('btnReset').onclick=()=>{ $('dFrom').value=today; $('dTo').value=today; $('sOrigin').value=''; $('sDest').value=''; load(); };
+loadPlaces(); load();
+</script>
+</body>
+</html>

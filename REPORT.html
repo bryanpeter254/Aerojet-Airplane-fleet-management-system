@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>REPORT PAGE</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Arial,Helvetica,sans-serif;background:#edf3fa;color:#0f172a}
+
+.topbar{width:100%;background:linear-gradient(135deg,#07162d,#0d2c56);padding:20px 30px;display:flex;align-items:center;justify-content:space-between;color:#fff;box-shadow:0 5px 25px rgba(0,0,0,.25)}
+.logo{display:flex;align-items:center;gap:16px}
+.logo-icon{width:65px;height:65px;border-radius:18px;background:linear-gradient(135deg,#00b7ff,#005eff);display:flex;align-items:center;justify-content:center;font-size:32px}
+.logo-text h1{font-size:28px}
+.logo-text p{margin-top:5px;font-size:13px;color:#d7e9ff;letter-spacing:1px}
+
+.main-navbar{width:100%;background:#0f213d;padding:14px 18px;display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+.main-navbar a{text-decoration:none;color:#fff;padding:12px 20px;border-radius:12px;font-size:14px;font-weight:bold;background:rgba(255,255,255,.05);transition:.3s}
+.main-navbar a:hover,.main-navbar a.active{background:linear-gradient(135deg,#00b7ff,#005eff);transform:translateY(-3px)}
+
+.container{width:95%;max-width:1500px;margin:40px auto}
+.page-title{margin-bottom:25px}
+.page-title h2{font-size:40px;margin-bottom:8px}
+.page-title p{color:#64748b;font-size:16px}
+
+.report-navbar{background:#fff;padding:18px;border-radius:22px;display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-bottom:35px;box-shadow:0 8px 25px rgba(0,0,0,.08)}
+.report-navbar a{text-decoration:none;padding:14px 22px;border-radius:14px;color:#0f172a;font-weight:bold;transition:.3s;background:#f1f5f9}
+.report-navbar a:hover,.report-navbar a.active{background:linear-gradient(135deg,#00b7ff,#005eff);color:#fff;transform:translateY(-3px)}
+
+.management-card{background:#fff;border-radius:28px;padding:35px;box-shadow:0 10px 30px rgba(0,0,0,.08);margin-bottom:30px}
+.management-title h3{font-size:28px;color:#0f172a}
+.management-title p{margin-top:8px;color:#64748b}
+.management-title{margin-bottom:26px}
+
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:20px;align-items:end}
+.input-group{display:flex;flex-direction:column}
+.input-group label{margin-bottom:10px;font-weight:700}
+.input-group input,.input-group select{height:50px;border-radius:14px;border:1px solid #dbe4ef;background:#f8fbff;padding:0 14px;font-size:15px;outline:none;transition:.3s}
+.input-group input:focus,.input-group select:focus{border-color:#00aaff;box-shadow:0 0 0 4px rgba(0,170,255,.12)}
+
+.button-area{margin-top:28px;display:flex;flex-wrap:wrap;gap:18px}
+.btn{border:none;padding:14px 30px;border-radius:15px;font-size:15px;font-weight:bold;cursor:pointer;transition:.3s;color:#fff}
+.primary-btn{background:linear-gradient(135deg,#00b7ff,#005eff)}
+.secondary-btn{background:#0f172a}
+.btn:hover{transform:translateY(-3px)}
+
+.result-wrap{overflow-x:auto;margin-top:6px}
+.rt{width:100%;border-collapse:collapse;min-width:700px}
+.rt thead{background:linear-gradient(135deg,#07162d,#0d2c56);color:#fff}
+.rt th{padding:11px 10px;text-align:left;font-size:12px;white-space:nowrap}
+.rt td{padding:10px;border-bottom:1px solid #e2e8f0;font-size:13px;white-space:nowrap}
+.rt tbody tr:hover{background:#f1f7ff}
+.rt .n{text-align:right}
+.rt tfoot td{background:#f1f5f9;font-weight:bold;border-top:2px solid #0d2c56}
+.meta{color:#64748b;font-size:13px;margin-bottom:10px}
+.notfound{background:#fee2e2;color:#991b1b;border-radius:16px;padding:22px 26px;line-height:1.7}
+.notfound b{font-size:18px}
+.loading{color:#64748b;padding:20px}
+
+@media(max-width:768px){
+ .topbar{flex-direction:column;gap:20px;text-align:center}
+ .page-title h2{font-size:30px}
+ .management-card{padding:22px}
+}
+@media print{
+ body{background:#fff}
+ .topbar,.main-navbar,.report-navbar,.page-title,.filters,.button-area{display:none!important}
+ .container{width:100%;margin:0}
+ .management-card{box-shadow:none;padding:0}
+ .rt{min-width:0}.rt th,.rt td{font-size:10px;padding:5px}
+ .rt thead{background:#0d2c56!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+ <div class="logo">
+  <div class="logo-icon">✈</div>
+  <div class="logo-text"><h1>AEROJET AVIATION LIMITED</h1><p>AVIATION REPORTING SYSTEM</p></div>
+ </div>
+</div>
+
+<div class="main-navbar">
+ 
+ <a href="VOYAGE.html">VOYAGE</a>
+ <a href="#" class="active">REPORT</a>
+ <a href="CREW.html">CREW</a>
+ <a href="CREWREPORT.html">CREWREPORT</a>
+ <a href="CREWROSTER.html">CREWROSTER</a>
+ <a href="DISPATCHER.html">DISPATCHER</a>
+ <a href="POSTHOLDER.html">POSTHOLDER</a>
+ <a href="DOCUMENTS.html">DOCUMENTS</a>
+ <a href="SUMMARY.html">SUMMARY</a>
+ <a href="CARGO.html">CARGO</a>
+ <a href="MASTER.html">MASTER</a>
+ <a href="users.html">USERS</a>
+ <a href="USERPASSWORD.html">PASSWORD</a>
+ <a href="index.html">LOGOUT</a>
+</div>
+
+<div class="container">
+
+ <div class="page-title">
+  <h2>Report Management Dashboard</h2>
+  <p>Aircraft, fuel, passenger, distance and full operational reports, built from the trip reports saved on the VOYAGE page.</p>
+ </div>
+
+ <div class="report-navbar" id="tabs">
+  <a href="#" data-mode="aircraft" class="active">AIRCRAFT REPORT</a>
+  <a href="#" data-mode="fuel">FUEL REPORT</a>
+  <a href="#" data-mode="pax">PAX REPORT</a>
+  <a href="#" data-mode="full">FULL REPORT</a>
+  <a href="#" data-mode="distance">DISTANCE REPORT</a>
+ </div>
+
+ <div class="management-card">
+  <div class="management-title">
+   <h3 id="rTitle">TRIP REPORT MANAGEMENT - AIRCRAFT</h3>
+   <p id="rDesc"></p>
+  </div>
+
+  <div class="form-grid filters">
+   <div class="input-group"><label>Date From</label><input type="date" id="q_from"></div>
+   <div class="input-group"><label>Date To</label><input type="date" id="q_to"></div>
+   <div class="input-group"><label>Registration</label><input id="q_reg" placeholder="e.g. 5Y-FAI"></div>
+   <div class="input-group"><label>Type</label><select id="q_type"><option value="">All types</option></select></div>
+   <div class="input-group"><label>City</label><input id="q_city" placeholder="e.g. ABUDWAQ"></div>
+  </div>
+
+  <div class="button-area">
+   <button class="btn primary-btn" onclick="render()">Search</button>
+   <button class="btn secondary-btn" onclick="window.print()">Print / Save PDF</button>
+  </div>
+ </div>
+
+ <div class="management-card" id="resultCard">
+  <div id="result"><div class="loading">Loading trip reports…</div></div>
+ </div>
+
+</div>
+
+<script src="js/api.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+const esc=v=>Api.esc(v==null?'':String(v));
+const TYPES=['B737-800','A320','FOKKER50'];
+let R=[],MODE='aircraft';
+
+/* ---------- time + number helpers (same rules as VOYAGE.html) ---------- */
+const num=x=>Number(x)||0;
+const mins=t=>{if(!t)return null;const[a,b]=String(t).split(':').map(Number);return a*60+b};
+const diff=(a,b)=>{const x=mins(a),y=mins(b);if(x===null||y===null||isNaN(x)||isNaN(y))return 0;let d=y-x;if(d<0)d+=1440;return d};
+const hhmm=m=>String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0');
+const blkM=s=>(s.off&&s.on)?diff(s.off,s.on):0;
+const fltM=s=>(s.air&&s.land)?diff(s.air,s.land):0;
+
+/* ---------- data: flatten every sector of every trip report ---------- */
+function flatten(){
+ return R.flatMap(r=>{
+  let sec=[],crew={};
+  try{sec=JSON.parse(r.sectors_json||'[]')}catch(e){}
+  try{crew=JSON.parse(r.crew_json||'{}')}catch(e){}
+  const capt=(crew.cockpit||[])[0]||'';
+  return sec.filter(s=>s.flight_no||s.from||s.to).map(s=>({
+   date:String(r.report_date).slice(0,10),trip:r.trip_no,reg:r.ac_reg||'',type:r.ac_type||'',
+   capt:capt==='NIL'?'':capt,s}));
+ });
+}
+function filtered(){
+ const f=$('q_from').value,t=$('q_to').value,g=$('q_reg').value.trim().toLowerCase(),
+  y=$('q_type').value,c=$('q_city').value.trim().toLowerCase();
+ return flatten().filter(x=>(!f||x.date>=f)&&(!t||x.date<=t)&&(!g||x.reg.toLowerCase().includes(g))&&(!y||x.type===y)&&
+  (!c||(x.s.from||'').toLowerCase().includes(c)||(x.s.to||'').toLowerCase().includes(c)));
+}
+
+/* ---------- report definitions ----------
+ col = [heading, getter(row), kind, summed?]   kind: t=text  n=number  m=minutes (shown HH:MM) */
+const base=[['Date',x=>x.date,'t'],['Trip No',x=>x.trip,'t'],['Reg',x=>x.reg,'t'],['Type',x=>x.type,'t'],
+ ['Flight No',x=>x.s.flight_no,'t'],['From',x=>x.s.from,'t'],['To',x=>x.s.to,'t']];
+
+function aircraftRows(list){
+ const g={};
+ list.forEach(x=>{
+  const k=x.reg+'|'+x.type;
+  const o=g[k]=g[k]||{reg:x.reg,type:x.type,trips:new Set(),sectors:0,blk:0,flt:0,emb:0,cargo:0,upkg:0,dist:0};
+  o.trips.add(x.trip+'|'+x.date);o.sectors++;o.blk+=blkM(x.s);o.flt+=fltM(x.s);
+  o.emb+=num(x.s.emb);o.cargo+=num(x.s.cargo);o.upkg+=num(x.s.upkg);o.dist+=num(x.s.dist);
+ });
+ return Object.values(g).map(o=>({...o,trips:o.trips.size})).sort((a,b)=>a.reg.localeCompare(b.reg));
+}
+
+const REP={
+ aircraft:{suffix:'AIRCRAFT',desc:'Aircraft operations, trip frequency and fleet usage — one line per aircraft.',rows:aircraftRows,
+  cols:[['Registration',r=>r.reg,'t'],['Type',r=>r.type,'t'],['Trips',r=>r.trips,'n',1],['Sectors',r=>r.sectors,'n',1],
+   ['Block Time',r=>r.blk,'m',1],['Flight Time',r=>r.flt,'m',1],['Pax Embarked',r=>r.emb,'n',1],['Cargo KG',r=>r.cargo,'n',1],
+   ['Fuel Uplift KG',r=>r.upkg,'n',1],['Distance KM',r=>r.dist,'n',1]]},
+ fuel:{suffix:'FUEL',desc:'Fuel on board, uplift, trip burn and oil per sector.',rows:l=>l,
+  cols:[...base,['On Board',x=>num(x.s.ob),'n'],['Uplift KG',x=>num(x.s.upkg),'n',1],['Uplift LTR',x=>num(x.s.upltr),'n',1],
+   ['Total',x=>num(x.s.tot),'n'],['Trip',x=>num(x.s.trip),'n',1],['Remain',x=>x.s.rem===''||x.s.rem==null?0:num(x.s.rem),'n'],['Oil',x=>num(x.s.oil),'n',1]]},
+ pax:{suffix:'PAX',desc:'Passengers disembarked, embarked and on board, with cargo, per sector.',rows:l=>l,
+  cols:[...base,['Disembarked',x=>num(x.s.dis),'n',1],['Embarked',x=>num(x.s.emb),'n',1],['On Board',x=>num(x.s.onb),'n'],['Cargo KG',x=>num(x.s.cargo),'n',1]]},
+ full:{suffix:'',desc:'Every recorded detail of every sector.',rows:l=>l,
+  cols:[...base,['Capt',x=>x.capt,'t'],['Class',x=>x.s.cls,'t'],['Chock Off',x=>x.s.off,'t'],['Chock On',x=>x.s.on,'t'],['Block',x=>blkM(x.s),'m',1],
+   ['Airborne',x=>x.s.air,'t'],['Landing',x=>x.s.land,'t'],['Flight',x=>fltM(x.s),'m',1],
+   ['Fuel On Board',x=>num(x.s.ob),'n'],['Uplift KG',x=>num(x.s.upkg),'n',1],['Uplift LTR',x=>num(x.s.upltr),'n',1],['Trip Fuel',x=>num(x.s.trip),'n',1],['Oil',x=>num(x.s.oil),'n',1],
+   ['Pax Dis.',x=>num(x.s.dis),'n',1],['Pax Emb.',x=>num(x.s.emb),'n',1],['Pax On Board',x=>num(x.s.onb),'n'],['Cargo KG',x=>num(x.s.cargo),'n',1],['Dist KM',x=>num(x.s.dist),'n',1]]},
+ distance:{suffix:'DISTANCE',desc:'Flight time and distance flown per sector (distance comes from the DIST KM column on the VOYAGE sectors).',rows:l=>l,
+  cols:[...base,['Flight Time',x=>fltM(x.s),'m',1],['Distance KM',x=>num(x.s.dist),'n',1]]}
+};
+
+/* ---------- render ---------- */
+function cell(kind,v,total){
+ if(kind==='t')return `<td>${esc(v)}</td>`;
+ if(kind==='m')return `<td class="n">${(v||total)?hhmm(v):''}</td>`;
+ return `<td class="n">${(v||total)?v:''}</td>`;
+}
+function render(){
+ const d=REP[MODE];
+ $('rTitle').textContent='TRIP REPORT MANAGEMENT'+(d.suffix?' - '+d.suffix:'');
+ $('rDesc').textContent=d.desc;
+ const rows=d.rows(filtered());
+ if(!rows.length){
+  $('result').innerHTML='<div class="notfound"><b>Error</b><br>The record which you are searching, not found</div>';
+  return;
+ }
+ const sums=d.cols.map(c=>c[3]?rows.reduce((a,r)=>a+num(c[1](r)),0):null);
+ const head='<tr>'+d.cols.map(c=>`<th${c[2]==='t'?'':' class="n"'}>${esc(c[0])}</th>`).join('')+'</tr>';
+ const body=rows.map(r=>'<tr>'+d.cols.map(c=>cell(c[2],c[1](r),false)).join('')+'</tr>').join('');
+ let foot='<tr>';let first=true;
+ d.cols.forEach((c,i)=>{
+  if(sums[i]!==null){foot+=cell(c[2],sums[i],true)}
+  else if(first){foot+='<td>Total</td>';first=false}
+  else foot+='<td></td>';
+ });
+ foot+='</tr>';
+ const unit=MODE==='aircraft'?'aircraft':'sector';
+ $('result').innerHTML=`<div class="meta">${rows.length} ${unit}${rows.length===1?'':'s'} found</div>
+  <div class="result-wrap"><table class="rt"><thead>${head}</thead><tbody>${body}</tbody><tfoot>${foot}</tfoot></table></div>`;
+}
+
+/* ---------- tabs ---------- */
+document.querySelectorAll('#tabs a').forEach(a=>a.addEventListener('click',e=>{
+ e.preventDefault();
+ document.querySelectorAll('#tabs a').forEach(x=>x.classList.remove('active'));
+ a.classList.add('active');MODE=a.dataset.mode;render();
+}));
+['q_from','q_to','q_reg','q_city'].forEach(id=>$(id).addEventListener('keydown',e=>{if(e.key==='Enter')render()}));
+['q_type','q_from','q_to'].forEach(id=>$(id).addEventListener('change',render));
+
+/* ---------- init ---------- */
+(async()=>{
+ const fill=c=>{$('q_type').innerHTML='<option value="">All types</option>'+c.map(x=>`<option>${esc(x)}</option>`).join('')};
+ fill(TYPES);
+ try{const r=await Api.list('flight_types'),a=Array.isArray(r)?r:(r.data||r.rows||[]);if(a.length)fill(a.map(f=>f.code))}catch(e){}
+ const today=new Date(),from=new Date(today.getTime()-28*864e5);
+ $('q_to').value=today.toISOString().slice(0,10);$('q_from').value=from.toISOString().slice(0,10);
+ try{const r=await Api.list('trip_reports');R=Array.isArray(r)?r:(r.data||r.rows||[])}
+ catch(e){$('result').innerHTML='<div class="notfound"><b>Error</b><br>Could not load trip reports: '+esc(e.message)+'</div>';return}
+ render();
+})();
+</script>
+</body>
+</html>

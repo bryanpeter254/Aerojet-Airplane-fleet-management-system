@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>FLIGHT TYPE MANAGEMENT</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial, Helvetica, sans-serif;
+    background:#edf3fa;
+    color:#0f172a;
+}
+
+/* =========================
+TOP BAR
+========================= */
+
+.topbar{
+    width:100%;
+    background:linear-gradient(135deg,#07162d,#0d2c56);
+    padding:20px 30px;
+    color:white;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.logo-box{
+    width:65px;
+    height:65px;
+    border-radius:18px;
+    background:linear-gradient(135deg,#00b7ff,#005eff);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:30px;
+}
+
+/* =========================
+NAVBAR
+========================= */
+
+.navbar{
+    background:#0f213d;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:10px;
+    padding:14px;
+}
+
+.navbar a{
+    text-decoration:none;
+    color:white;
+    padding:12px 18px;
+    border-radius:12px;
+    font-weight:bold;
+    font-size:14px;
+    background:rgba(255,255,255,0.05);
+    transition:0.3s;
+}
+
+.navbar a:hover,
+.navbar a.active{
+    background:linear-gradient(135deg,#00b7ff,#005eff);
+}
+
+/* =========================
+CONTAINER
+========================= */
+
+.container{
+    width:95%;
+    max-width:1200px;
+    margin:40px auto;
+}
+
+/* TITLE */
+
+.title h2{
+    font-size:38px;
+}
+
+.title p{
+    color:#64748b;
+    margin-top:6px;
+    margin-bottom:25px;
+}
+
+/* =========================
+CARD
+========================= */
+
+.card{
+    background:white;
+    padding:25px;
+    border-radius:25px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.08);
+    margin-bottom:30px;
+}
+
+/* INPUT */
+
+.input-group{
+    display:flex;
+    flex-direction:column;
+    margin-bottom:15px;
+}
+
+label{
+    font-weight:bold;
+    margin-bottom:8px;
+}
+
+input{
+    height:50px;
+    border-radius:12px;
+    border:1px solid #dbe4ef;
+    padding:0 15px;
+    background:#f8fbff;
+    outline:none;
+}
+
+input:focus{
+    border-color:#00aaff;
+    box-shadow:0 0 0 4px rgba(0,170,255,0.12);
+}
+
+/* BUTTONS */
+
+.buttons{
+    display:flex;
+    gap:15px;
+    margin-top:15px;
+}
+
+.btn{
+    padding:14px 22px;
+    border:none;
+    border-radius:12px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.primary{
+    background:linear-gradient(135deg,#00b7ff,#005eff);
+    color:white;
+}
+
+.dark{
+    background:#0f172a;
+    color:white;
+}
+
+.green{
+    background:linear-gradient(135deg,#10b981,#059669);
+    color:white;
+}
+
+.btn:hover{
+    transform:translateY(-4px);
+}
+
+/* =========================
+TABLE
+========================= */
+
+.table-card{
+    background:white;
+    padding:20px;
+    border-radius:25px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.08);
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:700px;
+}
+
+thead{
+    background:linear-gradient(135deg,#07162d,#0d2c56);
+    color:white;
+}
+
+th,td{
+    padding:14px;
+    text-align:left;
+    font-size:14px;
+}
+
+tbody tr{
+    border-bottom:1px solid #e2e8f0;
+}
+
+tbody tr:hover{
+    background:#f8fbff;
+}
+
+/* EDIT BUTTON */
+
+.edit-btn{
+    background:#f59e0b;
+    color:white;
+    border:none;
+    padding:8px 12px;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:12px;
+}
+
+/* PRINT */
+
+.print-area{
+    margin-top:20px;
+    display:flex;
+    justify-content:flex-end;
+}
+
+.print-btn{
+    background:linear-gradient(135deg,#10b981,#059669);
+    color:white;
+    border:none;
+    padding:14px 24px;
+    border-radius:14px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- TOP BAR -->
+
+<div class="topbar">
+
+    <div class="logo">
+        <div class="logo-box">✈</div>
+        <div>
+            <h2>AEROJET AVIATION</h2>
+            <p>FLIGHT TYPE MANAGEMENT</p>
+        </div>
+    </div>
+
+</div>
+
+<!-- NAVBAR -->
+
+<div class="navbar">
+
+    <a href="#">VOYAGE</a>
+    <a href="#">REPORT</a>
+    <a href="#">CREW</a>
+    <a href="#">CREWREPORT</a>
+    <a href="#">CREWROSTER</a>
+    <a href="#">DISPATCHER</a>
+    <a href="#">POSTHOLDER</a>
+    <a href="#">DOCUMENTS</a>
+    <a href="#">SUMMARY</a>
+    <a href="#">CARGO</a>
+    <a href="#">MASTER</a>
+    <a href="#" class="active">FLIGHT TYPE</a>
+    <a href="#">LOGOUT</a>
+
+</div>
+
+<!-- CONTENT -->
+
+<div class="container">
+
+    <div class="title">
+        <h2>Flight Type Management</h2>
+        <p>Manage aircraft types, registrations, and operational mappings</p>
+    </div>
+
+    <!-- ADD NEW -->
+
+    <div class="card">
+
+        <h3 style="margin-bottom:15px;">Add New Flight Type</h3>
+
+        <div class="input-group">
+            <label>ID</label>
+            <input type="text" placeholder="e.g B737-800">
+        </div>
+
+        <div class="input-group">
+            <label>Name</label>
+            <input type="text" placeholder="Aircraft name">
+        </div>
+
+        <div class="buttons">
+            <button class="btn green">Add</button>
+            <button class="btn dark">Clear</button>
+        </div>
+
+    </div>
+
+    <!-- TABLE -->
+
+    <div class="table-card">
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>NO</th>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <tr>
+                    <td>1</td>
+                    <td>FOKKER50</td>
+                    <td>FOKKER 50</td>
+                    <td><button class="edit-btn">EDIT</button></td>
+                </tr>
+
+                <tr>
+                    <td>2</td>
+                    <td>A320</td>
+                    <td>A320</td>
+                    <td><button class="edit-btn">EDIT</button></td>
+                </tr>
+
+                <tr>
+                    <td>3</td>
+                    <td>B737-800</td>
+                    <td>B737-800</td>
+                    <td><button class="edit-btn">EDIT</button></td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+        <!-- PRINT -->
+
+        <div class="print-area">
+            <button class="print-btn" onclick="window.print()">
+                🖨 Print Flight Types
+            </button>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

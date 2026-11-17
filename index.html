@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>AEROJET LOGIN</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial, Helvetica, sans-serif;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:
+    linear-gradient(rgba(3,12,26,0.85), rgba(3,12,26,0.92)),
+    url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=1920&auto=format&fit=crop');
+    background-size:cover;
+    background-position:center;
+    color:white;
+}
+
+.login-box{
+    width:400px;
+    padding:40px;
+    border-radius:25px;
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(15px);
+    border:1px solid rgba(255,255,255,0.1);
+    box-shadow:0 10px 30px rgba(0,0,0,0.3);
+    text-align:center;
+}
+
+.logo{
+    font-size:60px;
+    margin-bottom:15px;
+}
+
+h1{
+    font-size:30px;
+    margin-bottom:10px;
+}
+
+.subtitle{
+    color:#cdddf3;
+    font-size:14px;
+    letter-spacing:2px;
+    margin-bottom:35px;
+}
+
+/* BUTTON LINK */
+
+a.button-link{
+    display:block;
+    width:100%;
+    padding:16px;
+    border-radius:14px;
+    background:linear-gradient(135deg,#1ea7ff,#0066ff);
+    color:white;
+    text-decoration:none;
+    font-size:16px;
+    font-weight:bold;
+    transition:0.3s;
+}
+
+a.button-link:hover{
+    transform:translateY(-3px);
+}
+
+.credentials{
+    margin-top:25px;
+    padding:15px;
+    border-radius:14px;
+    background:rgba(255,255,255,0.06);
+    font-size:14px;
+    color:#d7e4f5;
+    line-height:1.8;
+}
+
+</style>
+</head>
+<body data-public>
+
+<div class="login-box">
+
+    <div class="logo">✈</div>
+
+    <h1>AEROJET AVIATION</h1>
+
+    <div class="subtitle">
+        FLIGHT OPERATIONS MANAGEMENT SYSTEM
+    </div>
+
+    <input id="em" type="email" placeholder="Email" style="width:100%;padding:14px;border-radius:12px;border:0;margin-bottom:10px">
+    <input id="pw" type="password" placeholder="Password" style="width:100%;padding:14px;border-radius:12px;border:0;margin-bottom:14px">
+    <a href="#" class="button-link" onclick="doLogin();return false">SIGN IN</a>
+
+    <div class="credentials" id="lerr">Authorised staff only</div>
+
+</div>
+
+<script>
+async function doLogin(){
+  const err=document.getElementById('lerr');
+  try{
+    const r=await fetch('api.php?action=login',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({email:document.getElementById('em').value,password:document.getElementById('pw').value})});
+    const j=await r.json().catch(()=>null);
+    if(!j) throw new Error('api.php did not return JSON. Check that api.php, config.php are in the same folder and PHP is running.');
+    if(!r.ok) throw new Error(j.error||'Login failed');
+    location.href='dashboard.html';
+  }catch(e){err.textContent=e.message;}
+}
+document.getElementById('pw').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+</script>
+</body>
+</html>

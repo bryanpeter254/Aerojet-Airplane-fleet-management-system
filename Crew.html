@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CREW MANAGEMENT</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Arial,Helvetica,sans-serif;background:#edf3fa;color:#0f172a}
+.topbar{background:linear-gradient(135deg,#07162d,#0d2c56);padding:20px 30px;display:flex;align-items:center;gap:16px;color:#fff;box-shadow:0 6px 24px rgba(0,0,0,.25)}
+.logo-icon{width:65px;height:65px;border-radius:18px;background:linear-gradient(135deg,#00b7ff,#005eff);display:flex;align-items:center;justify-content:center;font-size:32px}
+.topbar h1{font-size:28px}.topbar p{margin-top:4px;font-size:13px;letter-spacing:1px;color:#dbeafe}
+.navbar{background:#0f213d;padding:14px 18px;display:flex;flex-wrap:wrap;justify-content:center;gap:12px}
+.navbar a{text-decoration:none;color:#fff;padding:12px 20px;border-radius:12px;font-size:14px;font-weight:bold;background:rgba(255,255,255,.05);transition:.3s}
+.navbar a:hover,.navbar a.active{background:linear-gradient(135deg,#00b7ff,#005eff)}
+.container{width:95%;max-width:1500px;margin:30px auto}
+.page-title h2{font-size:36px;margin-bottom:8px}.page-title p{color:#64748b;margin-bottom:22px}
+.tabs{display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap}
+.tab{border:none;padding:13px 26px;border-radius:12px;font-weight:bold;font-size:14px;cursor:pointer;background:#fff;color:#0f172a;box-shadow:0 4px 14px rgba(0,0,0,.06)}
+.tab.on{background:linear-gradient(135deg,#00b7ff,#005eff);color:#fff}
+.sys{display:none;padding:14px 18px;border-radius:14px;margin-bottom:18px;font-weight:bold;background:#fee2e2;color:#991b1b}
+.card{background:#fff;border-radius:24px;padding:28px;box-shadow:0 10px 30px rgba(0,0,0,.08);margin-bottom:28px}
+.card h3{font-size:24px;margin-bottom:18px}
+.card h4{font-size:15px;margin:26px 0 14px;padding-bottom:8px;border-bottom:2px solid #e2e8f0;color:#0d2c56;letter-spacing:.5px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:18px;align-items:end}
+.ig{display:flex;flex-direction:column}
+.ig label{margin-bottom:8px;font-weight:bold;font-size:13px}
+input,select{height:46px;border-radius:12px;border:1px solid #dbe4ef;background:#f8fbff;padding:0 14px;font-size:14px;outline:none;width:100%}
+input:focus,select:focus{border-color:#00aaff;box-shadow:0 0 0 4px rgba(0,170,255,.12)}
+.btns{margin-top:26px;display:flex;flex-wrap:wrap;gap:14px}
+.btn{border:none;padding:13px 26px;border-radius:12px;font-size:14px;font-weight:bold;cursor:pointer;color:#fff}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.b1{background:linear-gradient(135deg,#00b7ff,#005eff)}.b2{background:#0f172a}.b3{background:#10b981}.b4{background:#64748b}
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+thead{background:linear-gradient(135deg,#07162d,#0d2c56);color:#fff}
+th{padding:14px;text-align:left;font-size:13px;white-space:nowrap}
+td{padding:12px 14px;border-bottom:1px solid #e2e8f0;font-size:14px}
+tbody tr:hover{background:#f8fbff}
+.ab{border:none;padding:9px 14px;border-radius:10px;color:#fff;font-weight:bold;cursor:pointer}
+.ed{background:#f59e0b}.dl{background:#ef4444}
+.badge{padding:6px 12px;border-radius:30px;font-size:12px;font-weight:bold;color:#fff;display:inline-block}
+.ok{background:#10b981}.pause{background:#f59e0b}.red{background:#ef4444}.amb{background:#f59e0b}
+td.xr{background:#fee2e2;color:#991b1b;font-weight:bold}td.xa{background:#fef3c7;color:#92400e;font-weight:bold}
+.thumb{width:42px;height:42px;border-radius:50%;object-fit:cover;background:#e2e8f0;display:block}
+.pbox{display:flex;align-items:center;gap:14px}
+.pbox img{width:80px;height:80px;border-radius:16px;object-fit:cover;background:#e2e8f0}
+.count{color:#64748b;font-size:13px;margin-top:14px}
+.hide{display:none}
+@media print{.navbar,.topbar,.tabs,.card.nop,.sys,.act{display:none!important}body{background:#fff}.card{box-shadow:none;padding:0}}
+</style></head><body>
+<div class="topbar"><div class="logo-icon">👨‍✈️</div><div><h1>AEROJET AVIATION LIMITED</h1><p>CREW MANAGEMENT SYSTEM</p></div></div>
+<div class="navbar">
+<a href="VOYAGE.html">VOYAGE</a><a href="REPORT.html">REPORT</a><a href="#" class="active">CREW</a><a href="CREWREPORT.html">CREWREPORT</a><a href="CREWROSTER.html">CREWROSTER</a><a href="DISPATCHER.html">DISPATCHER</a><a href="POSTHOLDER.html">POSTHOLDER</a><a href="DOCUMENTS.html">DOCUMENTS</a><a href="SUMMARY.html">SUMMARY</a><a href="CARGO.html">CARGO</a><a href="MASTER.html">MASTER</a><a href="users.html">USERS</a><a href="#">PASSWORD</a><a href="index.html">LOGOUT</a>
+</div>
+
+<div class="container">
+<div class="page-title"><h2>Crew Management</h2><p>Add and remove crew here. Everyone saved here appears in the crew lists on the VOYAGE page.</p></div>
+<div class="tabs">
+<button class="tab on" id="tb1" onclick="tab(1)">CREW</button>
+<button class="tab" id="tb2" onclick="tab(2)">CREW DUTY</button>
+<button class="tab" id="tb3" onclick="tab(3)">DOCNAME</button>
+</div>
+<div id="sys" class="sys"></div>
+
+<!-- ============ TAB 1: CREW ============ -->
+<div id="p1">
+<div class="card nop" id="crewForm">
+<h3 id="cfTitle">Add Crew</h3>
+<div class="grid">
+ <div class="ig"><label>ID</label><input id="c_code" placeholder="e.g. CR-004"></div>
+ <div class="ig"><label>Status</label><select id="c_status"><option>Active</option><option>Paused</option></select></div>
+ <div class="ig"><label>Show Roster</label><select id="c_roster"><option>No</option><option>Yes</option></select></div>
+ <div class="ig"><label>Photo</label><div class="pbox"><img id="c_img" alt=""><input type="file" id="c_file" accept="image/*" style="height:auto;padding:10px"></div></div>
+</div>
+<div class="grid" style="margin-top:18px">
+ <div class="ig"><label>First Name (as per passport)</label><input id="c_first"></div>
+ <div class="ig"><label>Last Name</label><input id="c_last"></div>
+ <div class="ig"><label>Aircraft Type</label><select id="c_type"></select></div>
+ <div class="ig"><label>Nationality</label><input id="c_nat"></div>
+ <div class="ig"><label>Sex</label><select id="c_sex"><option value="">Select</option><option>Male</option><option>Female</option></select></div>
+ <div class="ig"><label>Passport Number</label><input id="c_pass"></div>
+ <div class="ig"><label>Passport Expiry Date</label><input type="date" id="c_passexp"></div>
+ <div class="ig"><label>Date of Birth</label><input type="date" id="c_dob"></div>
+ <div class="ig"><label>Designation</label><select id="c_des"><option value="">Select</option><option>Pilot</option><option>Co-Pilot</option><option>Cabin Crew</option><option>Engineer</option></select></div>
+ <div class="ig"><label>Email</label><input type="email" id="c_email"></div>
+ <div class="ig"><label>Card Number</label><input id="c_card"></div>
+ <div class="ig"><label>Card Expiry Date</label><input type="date" id="c_cardexp"></div>
+</div>
+<h4>LICENSES &amp; RATINGS</h4>
+<div class="grid" id="docNum"></div>
+<h4>TRAININGS &amp; CERTIFICATES (EXPIRY DATES)</h4>
+<div class="grid" id="docExp"></div>
+<div class="btns">
+ <button class="btn b1" id="addBtn" onclick="saveCrew(false)">Add Crew</button>
+ <button class="btn b2" id="updBtn" onclick="saveCrew(true)" disabled>Update Crew</button>
+ <button class="btn b4" onclick="clearCrew()">Clear</button>
+</div>
+</div>
+
+<div class="card nop">
+<h3>Search Crew</h3>
+<div class="grid">
+ <div class="ig"><label>Name / ID / Passport No</label><input id="s_q" placeholder="Type to search" oninput="renderCrew()"></div>
+ <div class="ig"><label>Designation</label><select id="s_des" onchange="renderCrew()"><option value="">All</option><option>Pilot</option><option>Co-Pilot</option><option>Cabin Crew</option><option>Engineer</option></select></div>
+ <div class="ig"><label>Aircraft Type</label><select id="s_type" onchange="renderCrew()"></select></div>
+ <div class="ig"><label>Status</label><select id="s_status" onchange="renderCrew()"><option value="">All</option><option>Active</option><option>Paused</option></select></div>
+ <div style="display:flex;gap:10px"><button class="btn b2" onclick="renderCrew()">Search</button><button class="btn b4" onclick="resetCrewSearch()">Reset</button></div>
+</div></div>
+
+<div class="card">
+<h3>Crew Records</h3>
+<div class="tw"><table style="min-width:1200px"><thead><tr><th>NO</th><th>PHOTO</th><th>ID</th><th>NAME</th><th>DESIGNATION</th><th>A/C TYPE</th><th>NATIONALITY</th><th>PASSPORT EXP</th><th>LICENSE EXP</th><th>MEDICAL EXP</th><th>EXPIRY ALERTS</th><th>ROSTER</th><th>STATUS</th><th class="act">EDIT</th><th class="act">DELETE</th></tr></thead>
+<tbody id="crewBody"><tr><td colspan="15">Loading...</td></tr></tbody></table></div>
+<p class="count" id="crewCount"></p>
+<div class="btns act" style="justify-content:flex-end"><button class="btn b3" onclick="window.print()">🖨 Print Crew List</button></div>
+</div>
+</div>
+
+<!-- ============ TAB 2: CREW DUTY ============ -->
+<div id="p2" class="hide">
+<div class="card nop">
+<h3 id="dfTitle">Crew Duty Management</h3>
+<div class="grid">
+ <div class="ig"><label>Date</label><input type="date" id="u_date"></div>
+ <div class="ig"><label>Crew</label><select id="u_crew"></select></div>
+ <div class="ig"><label>Category</label><select id="u_cat"></select></div>
+ <div class="ig"><label>Start Time</label><input type="time" id="u_start"></div>
+ <div class="ig"><label>End Time</label><input type="time" id="u_end"></div>
+</div>
+<div class="btns">
+ <button class="btn b1" id="uAdd" onclick="saveDuty(false)">Add Duty</button>
+ <button class="btn b2" id="uUpd" onclick="saveDuty(true)" disabled>Update Duty</button>
+ <button class="btn b4" onclick="clearDuty()">Clear</button>
+</div></div>
+
+<div class="card nop">
+<h3>Search Duty</h3>
+<div class="grid">
+ <div class="ig"><label>Date From</label><input type="date" id="f_from"></div>
+ <div class="ig"><label>Date To</label><input type="date" id="f_to"></div>
+ <div class="ig"><label>Crew</label><select id="f_crew"></select></div>
+ <div class="ig"><label>Category</label><select id="f_cat"></select></div>
+ <div style="display:flex;gap:10px"><button class="btn b2" onclick="renderDuty()">Search</button><button class="btn b4" onclick="resetDuty()">Reset</button></div>
+</div></div>
+
+<div class="card">
+<div class="tw"><table style="min-width:900px"><thead><tr><th>SNo</th><th>DATE</th><th>CREW</th><th>CATEGORY</th><th>START TIME</th><th>END TIME</th><th>TOTAL</th><th class="act">Edit</th><th class="act">Delete</th></tr></thead>
+<tbody id="dutyBody"></tbody></table></div>
+<p class="count" id="dutyCount"></p>
+</div>
+</div>
+
+<!-- ============ TAB 3: DOCNAME ============ -->
+<div id="p3" class="hide">
+<div class="card nop hide" id="docForm">
+<h3 id="docTitle">CREW DOC NAME</h3>
+<div class="grid">
+ <div class="ig"><label>Id</label><input id="k_code"></div>
+ <div class="ig"><label>Name</label><input id="k_name"></div>
+ <div class="ig"><label>Type</label><input id="k_type"></div>
+ <div class="ig"><label>Order</label><input type="number" id="k_order" value="10000"></div>
+</div>
+<div class="btns"><button class="btn b1" onclick="saveDoc()">Save</button><button class="btn b4" onclick="closeDoc()">Cancel</button></div>
+</div>
+
+<div class="card nop">
+<h3>Crew Documents</h3>
+<div class="grid">
+ <div class="ig"><label>Search</label><input id="k_q" oninput="renderDocs()" placeholder="Id or name"></div>
+ <div class="ig"><label>Sort By</label><select id="k_sort" onchange="renderDocs()"><option value="code">ID</option><option value="name">Name</option><option value="doc_type">Type</option><option value="sort_order">Order</option></select></div>
+ <div class="ig"><label>Direction</label><select id="k_dir" onchange="renderDocs()"><option value="asc">Asc</option><option value="desc">Desc</option></select></div>
+ <div style="display:flex;gap:10px"><button class="btn b2" onclick="renderDocs()">Search</button><button class="btn b1" onclick="openDoc()">Add New</button></div>
+</div></div>
+
+<div class="card">
+<div class="tw"><table style="min-width:800px"><thead><tr><th>No</th><th>ID</th><th>NAME</th><th>Type</th><th>Order</th><th class="act">Edit</th><th class="act">Delete</th></tr></thead>
+<tbody id="docBody"></tbody></table></div>
+</div>
+</div>
+</div>
+
+<script src="js/api.js"></script>
+<script>
+const $=id=>document.getElementById(id),d10=x=>String(x||'').slice(0,10),E=s=>Api.esc(s==null?'':s),problems=[];
+const NUM=[['license','License'],['medical','Medical'],['ir','IR'],['radio','Radio']];
+const EXP=[['ppc','PPC'],['lc','LC'],['crm','CRM'],['dgr','DGR'],['avsec','AVSEC'],['sept','SEPT'],['sms','SMS'],['init_training','INIT TRAINING'],['recurrent_training','RECURRENT TRAINING'],['hf','HF'],['fts','FTS'],['ewis','EWIS'],['first_aid','FirstAID'],['english','ENGLISH'],['routeline_check','ROUTELINE CHECK'],['ground_school','GROUND SCHOOL'],['annual_sept','Annual Sept training'],['f50_recurrence','F50 Recurrence'],['crm_upgrade','CRM upgrade'],['cfit','CFIT'],['egpws','EGPWS'],['hot_weather','Hot weather'],['hydroplaning','Hydroplaning and surface contamination'],['volcanic_ash','Operation near volcanic ash operations'],['runway_incursion','Runway incursion'],['thunderstorm','Thunderstorm avoidance'],['uprt','Uprt'],['wind_shear','Wind shear and avoidance']];
+const DUTY_CATS=['CREW_OFFICE_DUTY','STANDBY','TRAINING','SIMULATOR','LEAVE','OFF_DAY'];
+let CREW=[],DUTY=[],DOCS=[],TYPES=['B737-800','A320','FOKKER50'],EC=null,ED=null,EK=null,PHOTO='';
+
+const fail=e=>alert(e.message);
+async function ls(t){try{const r=await Api.list(t);return Array.isArray(r)?r:((r&&(r.data||r.rows))||[])}catch(e){problems.push(t+': '+e.message);return[]}}
+function showProblems(){const b=$('sys');if(!problems.length){b.style.display='none';return}b.style.display='block';b.textContent='Could not load: '+problems.join(' | ')+'  (run crew_update.sql and replace api.php)'}
+
+function tab(n){[1,2,3].forEach(i=>{$('p'+i).classList.toggle('hide',i!==n);$('tb'+i).classList.toggle('on',i===n)})}
+
+/* ---------- helpers ---------- */
+const full=c=>(c.first_name||c.last_name)?((c.first_name||'')+' '+(c.last_name||'')).trim():(c.name||'');
+const docsOf=c=>{try{return JSON.parse(c.docs_json||'{}')||{}}catch(e){return{}}};
+function st(d){if(!d)return'';const t=new Date().toISOString().slice(0,10),n=(new Date(d10(d))-new Date(t))/864e5;return n<0?'r':(n<=60?'a':'')}
+const xc=d=>({r:' class="xr"',a:' class="xa"'}[st(d)]||'');
+function alerts(c){const D=docsOf(c),ds=[c.passport_expiry,c.card_expiry,...Object.values(D).map(x=>x&&x.exp)].filter(Boolean);let r=0,a=0;ds.forEach(x=>{const k=st(x);if(k==='r')r++;else if(k==='a')a++});return{r,a}}
+const mins=t=>{if(!t)return null;const[a,b]=String(t).split(':').map(Number);return a*60+b};
+function span(a,b){const x=mins(a),y=mins(b);if(x===null||y===null)return 0;let d=y-x;if(d<0)d+=1440;return d}
+const hhmm=m=>String(Math.floor(m/60)).padStart(2,'0')+':'+String(Math.round(m%60)).padStart(2,'0');
+const t5=t=>String(t||'').slice(0,5);
+
+/* ---------- build the document inputs ---------- */
+$('docNum').innerHTML=NUM.map(([k,l])=>`<div class="ig"><label>${l} No</label><input id="n_${k}"></div><div class="ig"><label>${l} Expiry Date</label><input type="date" id="e_${k}"></div>`).join('');
+$('docExp').innerHTML=EXP.map(([k,l])=>`<div class="ig"><label>${l} — Expiry Date</label><input type="date" id="e_${k}"></div>`).join('');
+
+/* ---------- photo ---------- */
+function setPhoto(src){PHOTO=src||'';$('c_img').src=PHOTO||'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80"><rect width="80" height="80" fill="%23e2e8f0"/></svg>'}
+$('c_file').addEventListener('change',e=>{
+ const f=e.target.files[0];if(!f)return;const r=new FileReader();
+ r.onload=()=>{const im=new Image();im.onload=()=>{const m=160,s=Math.min(1,m/Math.max(im.width,im.height)),cv=document.createElement('canvas');cv.width=im.width*s;cv.height=im.height*s;cv.getContext('2d').drawImage(im,0,0,cv.width,cv.height);setPhoto(cv.toDataURL('image/jpeg',.7))};im.src=r.result};
+ r.readAsDataURL(f)});
+
+/* ---------- CREW ---------- */
+function fillSelects(){
+ const opts=TYPES.map(t=>`<option>${E(t)}</option>`).join('');
+ $('c_type').innerHTML='<option value="">Select</option>'+opts;
+ $('s_type').innerHTML='<option value="">All</option>'+opts;
+}
+function renderCrew(){
+ const q=$('s_q').value.trim().toLowerCase(),de=$('s_des').value,ty=$('s_type').value,sa=$('s_status').value;
+ const rows=CREW.filter(c=>(!q||full(c).toLowerCase().includes(q)||String(c.crew_code||'').toLowerCase().includes(q)||String(c.passport_no||'').toLowerCase().includes(q))
+  &&(!de||(c.designation||c.position)===de)&&(!ty||c.ac_type===ty)&&(!sa||(c.status==='Paused'?'Paused':'Active')===sa));
+ $('crewBody').innerHTML=rows.map((c,i)=>{const D=docsOf(c),a=alerts(c),p=c.status==='Paused';
+  const al=(a.r?`<span class="badge red">${a.r} expired</span> `:'')+(a.a?`<span class="badge amb">${a.a} due</span>`:'')||'—';
+  return `<tr><td>${i+1}</td><td>${c.photo?`<img class="thumb" src="${E(c.photo)}">`:'<span class="thumb"></span>'}</td><td>${E(c.crew_code)}</td><td>${E(full(c))}</td><td>${E(c.designation||c.position)}</td><td>${E(c.ac_type)}</td><td>${E(c.nationality)}</td>
+  <td${xc(c.passport_expiry)}>${E(d10(c.passport_expiry))}</td><td${xc(D.license&&D.license.exp)}>${E(d10(D.license&&D.license.exp))}</td><td${xc(D.medical&&D.medical.exp)}>${E(d10(D.medical&&D.medical.exp))}</td><td>${al}</td>
+  <td>${E(c.show_roster||'No')}</td><td><span class="badge ${p?'pause':'ok'}">${p?'PAUSED':'ACTIVE'}</span></td>
+  <td class="act"><button class="ab ed" onclick="editCrew(${c.id})">Edit</button></td><td class="act"><button class="ab dl" onclick="delCrew(${c.id})">Delete</button></td></tr>`}).join('')||'<tr><td colspan="15">No crew found.</td></tr>';
+ $('crewCount').textContent=rows.length+' of '+CREW.length+' crew shown';
+}
+function resetCrewSearch(){['s_q','s_des','s_type','s_status'].forEach(i=>$(i).value='');renderCrew()}
+function getDocs(){const D={};NUM.forEach(([k])=>D[k]={no:$('n_'+k).value.trim(),exp:$('e_'+k).value});EXP.forEach(([k])=>D[k]={exp:$('e_'+k).value});return D}
+function check(v,id){
+ if(!v.crew_code)return'Enter the crew ID.';
+ if(!v.first_name)return'Enter the first name (as per passport).';
+ if(!v.designation)return'Select a designation.';
+ if(CREW.some(c=>c.id!=id&&String(c.crew_code).toLowerCase()===v.crew_code.toLowerCase()))return'That ID is already used by another crew member.';
+ return''}
+async function saveCrew(isUpd){
+ if(isUpd&&EC===null)return;
+ const first=$('c_first').value.trim(),last=$('c_last').value.trim();
+ const v={crew_code:$('c_code').value.trim(),status:$('c_status').value,show_roster:$('c_roster').value,first_name:first,last_name:last,name:(first+' '+last).trim(),
+  ac_type:$('c_type').value,nationality:$('c_nat').value.trim(),sex:$('c_sex').value,passport_no:$('c_pass').value.trim(),passport_expiry:$('c_passexp').value,dob:$('c_dob').value,
+  designation:$('c_des').value,position:$('c_des').value,email:$('c_email').value.trim(),card_no:$('c_card').value.trim(),card_expiry:$('c_cardexp').value,
+  photo:PHOTO,docs_json:JSON.stringify(getDocs())};
+ const e=check(v,isUpd?EC:null);if(e)return alert(e);
+ try{isUpd?await Api.update('crew',EC,v):await Api.create('crew',v);clearCrew();await loadCrew();fillDutyCrew()}catch(x){fail(x)}
+}
+function editCrew(id){
+ const c=CREW.find(x=>x.id==id);if(!c)return;EC=id;
+ let f=c.first_name,l=c.last_name;if(!f&&!l){const p=String(c.name||'').split(' ');f=p.shift();l=p.join(' ')}
+ const D=docsOf(c);
+ $('c_code').value=c.crew_code||'';$('c_status').value=c.status==='Paused'?'Paused':'Active';$('c_roster').value=c.show_roster||'No';
+ $('c_first').value=f||'';$('c_last').value=l||'';$('c_type').value=c.ac_type||'';$('c_nat').value=c.nationality||'';$('c_sex').value=c.sex||'';
+ $('c_pass').value=c.passport_no||'';$('c_passexp').value=d10(c.passport_expiry);$('c_dob').value=d10(c.dob);
+ $('c_des').value=c.designation||c.position||'';$('c_email').value=c.email||'';$('c_card').value=c.card_no||'';$('c_cardexp').value=d10(c.card_expiry);
+ NUM.forEach(([k])=>{$('n_'+k).value=(D[k]&&D[k].no)||'';$('e_'+k).value=d10(D[k]&&D[k].exp)});
+ EXP.forEach(([k])=>$('e_'+k).value=d10(D[k]&&D[k].exp));
+ setPhoto(c.photo);$('cfTitle').textContent='Edit Crew';$('addBtn').disabled=true;$('updBtn').disabled=false;
+ tab(1);scrollTo({top:0,behavior:'smooth'});
+}
+function clearCrew(){
+ EC=null;document.querySelectorAll('#crewForm input,#crewForm select').forEach(i=>{if(i.type!=='file')i.value=''});
+ $('c_file').value='';$('c_status').value='Active';$('c_roster').value='No';setPhoto('');
+ $('cfTitle').textContent='Add Crew';$('addBtn').disabled=false;$('updBtn').disabled=true}
+async function delCrew(id){
+ const c=CREW.find(x=>x.id==id);
+ if(!confirm('Delete '+(c?full(c):'this crew member')+'?\n\nThey will disappear from the VOYAGE page lists. Their logged hours and duties are deleted too; roster entries are kept but lose the crew name.'))return;
+ try{await Api.remove('crew',id);if(EC==id)clearCrew();await loadCrew();fillDutyCrew()}catch(x){fail(x)}
+}
+async function loadCrew(){CREW=(await ls('crew')).sort((a,b)=>a.id-b.id);renderCrew();showProblems()}
+
+/* ---------- CREW DUTY ---------- */
+function fillDutyCrew(){
+ const o=CREW.map(c=>`<option value="${c.id}">${E(full(c))}</option>`).join('');
+ const cur=$('f_crew').value;
+ $('u_crew').innerHTML='<option value="">Select</option>'+o;$('f_crew').innerHTML='<option value="">All</option>'+o;$('f_crew').value=cur;
+ const cats=[...new Set([...DUTY_CATS,...DUTY.map(d=>d.category).filter(Boolean)])];
+ const co=cats.map(c=>`<option>${E(c)}</option>`).join('');
+ const cu=$('f_cat').value;$('u_cat').innerHTML='<option value="">Select</option>'+co;$('f_cat').innerHTML='<option value="">All</option>'+co;$('f_cat').value=cu;
+}
+function renderDuty(){
+ const f=$('f_from').value,t=$('f_to').value,c=$('f_crew').value,k=$('f_cat').value;
+ const rows=DUTY.filter(d=>(!f||d10(d.duty_date)>=f)&&(!t||d10(d.duty_date)<=t)&&(!c||d.crew_id==c)&&(!k||d.category===k)).sort((a,b)=>d10(b.duty_date).localeCompare(d10(a.duty_date))||b.id-a.id);
+ let tot=0;
+ $('dutyBody').innerHTML=rows.map((d,i)=>{const cr=CREW.find(x=>x.id==d.crew_id),h=Number(d.total_hours)||0;tot+=h;
+  return `<tr><td>${i+1}</td><td>${E(d10(d.duty_date))}</td><td>${E(cr?full(cr):'(deleted)')}</td><td>${E(d.category)}</td><td>${E(t5(d.start_time))}</td><td>${E(t5(d.end_time))}</td><td>${hhmm(h*60)}</td>
+  <td class="act"><button class="ab ed" onclick="editDuty(${d.id})">Edit</button></td><td class="act"><button class="ab dl" onclick="delDuty(${d.id})">Delete</button></td></tr>`}).join('')||'<tr><td colspan="9">No duty records found.</td></tr>';
+ $('dutyCount').textContent=rows.length+' record(s) · total '+hhmm(tot*60)+' h';
+}
+function resetDuty(){['f_from','f_to','f_crew','f_cat'].forEach(i=>$(i).value='');renderDuty()}
+async function saveDuty(isUpd){
+ if(isUpd&&ED===null)return;
+ if(!$('u_date').value||!$('u_crew').value||!$('u_cat').value||!$('u_start').value||!$('u_end').value)return alert('Select date, crew, category, start time and end time.');
+ const m=span($('u_start').value,$('u_end').value);
+ const v={duty_date:$('u_date').value,crew_id:$('u_crew').value,category:$('u_cat').value,start_time:$('u_start').value,end_time:$('u_end').value,total_hours:(m/60).toFixed(2)};
+ try{isUpd?await Api.update('crew_duty',ED,v):await Api.create('crew_duty',v);clearDuty();DUTY=await ls('crew_duty');renderDuty();showProblems()}catch(x){fail(x)}
+}
+function editDuty(id){
+ const d=DUTY.find(x=>x.id==id);if(!d)return;ED=id;
+ $('u_date').value=d10(d.duty_date);$('u_crew').value=d.crew_id;$('u_cat').value=d.category||'';$('u_start').value=t5(d.start_time);$('u_end').value=t5(d.end_time);
+ $('dfTitle').textContent='Edit Crew Duty';$('uAdd').disabled=true;$('uUpd').disabled=false;scrollTo({top:0,behavior:'smooth'});
+}
+function clearDuty(){ED=null;['u_date','u_crew','u_cat','u_start','u_end'].forEach(i=>$(i).value='');$('u_date').value=new Date().toISOString().slice(0,10);
+ $('dfTitle').textContent='Crew Duty Management';$('uAdd').disabled=false;$('uUpd').disabled=true}
+async function delDuty(id){if(!confirm('Delete this duty record?'))return;try{await Api.remove('crew_duty',id);DUTY=await ls('crew_duty');renderDuty()}catch(x){fail(x)}}
+
+/* ---------- DOCNAME ---------- */
+function renderDocs(){
+ const q=$('k_q').value.trim().toLowerCase(),s=$('k_sort').value,dir=$('k_dir').value==='asc'?1:-1;
+ const rows=DOCS.filter(d=>!q||String(d.code||'').toLowerCase().includes(q)||String(d.name||'').toLowerCase().includes(q))
+  .sort((a,b)=>{if(s==='sort_order')return dir*((Number(a.sort_order)||0)-(Number(b.sort_order)||0));return dir*String(a[s]||'').localeCompare(String(b[s]||''),undefined,{numeric:true})});
+ $('docBody').innerHTML=rows.map((d,i)=>`<tr><td>${i+1}</td><td>${E(d.code)}</td><td>${E(d.name)}</td><td>${E(d.doc_type)}</td><td>${E(d.sort_order)}</td>
+  <td class="act"><button class="ab ed" onclick="openDoc(${d.id})">EDIT</button></td><td class="act"><button class="ab dl" onclick="delDoc(${d.id})">DELETE</button></td></tr>`).join('')||'<tr><td colspan="7">No documents found.</td></tr>';
+}
+function openDoc(id){
+ EK=id||null;const d=id?DOCS.find(x=>x.id==id):null;
+ $('docTitle').textContent=d?'EDIT CREW DOC NAME':'CREW DOC NAME';
+ $('k_code').value=d?d.code||'':'';$('k_name').value=d?d.name||'':'';$('k_type').value=d?d.doc_type||'':'';$('k_order').value=d?(d.sort_order??10000):10000;
+ $('docForm').classList.remove('hide');$('k_code').focus();
+}
+function closeDoc(){EK=null;$('docForm').classList.add('hide')}
+async function saveDoc(){
+ const v={code:$('k_code').value.trim(),name:$('k_name').value.trim(),doc_type:$('k_type').value.trim(),sort_order:$('k_order').value||10000};
+ if(!v.code)return alert('Enter the Id.');if(!v.name)return alert('Enter the Name.');
+ if(DOCS.some(d=>d.id!=EK&&String(d.code).toLowerCase()===v.code.toLowerCase()))return alert('That Id already exists.');
+ try{EK?await Api.update('crew_docnames',EK,v):await Api.create('crew_docnames',v);closeDoc();DOCS=await ls('crew_docnames');renderDocs()}catch(x){fail(x)}
+}
+async function delDoc(id){if(!confirm('Delete this document name?'))return;try{await Api.remove('crew_docnames',id);DOCS=await ls('crew_docnames');renderDocs()}catch(x){fail(x)}}
+
+/* ---------- INIT ---------- */
+(async()=>{
+ if(typeof Api==='undefined'){$('sys').style.display='block';$('sys').textContent='js/api.js did not load. Open this page through your web server (http://localhost/...).';return}
+ const ft=await ls('flight_types');if(ft.length)TYPES=ft.map(f=>f.code);
+ fillSelects();setPhoto('');
+ [CREW,DUTY,DOCS]=[(await ls('crew')).sort((a,b)=>a.id-b.id),await ls('crew_duty'),await ls('crew_docnames')];
+ fillDutyCrew();$('u_date').value=new Date().toISOString().slice(0,10);
+ renderCrew();renderDuty();renderDocs();showProblems();
+})();
+</script></body></html>

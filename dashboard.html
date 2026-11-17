@@ -1,0 +1,589 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>AEROJET AVIATION LIMITED</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+:root{
+    --primary:#0b1f3a;
+    --secondary:#122b52;
+    --accent:#1ea7ff;
+    --accent2:#4fd1ff;
+    --text:#ffffff;
+    --glass:rgba(255,255,255,0.08);
+    --border:rgba(255,255,255,0.12);
+    --shadow:0 10px 30px rgba(0,0,0,0.25);
+}
+
+body{
+    font-family:Arial, Helvetica, sans-serif;
+    min-height:100vh;
+    background:
+        linear-gradient(rgba(3,12,26,0.85), rgba(3,12,26,0.92)),
+        url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=1920&auto=format&fit=crop');
+    background-size:cover;
+    background-position:center;
+    color:var(--text);
+    overflow-x:hidden;
+}
+
+/* TOP HEADER */
+
+.top-header{
+    width:100%;
+    background:rgba(4,15,32,0.92);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid rgba(255,255,255,0.08);
+    box-shadow:var(--shadow);
+}
+
+.header-container{
+    max-width:1500px;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:18px 30px;
+}
+
+/* LOGO AREA */
+
+.logo-section{
+    display:flex;
+    align-items:center;
+    gap:18px;
+}
+
+.logo-box{
+    width:70px;
+    height:70px;
+    border-radius:18px;
+    background:linear-gradient(135deg, var(--accent), #0077ff);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:34px;
+    font-weight:bold;
+    box-shadow:
+        0 0 25px rgba(30,167,255,0.45),
+        inset 0 0 15px rgba(255,255,255,0.15);
+}
+
+.company-info h1{
+    font-size:30px;
+    letter-spacing:1px;
+    font-weight:800;
+}
+
+.company-info p{
+    margin-top:4px;
+    color:#b8d8ff;
+    font-size:14px;
+    letter-spacing:2px;
+}
+
+/* STATUS AREA */
+
+.status-panel{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.status-box{
+    background:var(--glass);
+    border:1px solid var(--border);
+    padding:12px 18px;
+    border-radius:14px;
+    text-align:center;
+    min-width:130px;
+}
+
+.status-box span{
+    display:block;
+    font-size:13px;
+    color:#b7c8e2;
+    margin-bottom:4px;
+}
+
+.status-box strong{
+    font-size:16px;
+}
+
+/* NAVBAR */
+
+.navbar{
+    width:100%;
+    background:rgba(10,23,45,0.92);
+    backdrop-filter:blur(10px);
+    border-top:1px solid rgba(255,255,255,0.05);
+    border-bottom:1px solid rgba(255,255,255,0.08);
+}
+
+.nav-container{
+    max-width:1600px;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:10px;
+    padding:18px 20px;
+}
+
+.nav-link{
+    position:relative;
+    text-decoration:none;
+    color:white;
+    padding:14px 22px;
+    border-radius:14px;
+    font-size:14px;
+    font-weight:700;
+    letter-spacing:1px;
+    background:rgba(255,255,255,0.04);
+    border:1px solid rgba(255,255,255,0.06);
+    transition:0.35s ease;
+    overflow:hidden;
+}
+
+.nav-link::before{
+    content:"";
+    position:absolute;
+    width:0%;
+    height:100%;
+    left:0;
+    top:0;
+    background:linear-gradient(90deg, var(--accent), var(--accent2));
+    z-index:-1;
+    transition:0.35s ease;
+}
+
+.nav-link:hover{
+    transform:translateY(-4px);
+    box-shadow:
+        0 8px 20px rgba(30,167,255,0.25),
+        0 0 15px rgba(79,209,255,0.15);
+    color:white;
+}
+
+.nav-link:hover::before{
+    width:100%;
+}
+
+/* HERO SECTION */
+
+.hero{
+    max-width:1400px;
+    margin:70px auto;
+    padding:0 30px;
+}
+
+.hero-card{
+    background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:30px;
+    padding:60px;
+    backdrop-filter:blur(16px);
+    box-shadow:var(--shadow);
+}
+
+.hero-card h2{
+    font-size:55px;
+    margin-bottom:20px;
+    line-height:1.1;
+}
+
+.hero-card h2 span{
+    color:var(--accent2);
+}
+
+.hero-card p{
+    font-size:18px;
+    line-height:1.8;
+    max-width:900px;
+    color:#d9e6f7;
+}
+
+.hero-buttons{
+    margin-top:35px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:18px;
+}
+
+.hero-btn{
+    padding:16px 28px;
+    border:none;
+    border-radius:16px;
+    cursor:pointer;
+    font-size:15px;
+    font-weight:700;
+    letter-spacing:1px;
+    transition:0.35s ease;
+}
+
+.primary-btn{
+    background:linear-gradient(135deg, var(--accent), #0066ff);
+    color:white;
+    box-shadow:0 10px 20px rgba(30,167,255,0.35);
+}
+
+.secondary-btn{
+    background:rgba(255,255,255,0.08);
+    color:white;
+    border:1px solid rgba(255,255,255,0.1);
+}
+
+.hero-btn:hover{
+    transform:translateY(-4px) scale(1.02);
+}
+
+/* DASHBOARD CARDS */
+
+.cards{
+    margin-top:50px;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:25px;
+}
+
+.card{
+    background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:24px;
+    padding:28px;
+    transition:0.35s ease;
+    backdrop-filter:blur(14px);
+}
+
+.a-card{}
+a.card{display:block;text-decoration:none;color:inherit;cursor:pointer}
+.card:hover{
+    transform:translateY(-6px);
+    box-shadow:0 10px 30px rgba(0,0,0,0.3);
+}
+
+.card-icon{
+    font-size:40px;
+    margin-bottom:18px;
+}
+
+.card h3{
+    font-size:20px;
+    margin-bottom:12px;
+}
+
+.card p{
+    color:#d7e4f5;
+    line-height:1.7;
+    font-size:15px;
+}
+
+
+/* DUTY ALERT */
+.duty{margin:45px 0 0;padding:0}
+.duty-card{background:rgba(0,0,0,0.22);border:1px solid rgba(255,255,255,0.08);border-radius:22px;padding:28px;overflow-x:auto}
+.duty-card h2{font-size:28px;margin-bottom:6px}
+.duty-sub{color:#b7c8e2;font-size:14px;margin-bottom:22px}
+.duty table{width:100%;border-collapse:collapse;min-width:820px}
+.duty th{text-align:left;padding:14px;font-size:13px;letter-spacing:1px;background:rgba(30,167,255,0.18);border-bottom:1px solid var(--border)}
+.duty td{padding:14px;font-size:14px;border-bottom:1px solid rgba(255,255,255,0.08)}
+.duty td.num,.duty th.num{text-align:right}
+.duty td.warn{background:rgba(239,68,68,0.28);font-weight:bold}
+.duty td.danger{background:#dc2626;font-weight:bold;animation:dp 1.2s infinite}
+@keyframes dp{50%{opacity:.65}}
+.duty-note{margin-top:14px;font-size:13px;color:#b7c8e2}
+
+/* RESPONSIVE */
+
+@media(max-width:1000px){
+
+    .header-container{
+        flex-direction:column;
+        gap:20px;
+        text-align:center;
+    }
+
+    .hero-card{
+        padding:40px 30px;
+    }
+
+    .hero-card h2{
+        font-size:40px;
+    }
+
+}
+
+@media(max-width:650px){
+
+    .company-info h1{
+        font-size:22px;
+    }
+
+    .hero-card h2{
+        font-size:30px;
+    }
+
+    .nav-link{
+        width:100%;
+        text-align:center;
+    }
+
+}
+
+</style>
+
+</head>
+<body>
+
+<!-- HEADER -->
+
+<header class="top-header">
+
+    <div class="header-container">
+
+        <div class="logo-section">
+
+            <div class="logo-box">
+                ✈
+            </div>
+
+            <div class="company-info">
+                <h1>AEROJET AVIATION LIMITED</h1>
+                <p>FLIGHT OPERATIONS MANAGEMENT SYSTEM</p>
+            </div>
+
+        </div>
+
+        <div class="status-panel">
+
+            <div class="status-box">
+                <span>System Status</span>
+                <strong>ONLINE</strong>
+            </div>
+
+            <div class="status-box">
+                <span>Operations</span>
+                <strong>ACTIVE</strong>
+            </div>
+
+        </div>
+
+    </div>
+
+</header>
+
+<!-- NAVBAR -->
+
+<nav class="navbar">
+
+    <div class="nav-container">
+
+        
+
+<a href="users.html" class="nav-link">USERS</a>
+        <a href="VOYAGE.html" class="nav-link">VOYAGE</a>
+    <a href="REPORT.html"class="nav-link">REPORT</a>
+    <a href="CREW.html"class="nav-link" >CREW</a>
+    <a href="CREWREPORT.html"class="nav-link" >CREWREPORT</a>
+    <a href="CREWROSTER.html" class="nav-link">CREWROSTER</a>
+    <a href="DISPATCHER.html"class="nav-link" >DISPATCHER</a>
+    <a href="POSTHOLDER.html" class="nav-link">POSTHOLDER</a>
+    <a href="DOCUMENTS.html" class="nav-link">DOCUMENTS</a>
+    <a href="SUMMARY.html"class="nav-link">SUMMARY</a>
+    <a href="CARGO.html"class="nav-link">CARGO</a>
+    <a href="MASTER.html"class="nav-link">MASTER</a>
+    <a href="#"class="nav-link">PASSWORD</a>
+    <a href="index.html"class="nav-link">LOGOUT</a>
+
+    </div>
+
+</nav>
+
+<!-- HERO SECTION -->
+
+<section class="hero">
+
+    <div class="hero-card">
+
+        <h2>
+            Welcome to <span>AEROJET AVIATION</span>
+        </h2>
+
+        <p>
+            Manage flight operations, crew scheduling, cargo management,
+            dispatcher coordination, voyage reports, aviation documents,
+            and operational summaries through a modern aviation dashboard
+            built for speed, reliability, and efficiency.
+        </p>
+
+        <div class="hero-buttons">
+
+            <button class="hero-btn primary-btn">
+                Open Dashboard
+            </button>
+
+            <button class="hero-btn secondary-btn">
+                Flight Reports
+            </button>
+
+        </div>
+
+        <!-- DUTY ALERT (inside hero card) -->
+<section class="duty"><div class="duty-card">
+<h2>DUTY ALERT LAST 28 DAYS</h2>
+<p class="duty-sub" id="dutyPeriod">Loading...</p>
+<table><thead><tr><th>NAME</th><th>DESIGNATION</th><th>PERIOD</th><th class="num">NO. OF DAYS</th><th class="num">FLIGHT TIME</th><th class="num">DUTY TIME</th></tr></thead>
+<tbody id="dutyBody"><tr><td colspan="6">Loading...</td></tr></tbody></table>
+<p class="duty-note" id="dutyNote"></p>
+</div></section>
+
+                <div class="cards">
+
+            <a href="VOYAGE.html" class="card">
+                <div class="card-icon">🛫</div>
+                <h3>Voyage Management</h3>
+                <p>
+                    Monitor and manage aviation routes, schedules,
+                    and operational flight planning.
+                </p>
+            </a>
+
+            <a href="CREWROSTER.html" class="card">
+                <div class="card-icon">👨‍✈️</div>
+                <h3>Crew Operations</h3>
+                <p>
+                    Organize crew assignments, reporting,
+                    rostering, and aviation compliance.
+                </p>
+            </a>
+
+            <a href="CARGO.html" class="card">
+                <div class="card-icon">📦</div>
+                <h3>Cargo Tracking</h3>
+                <p>
+                    Track cargo handling operations with
+                    real-time logistics coordination.
+                </p>
+            </a>
+
+            <a href="REPORT.html" class="card">
+                <div class="card-icon">📑</div>
+                <h3>Reports & Documents</h3>
+                <p>
+                    Generate operational reports and securely
+                    manage aviation documents digitally.
+                </p>
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+<script src="js/api.js"></script>
+<script>
+(async()=>{
+ const M=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+ const f=d=>d.getDate()+'-'+M[d.getMonth()]+'-'+d.getFullYear();
+ const end=new Date(),start=new Date();start.setDate(end.getDate()-27);
+ const period=f(start)+' To '+f(end), iso=d=>d.toISOString().slice(0,10);
+ const DES={'Pilot':'CAPTAIN','Co-Pilot':'FIRST_OFFICER','Engineer':'ENGINEER','Cabin Crew':'CABINCREW'};
+ const ORD=['CAPTAIN','FIRST_OFFICER','ENGINEER','CABINCREW'];
+ const $=id=>document.getElementById(id), body=$('dutyBody');
+ $('dutyPeriod').textContent='Period: '+period;
+ const arr=r=>Array.isArray(r)?r:((r&&(r.data||r.rows))||[]);
+ let rows=[],L=null,why='';
+ try{ const r=await Api.call('api.php?action=crew_alerts'); rows=r.crew; L=r.limits; }
+ catch(e1){
+  why='Live alerts unavailable ('+e1.message+'); showing totals worked out from the crew and crew_log tables instead.';
+  try{
+   const crew=arr(await Api.list('crew')), logs=arr(await Api.list('crew_log')), s0=iso(start), e0=iso(end);
+   rows=crew.map(c=>{const l=logs.filter(x=>x.crew_id==c.id&&String(x.log_date).slice(0,10)>=s0&&String(x.log_date).slice(0,10)<=e0);
+    return {id:c.id,name:c.name,position:c.position,fh:l.reduce((t,x)=>t+(+x.flight_hours||0),0),dh:l.reduce((t,x)=>t+(+x.duty_hours||0),0),
+     days:new Set(l.map(x=>String(x.log_date).slice(0,10))).size,fh_s:'ok',dh_s:'ok',days_s:'ok'}});
+  }catch(e2){ why='Could not load crew data: '+e2.message; }
+ }
+ rows=rows.map(c=>({...c,des:DES[c.position]||String(c.position||'').toUpperCase().replace(/ /g,'_')}))
+  .sort((a,b)=>(ORD.indexOf(a.des)+1||9)-(ORD.indexOf(b.des)+1||9)||String(a.name).localeCompare(String(b.name)));
+ body.innerHTML=rows.map(c=>`<tr><td>${Api.esc(String(c.name).toUpperCase())}</td><td>${Api.esc(c.des)}</td><td>${period}</td>
+  <td class="num ${c.days_s}">${c.days}</td><td class="num ${c.fh_s}">${(+c.fh).toFixed(2)}</td><td class="num ${c.dh_s}">${(+c.dh).toFixed(2)}</td></tr>`).join('')
+  ||'<tr><td colspan="6">No crew found. Add crew on the CREW page.</td></tr>';
+ const allZero=rows.length&&rows.every(c=>!+c.fh&&!+c.dh&&!c.days);
+ $('dutyNote').textContent=[why,allZero?'All values are 0 because no flight or duty hours are logged in crew_log for this period.':'',
+  L?`Limits: flight ${L.flight} h, duty ${L.duty} h, ${L.days} days. Light red = near the limit, flashing red = limit reached.`:''].filter(Boolean).join(' ');
+})();
+
+</script>
+
+<script>
+
+// ACTIVE NAVBAR EFFECT
+
+const navLinks = document.querySelectorAll('.nav-link');
+
+navLinks.forEach(link => {
+
+    link.addEventListener('click', function(){
+
+        navLinks.forEach(item => {
+            item.style.background = 'rgba(255,255,255,0.04)';
+        });
+
+        this.style.background =
+        'linear-gradient(135deg,#1ea7ff,#0066ff)';
+
+    });
+
+});
+
+// BUTTON EFFECT
+
+const buttons = document.querySelectorAll('.hero-btn');
+
+buttons.forEach(btn => {
+
+    btn.addEventListener('mouseenter', () => {
+
+        btn.style.transform = 'translateY(-5px) scale(1.03)';
+
+    });
+
+    btn.addEventListener('mouseleave', () => {
+
+        btn.style.transform = 'translateY(0px) scale(1)';
+
+    });
+
+});
+
+</script>
+<script>
+
+function logout(){
+
+    localStorage.removeItem("loggedIn");
+
+    window.location.href = "index.html";
+
+}
+
+</script>
+
+</body>
+</html>

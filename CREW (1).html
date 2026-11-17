@@ -1,0 +1,603 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>CREW MANAGEMENT</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial, Helvetica, sans-serif;
+    background:#edf3fa;
+    color:#0f172a;
+}
+
+/* =========================
+TOP HEADER
+========================= */
+
+.topbar{
+    width:100%;
+    background:linear-gradient(135deg,#07162d,#0d2c56);
+    padding:20px 30px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    color:white;
+    box-shadow:0 6px 24px rgba(0,0,0,0.25);
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:16px;
+}
+
+.logo-icon{
+    width:65px;
+    height:65px;
+    border-radius:18px;
+    background:linear-gradient(135deg,#00b7ff,#005eff);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:32px;
+}
+
+.logo-text h1{
+    font-size:28px;
+}
+
+.logo-text p{
+    margin-top:4px;
+    font-size:13px;
+    letter-spacing:1px;
+    color:#dbeafe;
+}
+
+/* =========================
+MAIN NAVBAR
+========================= */
+
+.navbar{
+    width:100%;
+    background:#0f213d;
+    padding:14px 18px;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:12px;
+}
+
+.navbar a{
+    text-decoration:none;
+    color:white;
+    padding:12px 20px;
+    border-radius:12px;
+    font-size:14px;
+    font-weight:bold;
+    background:rgba(255,255,255,0.05);
+    transition:0.3s;
+}
+
+.navbar a:hover,
+.navbar a.active{
+    background:linear-gradient(135deg,#00b7ff,#005eff);
+    transform:translateY(-3px);
+}
+
+/* =========================
+MAIN CONTAINER
+========================= */
+
+.container{
+    width:95%;
+    max-width:1500px;
+    margin:40px auto;
+}
+
+/* =========================
+PAGE TITLE
+========================= */
+
+.page-title{
+    margin-bottom:30px;
+}
+
+.page-title h2{
+    font-size:40px;
+    margin-bottom:10px;
+}
+
+.page-title p{
+    color:#64748b;
+    font-size:16px;
+}
+
+/* =========================
+FORM CARD
+========================= */
+
+.form-card{
+    background:white;
+    border-radius:28px;
+    padding:35px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.08);
+    margin-bottom:35px;
+}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:24px;
+}
+
+.input-group{
+    display:flex;
+    flex-direction:column;
+}
+
+.input-group label{
+    margin-bottom:10px;
+    font-weight:bold;
+    color:#0f172a;
+}
+
+.input-group input,
+.input-group select{
+    height:54px;
+    border-radius:14px;
+    border:1px solid #dbe4ef;
+    background:#f8fbff;
+    padding:0 16px;
+    font-size:15px;
+    outline:none;
+    transition:0.3s;
+}
+
+.input-group input:focus,
+.input-group select:focus{
+    border-color:#00aaff;
+    box-shadow:0 0 0 4px rgba(0,170,255,0.12);
+}
+
+/* =========================
+BUTTON AREA
+========================= */
+
+.button-area{
+    margin-top:35px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:16px;
+}
+
+.btn{
+    border:none;
+    padding:15px 28px;
+    border-radius:15px;
+    font-size:15px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.primary-btn{
+    background:linear-gradient(135deg,#00b7ff,#005eff);
+    color:white;
+}
+
+.secondary-btn{
+    background:#0f172a;
+    color:white;
+}
+
+.print-btn{
+    background:linear-gradient(135deg,#10b981,#059669);
+    color:white;
+}
+
+.btn:hover{
+    transform:translateY(-4px);
+}
+
+/* =========================
+TABLE SECTION
+========================= */
+
+.table-card{
+    background:white;
+    border-radius:28px;
+    padding:30px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.08);
+    overflow-x:auto;
+}
+
+.table-title{
+    margin-bottom:25px;
+}
+
+.table-title h3{
+    font-size:30px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:1200px;
+}
+
+thead{
+    background:linear-gradient(135deg,#07162d,#0d2c56);
+    color:white;
+}
+
+th{
+    padding:18px;
+    text-align:left;
+    font-size:14px;
+    letter-spacing:0.5px;
+}
+
+td{
+    padding:18px;
+    border-bottom:1px solid #e2e8f0;
+    font-size:14px;
+}
+
+tbody tr{
+    transition:0.3s;
+}
+
+tbody tr:hover{
+    background:#f8fbff;
+}
+
+/* =========================
+ACTION BUTTONS
+========================= */
+
+.action-btn{
+    border:none;
+    padding:10px 16px;
+    border-radius:10px;
+    color:white;
+    cursor:pointer;
+    font-weight:bold;
+    transition:0.3s;
+}
+
+.edit-btn{
+    background:#f59e0b;
+}
+
+.delete-btn{
+    background:#ef4444;
+}
+
+.action-btn:hover{
+    transform:scale(1.05);
+}
+
+/* =========================
+PRINT BUTTON AREA
+========================= */
+
+.print-area{
+    margin-top:25px;
+    display:flex;
+    justify-content:flex-end;
+}
+
+/* =========================
+RESPONSIVE
+========================= */
+
+@media(max-width:768px){
+
+    .topbar{
+        flex-direction:column;
+        gap:20px;
+        text-align:center;
+    }
+
+    .page-title h2{
+        font-size:30px;
+    }
+
+    .form-card,
+    .table-card{
+        padding:22px;
+    }
+
+}
+
+</style>
+</head>
+<body>
+
+<!-- =========================
+TOP HEADER
+========================= -->
+
+<div class="topbar">
+
+    <div class="logo">
+
+        <div class="logo-icon">
+            👨‍✈️
+        </div>
+
+        <div class="logo-text">
+            <h1>AEROJET AVIATION LIMITED</h1>
+            <p>CREW MANAGEMENT SYSTEM</p>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- =========================
+NAVBAR
+========================= -->
+
+<div class="navbar">
+
+  
+
+
+    <a href="VOYAGE.html">VOYAGE</a>
+    <a href="REPORT.html">REPORT</a>
+    <a href="#" class="active">CREW</a>
+    <a href="CREWREPORT.html">CREWREPORT</a>
+    <a href="CREWROSTER.html" >CREWROSTER</a>
+    <a href="DISPATCHER.html">DISPATCHER</a>
+    <a href="POSTHOLDER.html">POSTHOLDER</a>
+    <a href="DOCUMENTS.html">DOCUMENTS</a>
+    <a href="SUMMARY.html">SUMMARY</a>
+    <a href="CARGO.html">CARGO</a>
+    <a href="MASTER.html">MASTER</a>
+    <a href="#">PASSWORD</a>
+    <a href="index.html">LOGOUT</a>
+
+</div>
+
+<!-- =========================
+MAIN CONTAINER
+========================= -->
+
+<div class="container">
+
+    <!-- PAGE TITLE -->
+
+    <div class="page-title">
+
+        <h2>Crew Management Dashboard</h2>
+
+        <p>
+            Manage pilots, cabin crew, flight assignments,
+            schedules, and operational crew records.
+        </p>
+
+    </div>
+
+    <!-- =========================
+    FORM SECTION
+    ========================= -->
+
+    <div class="form-card">
+
+        <div class="form-grid">
+
+            <div class="input-group">
+                <label>Crew Name</label>
+                <input type="text" placeholder="Enter crew name">
+            </div>
+
+            <div class="input-group">
+                <label>Crew ID</label>
+                <input type="text" placeholder="Enter crew ID">
+            </div>
+
+            <div class="input-group">
+                <label>Position</label>
+                <select>
+                    <option>Select Position</option>
+                    <option>Pilot</option>
+                    <option>Co-Pilot</option>
+                    <option>Cabin Crew</option>
+                    <option>Engineer</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label>Flight No</label>
+                <input type="text" placeholder="Enter flight number">
+            </div>
+
+            <div class="input-group">
+                <label>Aircraft Reg</label>
+                <input type="text" placeholder="Aircraft registration">
+            </div>
+
+            <div class="input-group">
+                <label>Date</label>
+                <input type="date">
+            </div>
+
+        </div>
+
+        <div class="button-area">
+
+            <button class="btn primary-btn">
+                Add Crew
+            </button>
+
+            <button class="btn secondary-btn">
+                Update Crew
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- =========================
+    TABLE SECTION
+    ========================= -->
+
+    <div class="table-card">
+
+        <div class="table-title">
+            <h3>Crew Records</h3>
+        </div>
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>NO</th>
+                    <th>CREW NAME</th>
+                    <th>CREW ID</th>
+                    <th>POSITION</th>
+                    <th>FLIGHT NO</th>
+                    <th>AIRCRAFT REG</th>
+                    <th>DATE</th>
+                    <th>EDIT</th>
+                    <th>DELETE</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="crewTable">
+
+                <tr>
+
+                    <td>1</td>
+                    <td>John Smith</td>
+                    <td>CR-001</td>
+                    <td>Pilot</td>
+                    <td>AJ101</td>
+                    <td>5Y-AJL</td>
+                    <td>2026-05-17</td>
+
+                    <td>
+                        <button class="action-btn edit-btn">
+                            Edit
+                        </button>
+                    </td>
+
+                    <td>
+                        <button class="action-btn delete-btn">
+                            Delete
+                        </button>
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+        <!-- PRINT BUTTON -->
+
+        <div class="print-area">
+
+            <button class="btn print-btn" onclick="printTable()">
+                🖨 Print Crew Report
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+/* =========================
+ADD CREW ROW
+========================= */
+
+const addBtn =
+document.querySelector('.primary-btn');
+
+const table =
+document.getElementById('crewTable');
+
+let count = 2;
+
+addBtn.addEventListener('click', () => {
+
+    const row =
+    document.createElement('tr');
+
+    row.innerHTML = `
+
+        <td>${count}</td>
+        <td>Crew Member ${count}</td>
+        <td>CR-00${count}</td>
+        <td>Cabin Crew</td>
+        <td>AJ10${count}</td>
+        <td>5Y-AJ${count}</td>
+        <td>2026-05-17</td>
+
+        <td>
+            <button class="action-btn edit-btn">
+                Edit
+            </button>
+        </td>
+
+        <td>
+            <button class="action-btn delete-btn">
+                Delete
+            </button>
+        </td>
+
+    `;
+
+    table.appendChild(row);
+
+    count++;
+
+});
+
+/* =========================
+DELETE ROW
+========================= */
+
+document.addEventListener('click', function(e){
+
+    if(e.target.classList.contains('delete-btn')){
+
+        e.target.closest('tr').remove();
+
+    }
+
+});
+
+/* =========================
+PRINT FUNCTION
+========================= */
+
+function printTable(){
+
+    window.print();
+
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIRCRAFT DOCUMENT MANAGEMENT</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Arial,Helvetica,sans-serif;background:#edf3fa;color:#0f172a}
+
+.topbar{width:100%;background:linear-gradient(135deg,#07162d,#0d2c56);padding:20px 30px;color:white;display:flex;justify-content:space-between;align-items:center}
+.logo{display:flex;align-items:center;gap:15px}
+.logo-box{width:65px;height:65px;border-radius:18px;background:linear-gradient(135deg,#00b7ff,#005eff);display:flex;align-items:center;justify-content:center;font-size:30px}
+
+.main-navbar{background:#08192f;display:flex;justify-content:center;flex-wrap:wrap;gap:10px;padding:16px;border-top:1px solid rgba(255,255,255,0.05);border-bottom:1px solid rgba(255,255,255,0.08)}
+.main-navbar a{text-decoration:none;color:white;padding:12px 18px;border-radius:12px;font-size:14px;font-weight:bold;background:rgba(255,255,255,0.05);transition:0.3s}
+.main-navbar a:hover,.main-navbar a.active-main{background:linear-gradient(135deg,#00b7ff,#005eff);transform:translateY(-3px)}
+
+.tabs{background:#0f213d;display:flex;justify-content:center;gap:15px;padding:14px;flex-wrap:wrap}
+.tabs a{text-decoration:none;color:white;padding:10px 18px;border-radius:12px;background:rgba(255,255,255,0.05);font-weight:bold;transition:0.3s;cursor:pointer}
+.tabs a:hover,.tabs a.active{background:linear-gradient(135deg,#00b7ff,#005eff)}
+
+.container{width:95%;max-width:1600px;margin:40px auto}
+.title h2{font-size:38px}
+.title p{color:#64748b;margin-top:6px;margin-bottom:25px}
+
+.card{background:white;padding:25px;border-radius:25px;box-shadow:0 10px 30px rgba(0,0,0,0.08);margin-bottom:30px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
+.input-group{display:flex;flex-direction:column}
+label{font-weight:bold;margin-bottom:8px;font-size:14px}
+input,select{height:50px;border-radius:12px;border:1px solid #dbe4ef;padding:0 15px;background:#f8fbff;outline:none;width:100%;font-size:14px}
+input:focus,select:focus{border-color:#00aaff;box-shadow:0 0 0 4px rgba(0,170,255,0.12)}
+input[readonly]{background:#eef2f7;color:#64748b}
+
+.search-row{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.search-box{display:grid;grid-template-columns:150px 80px 1fr;gap:10px}
+.sort-box{display:grid;grid-template-columns:150px 110px;gap:10px}
+.group-title{font-weight:bold;font-size:14px;margin-bottom:8px}
+
+.buttons{margin-top:20px;display:flex;gap:15px;flex-wrap:wrap}
+.btn{padding:14px 22px;border:none;border-radius:12px;font-weight:bold;cursor:pointer;transition:0.3s;font-size:14px}
+.primary{background:linear-gradient(135deg,#00b7ff,#005eff);color:white}
+.dark{background:#0f172a;color:white}
+.green{background:linear-gradient(135deg,#10b981,#059669);color:white}
+.btn:hover{transform:translateY(-4px)}
+
+.table-card{background:white;padding:25px;border-radius:25px;box-shadow:0 10px 30px rgba(0,0,0,0.08);overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:1400px}
+thead{background:linear-gradient(135deg,#07162d,#0d2c56);color:white}
+th,td{padding:12px;font-size:12px;text-align:left;white-space:nowrap}
+tbody tr{border-bottom:1px solid #e2e8f0}
+tbody tr:hover{background:#f8fbff}
+td.expired,.date-input.expired{background:#fee2e2;color:#b91c1c;font-weight:bold}
+td.warn,.date-input.warn{background:#fef3c7;color:#b45309;font-weight:bold}
+.date-input.expired,.date-input.warn{border-color:currentColor}
+.action{display:flex;gap:8px;align-items:center}
+.upload,.edit,.delete,.view{color:white;padding:6px 10px;border-radius:8px;font-size:11px;border:none;cursor:pointer;text-decoration:none}
+.upload{background:#3b82f6}.edit{background:#f59e0b}.delete{background:#ef4444}.view{background:#64748b}
+.empty{text-align:center;color:#64748b;padding:30px}
+
+.toolbar{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:15px;margin-top:20px}
+.legend{display:flex;gap:20px;font-size:13px;font-weight:bold}
+.legend span{display:flex;align-items:center;gap:8px}
+.dot{width:16px;height:16px;border-radius:4px;display:inline-block}
+.dot.exp{background:#ef4444}.dot.warn{background:#f59e0b}
+.print-btn{background:linear-gradient(135deg,#10b981,#059669);color:white;border:none;padding:14px 24px;border-radius:14px;font-weight:bold;cursor:pointer}
+
+#msg{margin-top:15px;font-weight:bold}
+#msg.err{color:#b91c1c}#msg.ok{color:#059669}
+.hidden{display:none}
+@media(max-width:800px){.search-row{grid-template-columns:1fr}.search-box{grid-template-columns:1fr 70px 1fr}}
+@media print{.main-navbar,.tabs,.search-card,.buttons,.action{display:none!important}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+    <div class="logo">
+        <div class="logo-box">📄</div>
+        <div>
+            <h2>AEROJET AVIATION</h2>
+            <p>Aircraft Document Management System</p>
+        </div>
+    </div>
+</div>
+
+<div class="main-navbar">
+    
+    <a href="VOYAGE.html">VOYAGE</a>
+    <a href="REPORT.html">REPORT</a>
+    <a href="CREW.html">CREW</a>
+    <a href="CREWREPORT.html">CREWREPORT</a>
+    <a href="CREWROSTER.html">CREWROSTER</a>
+    <a href="DISPATCHER.html">DISPATCHER</a>
+    <a href="POSTHOLDER.html">POSTHOLDER</a>
+    <a href="#" class="active-main">DOCUMENTS</a>
+    <a href="SUMMARY.html">SUMMARY</a>
+    <a href="CARGO.html">CARGO</a>
+    <a href="MASTER.html">MASTER</a>
+    <a href="users.html">USERS</a>
+    <a href="#">PASSWORD</a>
+    <a href="index.html">LOGOUT</a>
+</div>
+
+<div class="tabs">
+    <a id="tabAir" class="active">AIRCRAFT DOC</a>
+    <a id="tabCrew">CREW FILE</a>
+</div>
+
+<div class="container">
+
+<!-- ============ AIRCRAFT DOC ============ -->
+<div id="airPanel">
+
+  <div id="listView">
+    <div class="title">
+        <h2>Aircraft Document Management</h2>
+        <p>Manage aircraft certificates, compliance documents and approvals</p>
+    </div>
+
+    <div class="card search-card">
+        <div class="search-row">
+            <div>
+                <div class="group-title">Search</div>
+                <div class="search-box">
+                    <select id="sField"><option value="id">Id</option><option value="aircraft">Aircraft</option></select>
+                    <select id="sOp"><option value="=">=</option><option value="like">Like</option></select>
+                    <input type="text" id="sText" placeholder="Search value">
+                </div>
+            </div>
+            <div>
+                <div class="group-title">Sort By</div>
+                <div class="sort-box">
+                    <select id="sortField"><option value="id">Id</option><option value="aircraft">Aircraft</option></select>
+                    <select id="sortDir"><option value="asc">Asc</option><option value="desc">Desc</option></select>
+                </div>
+            </div>
+        </div>
+        <div class="buttons">
+            <button class="btn primary" id="btnSearch">Search</button>
+            <button class="btn dark" id="btnReset">Reset</button>
+            <button class="btn green" id="btnAdd">ADD NEW</button>
+        </div>
+    </div>
+
+    <div class="table-card">
+        <table>
+            <thead>
+                <tr>
+                    <th>NO</th><th>AIRCRAFT</th><th>COR</th><th>COA</th><th>RL</th><th>NC</th><th>WB</th><th>ASL</th><th>AOC</th><th>AOCOPSSP</th><th>FOC</th><th>CRS</th><th>UPLOAD</th><th>Edit</th><th>DELETE</th>
+                </tr>
+            </thead>
+            <tbody id="tbody"><tr><td colspan="15" class="empty">Loading…</td></tr></tbody>
+        </table>
+        <div class="toolbar">
+            <div class="legend">
+                <span><i class="dot exp"></i> Expired</span>
+                <span><i class="dot warn"></i> Expire within 30 days</span>
+            </div>
+            <button class="print-btn" onclick="window.print()">🖨 Print Aircraft Documents</button>
+        </div>
+    </div>
+  </div>
+
+  <div id="formView" class="hidden">
+    <div class="title">
+        <h2>Aircraft Document Management</h2>
+        <p id="formSub">Add a new aircraft</p>
+    </div>
+    <div class="card">
+        <div class="grid">
+            <div class="input-group"><label>ID</label><input type="text" id="f_id" readonly placeholder="Auto"></div>
+            <div class="input-group"><label>Aircraft Registration</label><input type="text" id="f_aircraft" placeholder="e.g. 5Y-JJJ"></div>
+            <div class="input-group"><label>COR Expiry</label><input type="date" class="date-input" id="f_cor"></div>
+            <div class="input-group"><label>COA Expiry</label><input type="date" class="date-input" id="f_coa"></div>
+            <div class="input-group"><label>COI Expiry</label><input type="date" class="date-input" id="f_coi"></div>
+            <div class="input-group"><label>RL Expiry</label><input type="date" class="date-input" id="f_rl"></div>
+            <div class="input-group"><label>NC Expiry</label><input type="date" class="date-input" id="f_nc"></div>
+            <div class="input-group"><label>WB Expiry</label><input type="date" class="date-input" id="f_wb"></div>
+            <div class="input-group"><label>ASL Expiry</label><input type="date" class="date-input" id="f_asl"></div>
+            <div class="input-group"><label>AOC Expiry</label><input type="date" class="date-input" id="f_aoc"></div>
+            <div class="input-group"><label>AOC OPS Expiry</label><input type="date" class="date-input" id="f_aoc_ops"></div>
+            <div class="input-group"><label>SPP Expiry</label><input type="date" class="date-input" id="f_spp"></div>
+            <div class="input-group"><label>FOC Expiry</label><input type="date" class="date-input" id="f_foc"></div>
+            <div class="input-group"><label>CRS Expiry</label><input type="date" class="date-input" id="f_crs"></div>
+        </div>
+        <div class="buttons">
+            <button class="btn green" id="btnSave">Save</button>
+            <button class="btn dark" id="btnBack">Back</button>
+        </div>
+        <div id="msg"></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ============ CREW FILE ============ -->
+<div id="crewPanel" class="hidden">
+    <div class="title">
+        <h2>Crew File</h2>
+        <p>Passport and licence card expiry for every crew member (edit a crew member on the CREW page)</p>
+    </div>
+    <div class="card search-card">
+        <div class="grid">
+            <div class="input-group"><label>Search Name / Code</label><input type="text" id="cSearch" placeholder="Search crew"></div>
+        </div>
+        <div class="buttons"><button class="btn dark" id="cReset">Reset</button></div>
+    </div>
+    <div class="table-card">
+        <table style="min-width:900px">
+            <thead><tr><th>NO</th><th>NAME</th><th>CODE</th><th>POSITION</th><th>PASSPORT NO</th><th>PASSPORT EXPIRY</th><th>CARD NO</th><th>CARD EXPIRY</th></tr></thead>
+            <tbody id="cBody"><tr><td colspan="8" class="empty">Loading…</td></tr></tbody>
+        </table>
+        <div class="toolbar">
+            <div class="legend">
+                <span><i class="dot exp"></i> Expired</span>
+                <span><i class="dot warn"></i> Expire within 30 days</span>
+            </div>
+            <button class="print-btn" onclick="window.print()">🖨 Print Crew File</button>
+        </div>
+    </div>
+</div>
+
+</div>
+
+<input type="file" id="uploadInput" accept=".pdf,.jpg,.jpeg,.png" class="hidden">
+
+<script>
+const API='api.php';
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const DATES=['cor','coa','coi','rl','nc','wb','asl','aoc','aoc_ops','spp','foc','crs'];
+let rows=[], editingId=null, uploadId=null;
+
+async function api(action,table,{id,body,params}={}){
+    let url=`${API}?action=${action}&table=${table}`+(id?`&id=${id}`:'');
+    const r=await fetch(url,{method:body?'POST':'GET',headers:{'Content-Type':'application/json'},credentials:'same-origin',body:body?JSON.stringify(body):undefined});
+    if(r.status===401){location.href='index.html';return;}
+    const d=await r.json(); if(!r.ok) throw new Error(d.error||'Request failed'); return d;
+}
+function expiryState(v){
+    if(!v||!/^\d{4}-\d{2}-\d{2}$/.test(v)) return '';
+    const t=new Date(); t.setHours(0,0,0,0);
+    const days=Math.floor((new Date(v+'T00:00:00')-t)/86400000);
+    return days<0?'expired':days<=30?'warn':'';
+}
+const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+function fmt(v){ if(!v||!/^\d{4}-\d{2}-\d{2}$/.test(v)) return v||''; const [y,m,d]=v.split('-'); return `${+d}-${MON[+m-1]}-${y}`; }
+const cell=v=>`<td class="${expiryState(v)}">${esc(fmt(v))}</td>`;
+const earliest=(a,b)=>!a?b:!b?a:(a<b?a:b);
+
+/* ---------- tabs ---------- */
+$('tabAir').onclick=()=>{ $('tabAir').classList.add('active'); $('tabCrew').classList.remove('active'); $('airPanel').classList.remove('hidden'); $('crewPanel').classList.add('hidden'); };
+$('tabCrew').onclick=()=>{ $('tabCrew').classList.add('active'); $('tabAir').classList.remove('active'); $('crewPanel').classList.remove('hidden'); $('airPanel').classList.add('hidden'); loadCrew(); };
+
+/* ---------- aircraft list ---------- */
+async function load(){
+    try{ rows=await api('list','aircraft_docs'); }
+    catch(e){ $('tbody').innerHTML=`<tr><td colspan="15" class="empty">${esc(e.message)}</td></tr>`; return; }
+    render();
+}
+function render(){
+    const f=$('sField').value, op=$('sOp').value, txt=$('sText').value.trim().toLowerCase();
+    let list=rows.filter(r=>{ if(!txt) return true; const v=String(r[f]??'').toLowerCase(); return op==='='?v===txt:v.includes(txt); });
+    const sf=$('sortField').value, dir=$('sortDir').value==='asc'?1:-1;
+    list.sort((a,b)=>{ const x=a[sf]??'',y=b[sf]??''; const nx=parseFloat(x),ny=parseFloat(y);
+        return (!isNaN(nx)&&!isNaN(ny)&&String(nx)===String(x)?(nx-ny):String(x).localeCompare(String(y)))*dir; });
+    $('tbody').innerHTML=list.length?list.map((r,i)=>`
+        <tr>
+            <td>${i+1}</td>
+            <td>${esc(r.aircraft)}</td>
+            ${cell(r.cor)}${cell(r.coa)}${cell(r.rl)}${cell(r.nc)}${cell(r.wb)}${cell(r.asl)}${cell(r.aoc)}
+            ${cell(earliest(r.aoc_ops,r.spp))}
+            ${cell(r.foc)}${cell(r.crs)}
+            <td><div class="action">
+                <button class="upload" onclick="pickFile(${r.id})">UPLOAD</button>
+                ${r.upload_file?`<a class="view" href="${esc(r.upload_file)}" target="_blank">VIEW</a>`:''}
+            </div></td>
+            <td><button class="edit" onclick="openForm(${r.id})">EDIT</button></td>
+            <td><button class="delete" onclick="del(${r.id})">DELETE</button></td>
+        </tr>`).join(''):'<tr><td colspan="15" class="empty">No aircraft found</td></tr>';
+}
+$('btnSearch').onclick=render;
+$('btnReset').onclick=()=>{$('sField').value='id';$('sOp').value='=';$('sText').value='';$('sortField').value='id';$('sortDir').value='asc';render();};
+$('sText').addEventListener('keydown',e=>{if(e.key==='Enter')render();});
+
+async function del(id){
+    if(!confirm('Delete this aircraft record?')) return;
+    try{ await api('delete','aircraft_docs',{id,body:{}}); load(); }catch(e){ alert(e.message); }
+}
+
+/* ---------- upload ---------- */
+function pickFile(id){ uploadId=id; $('uploadInput').value=''; $('uploadInput').click(); }
+$('uploadInput').addEventListener('change',async e=>{
+    const file=e.target.files[0]; if(!file||!uploadId) return;
+    const fd=new FormData(); fd.append('file',file);
+    try{
+        const r=await fetch(`${API}?action=upload&table=aircraft_docs&id=${uploadId}`,{method:'POST',body:fd,credentials:'same-origin'});
+        const d=await r.json(); if(!r.ok) throw new Error(d.error||'Upload failed');
+        load();
+    }catch(err){ alert(err.message); }
+});
+
+/* ---------- form ---------- */
+function paintDates(){
+    document.querySelectorAll('.date-input').forEach(el=>{
+        el.classList.remove('expired','warn'); const s=expiryState(el.value); if(s) el.classList.add(s);
+    });
+}
+document.querySelectorAll('.date-input').forEach(el=>el.addEventListener('input',paintDates));
+function showMsg(t,c){ $('msg').textContent=t; $('msg').className=c||''; }
+
+function openForm(id){
+    editingId=id||null; showMsg('');
+    const r=id?rows.find(x=>x.id==id):null;
+    $('f_id').value=r?r.id:''; $('f_aircraft').value=r?r.aircraft||'':'';
+    DATES.forEach(k=>$('f_'+k).value=r&&r[k]?r[k]:'');
+    $('formSub').textContent=r?'Edit aircraft documents':'Add a new aircraft';
+    paintDates();
+    $('listView').classList.add('hidden'); $('formView').classList.remove('hidden'); window.scrollTo(0,0);
+}
+function back(){ $('formView').classList.add('hidden'); $('listView').classList.remove('hidden'); load(); }
+$('btnAdd').onclick=()=>openForm();
+$('btnBack').onclick=back;
+$('btnSave').onclick=async()=>{
+    const ac=$('f_aircraft').value.trim();
+    if(!ac) return showMsg('Aircraft registration is required','err');
+    const body={aircraft:ac}; DATES.forEach(k=>body[k]=$('f_'+k).value);
+    $('btnSave').disabled=true;
+    try{ await api(editingId?'update':'create','aircraft_docs',{id:editingId,body}); showMsg('Saved successfully','ok'); setTimeout(back,500); }
+    catch(e){ showMsg(e.message,'err'); }
+    finally{ $('btnSave').disabled=false; }
+};
+
+/* ---------- crew file ---------- */
+let crew=[];
+async function loadCrew(){
+    try{ crew=await api('list','crew'); }catch(e){ $('cBody').innerHTML=`<tr><td colspan="8" class="empty">${esc(e.message)}</td></tr>`; return; }
+    renderCrew();
+}
+function renderCrew(){
+    const t=$('cSearch').value.trim().toLowerCase();
+    const list=crew.filter(c=>!t||(c.name||'').toLowerCase().includes(t)||(c.crew_code||'').toLowerCase().includes(t)).sort((a,b)=>a.id-b.id);
+    $('cBody').innerHTML=list.length?list.map((c,i)=>`<tr><td>${i+1}</td><td>${esc(c.name)}</td><td>${esc(c.crew_code)}</td><td>${esc(c.position)}</td><td>${esc(c.passport_no)}</td>${cell(c.passport_expiry)}<td>${esc(c.card_no)}</td>${cell(c.card_expiry)}</tr>`).join(''):'<tr><td colspan="8" class="empty">No crew found</td></tr>';
+}
+$('cSearch').addEventListener('input',renderCrew);
+$('cReset').onclick=()=>{$('cSearch').value='';renderCrew();};
+
+load();
+</script>
+</body>
+</html>

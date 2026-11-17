@@ -1,0 +1,13 @@
+CREATE DATABASE IF NOT EXISTS aerojet CHARACTER SET utf8mb4;
+USE aerojet;
+CREATE TABLE users(id INT AUTO_INCREMENT PRIMARY KEY,name VARCHAR(100),email VARCHAR(150) UNIQUE,password_hash VARCHAR(255),role ENUM('admin','staff') DEFAULT 'staff');
+CREATE TABLE flight_types(id INT AUTO_INCREMENT PRIMARY KEY,code VARCHAR(30) UNIQUE,name VARCHAR(100));
+CREATE TABLE voyages(id INT AUTO_INCREMENT PRIMARY KEY,trip_date DATE NOT NULL,trip_no VARCHAR(30),flight_no VARCHAR(30) NOT NULL,flight_type VARCHAR(30),ac_reg VARCHAR(20),ac_type VARCHAR(30),origin VARCHAR(60),destination VARCHAR(60),pax INT,cargo_kg DECIMAL(10,1),seats INT,payload_kg DECIMAL(10,1),distance_km DECIMAL(10,1),hours_flown DECIMAL(5,2),INDEX(trip_date));
+CREATE TABLE crew(id INT AUTO_INCREMENT PRIMARY KEY,name VARCHAR(100) NOT NULL,crew_code VARCHAR(30) UNIQUE,position VARCHAR(40));
+CREATE TABLE crew_log(id INT AUTO_INCREMENT PRIMARY KEY,crew_id INT NOT NULL,voyage_id INT NULL,log_date DATE NOT NULL,flight_hours DECIMAL(5,2) DEFAULT 0,duty_hours DECIMAL(5,2) DEFAULT 0,INDEX(crew_id,log_date),FOREIGN KEY(crew_id) REFERENCES crew(id) ON DELETE CASCADE,FOREIGN KEY(voyage_id) REFERENCES voyages(id) ON DELETE SET NULL);
+CREATE TABLE crew_roster(id INT AUTO_INCREMENT PRIMARY KEY,crew_id INT,flight_no VARCHAR(30),origin VARCHAR(60),destination VARCHAR(60),roster_date DATE,status VARCHAR(20),FOREIGN KEY(crew_id) REFERENCES crew(id) ON DELETE SET NULL);
+CREATE TABLE dispatchers(id INT AUTO_INCREMENT PRIMARY KEY,name VARCHAR(100),code VARCHAR(30),duty_type VARCHAR(30),shift_date DATE,status VARCHAR(20) DEFAULT 'Active');
+CREATE TABLE postholders(id INT AUTO_INCREMENT PRIMARY KEY,title VARCHAR(100),name VARCHAR(100),crm VARCHAR(60),dgr VARCHAR(60),avsec VARCHAR(60),sms VARCHAR(60));
+CREATE TABLE aircraft_docs(id INT AUTO_INCREMENT PRIMARY KEY,aircraft VARCHAR(20),cor DATE,coa DATE,coi DATE,rl DATE,nc DATE,wb DATE,asl DATE,aoc DATE,aoc_ops DATE,spp DATE,foc DATE,crs DATE);
+INSERT INTO flight_types(code,name) VALUES('FOKKER50','FOKKER 50'),('A320','A320'),('B737-800','B737-800');
+INSERT INTO crew(name,crew_code,position) VALUES('John Smith','CR-001','Pilot'),('Sarah Williams','CR-002','Cabin Crew'),('David Brown','CR-003','Engineer');

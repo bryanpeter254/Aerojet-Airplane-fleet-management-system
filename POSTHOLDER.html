@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>POSTHOLDER MANAGEMENT</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Arial,Helvetica,sans-serif;background:#edf3fa;color:#0f172a}
+
+/* HEADER */
+.topbar{width:100%;background:linear-gradient(135deg,#07162d,#0d2c56);padding:20px 30px;display:flex;justify-content:space-between;align-items:center;color:white}
+.logo{display:flex;align-items:center;gap:15px}
+.logo-box{width:65px;height:65px;border-radius:18px;background:linear-gradient(135deg,#00b7ff,#005eff);display:flex;align-items:center;justify-content:center;font-size:30px}
+.title h1{font-size:26px}
+.title p{font-size:13px;color:#dbeafe}
+
+/* NAVBAR */
+.navbar{background:#0f213d;display:flex;flex-wrap:wrap;justify-content:center;gap:10px;padding:14px}
+.navbar a{text-decoration:none;color:white;padding:12px 18px;border-radius:12px;font-weight:bold;font-size:14px;background:rgba(255,255,255,0.05);transition:0.3s}
+.navbar a:hover,.navbar a.active{background:linear-gradient(135deg,#00b7ff,#005eff);transform:translateY(-3px)}
+
+/* LAYOUT */
+.container{width:95%;max-width:1500px;margin:40px auto}
+.page-title{margin-bottom:25px}
+.page-title h2{font-size:38px}
+.page-title p{color:#64748b;margin-top:6px}
+.card{background:white;padding:25px;border-radius:25px;box-shadow:0 10px 30px rgba(0,0,0,0.08);margin-bottom:30px}
+.card h3{margin-bottom:20px;font-size:22px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
+.input-group{display:flex;flex-direction:column}
+label{font-weight:bold;margin-bottom:8px;font-size:14px}
+input,select{height:50px;border-radius:12px;border:1px solid #dbe4ef;padding:0 15px;background:#f8fbff;outline:none;font-size:14px;width:100%}
+input:focus,select:focus{border-color:#00aaff;box-shadow:0 0 0 4px rgba(0,170,255,0.12)}
+input[readonly]{background:#eef2f7;color:#64748b}
+input[type=file]{padding:12px 15px;height:auto}
+
+/* SEARCH BAR */
+.search-row{display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:end}
+.search-box{display:grid;grid-template-columns:140px 80px 1fr;gap:10px}
+.sort-box{display:grid;grid-template-columns:140px 110px;gap:10px}
+.search-row .group-title{font-weight:bold;font-size:14px;margin-bottom:8px}
+.toolbar{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:15px;margin-top:20px}
+.legend{display:flex;gap:20px;font-size:13px;font-weight:bold}
+.legend span{display:flex;align-items:center;gap:8px}
+.dot{width:16px;height:16px;border-radius:4px;display:inline-block}
+.dot.exp{background:#ef4444}.dot.warn{background:#f59e0b}
+
+/* BUTTONS */
+.buttons{margin-top:20px;display:flex;gap:15px;flex-wrap:wrap}
+.btn{padding:14px 22px;border:none;border-radius:12px;font-weight:bold;cursor:pointer;transition:0.3s;font-size:14px}
+.primary{background:linear-gradient(135deg,#00b7ff,#005eff);color:white}
+.dark{background:#0f172a;color:white}
+.green{background:linear-gradient(135deg,#10b981,#059669);color:white}
+.btn:hover{transform:translateY(-4px)}
+
+/* TABLE */
+.table-card{background:white;padding:25px;border-radius:25px;box-shadow:0 10px 30px rgba(0,0,0,0.08);overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:1100px}
+thead{background:linear-gradient(135deg,#07162d,#0d2c56);color:white}
+th,td{padding:14px;font-size:14px;text-align:left}
+tbody tr{border-bottom:1px solid #e2e8f0}
+tbody tr:hover{background:#f8fbff}
+td.expired,.date-input.expired{background:#fee2e2;color:#b91c1c;font-weight:bold}
+td.warn,.date-input.warn{background:#fef3c7;color:#b45309;font-weight:bold}
+.action-btn{padding:8px 12px;border:none;border-radius:10px;cursor:pointer;font-size:12px;color:white}
+.edit{background:#f59e0b}
+.delete{background:#ef4444}
+.print-area{margin-top:20px;display:flex;justify-content:flex-end}
+.print-btn{background:linear-gradient(135deg,#10b981,#059669);color:white;border:none;padding:14px 24px;border-radius:14px;cursor:pointer;font-weight:bold}
+.empty{text-align:center;color:#64748b;padding:30px}
+
+/* FORM */
+.date-input.expired,.date-input.warn{border-color:currentColor}
+.photo-wrap{display:flex;align-items:center;gap:15px}
+.photo-preview{width:80px;height:80px;border-radius:14px;background:#e2e8f0 center/cover no-repeat;border:1px solid #dbe4ef;flex:none}
+.pair{display:grid;grid-template-columns:1fr;gap:8px}
+#msg{margin-top:15px;font-weight:bold}
+#msg.err{color:#b91c1c}#msg.ok{color:#059669}
+.hidden{display:none}
+
+@media(max-width:800px){.search-row{grid-template-columns:1fr}.search-box{grid-template-columns:1fr 70px 1fr}}
+@media print{.navbar,.card,.print-area,.action-btn,.toolbar button,#listView .search-card{display:none!important}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+    <div class="logo">
+        <div class="logo-box">📄</div>
+        <div class="title">
+            <h1>AEROJET AVIATION</h1>
+            <p>POSTHOLDER MANAGEMENT SYSTEM</p>
+        </div>
+    </div>
+</div>
+
+<div class="navbar">
+    
+    <a href="VOYAGE.html">VOYAGE</a>
+    <a href="REPORT.html">REPORT</a>
+    <a href="CREW.html">CREW</a>
+    <a href="CREWREPORT.html">CREWREPORT</a>
+    <a href="CREWROSTER.html">CREWROSTER</a>
+    <a href="DISPATCHER.html">DISPATCHER</a>
+    <a href="#" class="active">POSTHOLDER</a>
+    <a href="DOCUMENTS.html">DOCUMENTS</a>
+    <a href="SUMMARY.html">SUMMARY</a>
+    <a href="CARGO.html">CARGO</a>
+    <a href="MASTER.html">MASTER</a>
+    <a href="users.html">USERS</a>
+    <a href="#">PASSWORD</a>
+    <a href="index.html">LOGOUT</a>
+</div>
+
+<div class="container">
+
+<!-- ================= LIST VIEW ================= -->
+<div id="listView">
+
+    <div class="page-title">
+        <h2>Postholder Management</h2>
+        <p>Manage aviation compliance roles, certifications and approvals</p>
+    </div>
+
+    <div class="card search-card">
+        <div class="search-row">
+            <div>
+                <div class="group-title">Search</div>
+                <div class="search-box">
+                    <select id="sField">
+                        <option value="id">Id</option>
+                        <option value="name">Name</option>
+                        <option value="title">Title</option>
+                        <option value="designation">Designation</option>
+                        <option value="card_no">CardNo</option>
+                        <option value="company">Company</option>
+                    </select>
+                    <select id="sOp"><option value="=">=</option><option value="like">Like</option></select>
+                    <input type="text" id="sText" placeholder="Search value">
+                </div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr auto;gap:20px">
+                <div>
+                    <div class="group-title">PO Title</div>
+                    <select id="sTitle"><option value="">Select</option></select>
+                </div>
+                <div>
+                    <div class="group-title">Sort By</div>
+                    <div class="sort-box">
+                        <select id="sortField">
+                            <option value="id">Id</option>
+                            <option value="card_no">CardNo</option>
+                            <option value="company">Company</option>
+                            <option value="title">Title</option>
+                        </select>
+                        <select id="sortDir"><option value="asc">Asc</option><option value="desc">Desc</option></select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="buttons">
+            <button class="btn primary" id="btnSearch">Search</button>
+            <button class="btn dark" id="btnReset">Reset</button>
+            <button class="btn green" id="btnAdd">ADD NEW</button>
+        </div>
+    </div>
+
+    <div class="table-card">
+        <table>
+            <thead>
+                <tr>
+                    <th>NO</th><th>TITLE</th><th>NAME</th><th>CRM</th><th>DGR</th><th>AVSEC</th><th>SMS</th><th>Edit</th><th>DELETE</th>
+                </tr>
+            </thead>
+            <tbody id="tbody"><tr><td colspan="9" class="empty">Loading…</td></tr></tbody>
+        </table>
+
+        <div class="toolbar">
+            <div class="legend">
+                <span><i class="dot exp"></i> Expired</span>
+                <span><i class="dot warn"></i> Expire within 30 days</span>
+            </div>
+            <button class="print-btn" onclick="window.print()">🖨 Print Postholder Report</button>
+        </div>
+    </div>
+</div>
+
+<!-- ================= FORM VIEW ================= -->
+<div id="formView" class="hidden">
+
+    <div class="page-title">
+        <h2>Postholder Management</h2>
+        <p id="formSub">Add a new postholder</p>
+    </div>
+
+    <div class="card">
+        <div class="grid">
+
+            <div class="input-group"><label>ID</label><input type="text" id="f_id" readonly placeholder="Auto"></div>
+
+            <div class="input-group">
+                <label>Photo</label>
+                <div class="photo-wrap">
+                    <div class="photo-preview" id="photoPrev"></div>
+                    <input type="file" id="f_photo" accept="image/*">
+                </div>
+            </div>
+
+            <div class="input-group"><label>Status</label>
+                <select id="f_status"><option>Active</option><option>Inactive</option></select>
+            </div>
+
+            <div class="input-group"><label>No</label><input type="number" id="f_seq_no" min="0"></div>
+
+            <div class="input-group"><label>First Name As per Passport</label><input type="text" id="f_first_name"></div>
+            <div class="input-group"><label>Last Name</label><input type="text" id="f_last_name"></div>
+            <div class="input-group"><label>Nationality</label><input type="text" id="f_nationality"></div>
+            <div class="input-group"><label>Sex</label>
+                <select id="f_sex"><option value="">Select</option><option>Male</option><option>Female</option></select>
+            </div>
+
+            <div class="input-group"><label>Passport Number</label><input type="text" id="f_passport_no"></div>
+            <div class="input-group"><label>Passport Expiry Date</label><input type="date" class="date-input" id="f_passport_expiry"></div>
+            <div class="input-group"><label>Date Of Birth</label><input type="date" id="f_dob"></div>
+            <div class="input-group"><label>Show Roster</label>
+                <select id="f_show_roster"><option>No</option><option>Yes</option></select>
+            </div>
+
+            <div class="input-group"><label>CRM Expiry Date</label><input type="date" class="date-input" id="f_crm"></div>
+            <div class="input-group"><label>DGR Expiry Date</label><input type="date" class="date-input" id="f_dgr"></div>
+            <div class="input-group"><label>AVSEC Expiry Date</label><input type="date" class="date-input" id="f_avsec"></div>
+            <div class="input-group"><label>SMS Expiry Date</label><input type="date" class="date-input" id="f_sms"></div>
+
+            <div class="input-group"><label>Designation</label>
+                <select id="f_designation">
+                    <option>Accountable Manager</option>
+                    <option>Flight Operations Manager</option>
+                    <option>Chief Pilot</option>
+                    <option>Crew Training Manager</option>
+                    <option>Ground Operations Manager</option>
+                    <option>Maintenance Manager</option>
+                    <option>Quality Manager</option>
+                    <option>Safety Manager</option>
+                    <option>Security Manager</option>
+                </select>
+            </div>
+            <div class="input-group"><label>Email</label><input type="email" id="f_email"></div>
+            <div class="input-group"><label>Card Number</label><input type="text" id="f_card_no"></div>
+            <div class="input-group"><label>Card Expiry Date</label><input type="date" class="date-input" id="f_card_expiry"></div>
+            <div class="input-group"><label>Company</label><input type="text" id="f_company"></div>
+
+        </div>
+
+        <div class="buttons">
+            <button class="btn green" id="btnSave">Save</button>
+            <button class="btn dark" id="btnBack">Back</button>
+        </div>
+        <div id="msg"></div>
+    </div>
+</div>
+
+</div>
+
+<script>
+const API='api.php', TABLE='postholders';
+let rows=[], editingId=null, photoData=null;
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+async function api(action,{id,body,params}={}){
+    let url=`${API}?action=${action}&table=${TABLE}`+(id?`&id=${id}`:'');
+    const r=await fetch(url,{method:body?'POST':'GET',headers:{'Content-Type':'application/json'},credentials:'same-origin',body:body?JSON.stringify(body):undefined});
+    if(r.status===401){location.href='index.html';return;}
+    const d=await r.json();
+    if(!r.ok) throw new Error(d.error||'Request failed');
+    return d;
+}
+
+/* ---------- expiry logic ---------- */
+function expiryState(v){
+    if(!v||!/^\d{4}-\d{2}-\d{2}$/.test(v)) return '';
+    const today=new Date(); today.setHours(0,0,0,0);
+    const d=new Date(v+'T00:00:00');
+    const days=Math.floor((d-today)/86400000);
+    if(days<0) return 'expired';
+    if(days<=30) return 'warn';
+    return '';
+}
+function fmt(v){
+    if(!v) return '';
+    if(!/^\d{4}-\d{2}-\d{2}$/.test(v)) return v;           // old text values like "Completed"
+    const [y,m,d]=v.split('-');
+    return `${d}-${['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+m-1]}-${y}`;
+}
+const cell=v=>`<td class="${expiryState(v)}">${esc(fmt(v))}</td>`;
+
+/* ---------- list ---------- */
+async function load(){
+    try{ rows=await api('list'); }catch(e){ $('tbody').innerHTML=`<tr><td colspan="9" class="empty">${esc(e.message)}</td></tr>`; return; }
+    const titles=[...new Set(rows.map(r=>r.title).filter(Boolean))].sort();
+    const cur=$('sTitle').value;
+    $('sTitle').innerHTML='<option value="">Select</option>'+titles.map(t=>`<option>${esc(t)}</option>`).join('');
+    $('sTitle').value=cur;
+    render();
+}
+function render(){
+    const f=$('sField').value, op=$('sOp').value, txt=$('sText').value.trim().toLowerCase(), title=$('sTitle').value;
+    let list=rows.filter(r=>{
+        if(title && r.title!==title) return false;
+        if(txt){
+            const v=String(r[f]??'').toLowerCase();
+            if(op==='=' ? v!==txt : !v.includes(txt)) return false;
+        }
+        return true;
+    });
+    const sf=$('sortField').value, dir=$('sortDir').value==='asc'?1:-1;
+    list.sort((a,b)=>{
+        const x=a[sf]??'', y=b[sf]??'';
+        const nx=parseFloat(x), ny=parseFloat(y);
+        if(!isNaN(nx)&&!isNaN(ny)) return (nx-ny)*dir;
+        return String(x).localeCompare(String(y))*dir;
+    });
+    $('tbody').innerHTML=list.length?list.map((r,i)=>`
+        <tr>
+            <td>${esc(r.seq_no||i+1)}</td>
+            <td>${esc(r.title)}</td>
+            <td>${esc(r.name)}</td>
+            ${cell(r.crm)}${cell(r.dgr)}${cell(r.avsec)}${cell(r.sms)}
+            <td><button class="action-btn edit" onclick="openForm(${r.id})">Edit</button></td>
+            <td><button class="action-btn delete" onclick="del(${r.id})">Delete</button></td>
+        </tr>`).join(''):'<tr><td colspan="9" class="empty">No postholders found</td></tr>';
+}
+$('btnSearch').onclick=render;
+$('btnReset').onclick=()=>{$('sField').value='id';$('sOp').value='=';$('sText').value='';$('sTitle').value='';$('sortField').value='id';$('sortDir').value='asc';render();};
+$('sText').addEventListener('keydown',e=>{if(e.key==='Enter')render();});
+
+async function del(id){
+    if(!confirm('Delete this postholder?')) return;
+    try{ await api('delete',{id,body:{}}); await load(); }catch(e){ alert(e.message); }
+}
+
+/* ---------- form ---------- */
+const TEXT=['first_name','last_name','nationality','sex','passport_no','passport_expiry','dob','crm','dgr','avsec','sms','designation','email','card_no','card_expiry','status','show_roster','seq_no','company'];
+
+function paintDates(){
+    document.querySelectorAll('.date-input').forEach(el=>{
+        el.classList.remove('expired','warn');
+        const s=expiryState(el.value); if(s) el.classList.add(s);
+    });
+}
+document.querySelectorAll('.date-input').forEach(el=>el.addEventListener('input',paintDates));
+
+function setPhoto(src){
+    photoData=src||null;
+    $('photoPrev').style.backgroundImage=src?`url("${src}")`:'none';
+}
+$('f_photo').addEventListener('change',e=>{
+    const file=e.target.files[0]; if(!file) return;
+    const img=new Image(), fr=new FileReader();
+    fr.onload=()=>{ img.onload=()=>{                           // shrink to keep the database small
+        const max=300, k=Math.min(1,max/Math.max(img.width,img.height));
+        const c=document.createElement('canvas'); c.width=img.width*k; c.height=img.height*k;
+        c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+        setPhoto(c.toDataURL('image/jpeg',0.8));
+    }; img.src=fr.result; };
+    fr.readAsDataURL(file);
+});
+
+function showMsg(t,cls){ $('msg').textContent=t; $('msg').className=cls||''; }
+
+function openForm(id){
+    editingId=id||null; showMsg('');
+    const r=id?rows.find(x=>x.id==id):null;
+    $('f_id').value=r?r.id:'';
+    TEXT.forEach(k=>{ const el=$('f_'+k); el.value=r&&r[k]!=null?r[k]:''; });
+    if(!r){ $('f_status').value='Active'; $('f_show_roster').value='No'; $('f_designation').selectedIndex=0; }
+    else {
+        if(!r.status) $('f_status').value='Active';
+        if(!r.show_roster) $('f_show_roster').value='No';
+        if(r.designation||r.title){ const d=r.designation||r.title; if(![...$('f_designation').options].some(o=>o.value===d)) $('f_designation').add(new Option(d,d)); $('f_designation').value=d; }
+        // old rows may hold plain text (e.g. "Completed") in CRM/DGR/... – date inputs can't show that
+        ['crm','dgr','avsec','sms'].forEach(k=>{ if(!/^\d{4}-\d{2}-\d{2}$/.test($('f_'+k).value)) $('f_'+k).value=''; });
+    }
+    $('f_photo').value=''; setPhoto(r?r.photo:null);
+    $('formSub').textContent=r?'Edit postholder':'Add a new postholder';
+    paintDates();
+    $('listView').classList.add('hidden'); $('formView').classList.remove('hidden');
+    window.scrollTo(0,0);
+}
+function back(){
+    $('formView').classList.add('hidden'); $('listView').classList.remove('hidden'); load();
+}
+$('btnAdd').onclick=()=>openForm();
+$('btnBack').onclick=back;
+
+$('btnSave').onclick=async()=>{
+    const v=k=>$('f_'+k).value.trim();
+    if(!v('first_name')||!v('last_name')) return showMsg('First name and last name are required','err');
+    const body={
+        title:v('designation'), name:(v('first_name')+' '+v('last_name')).trim(),
+        photo:photoData||'' };
+    TEXT.forEach(k=>body[k]=v(k));
+    $('btnSave').disabled=true;
+    try{
+        await api(editingId?'update':'create',{id:editingId,body});
+        showMsg('Saved successfully','ok');
+        setTimeout(back,500);
+    }catch(e){ showMsg(e.message,'err'); }
+    finally{ $('btnSave').disabled=false; }
+};
+
+load();
+</script>
+</body>
+</html>

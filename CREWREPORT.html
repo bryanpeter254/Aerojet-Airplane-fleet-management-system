@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CREW REPORT</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Arial,Helvetica,sans-serif;background:#edf3fa;color:#0f172a}
+.topbar{width:100%;background:linear-gradient(135deg,#07162d,#0d2c56);padding:20px 30px;display:flex;align-items:center;justify-content:space-between;color:#fff;box-shadow:0 5px 24px rgba(0,0,0,.25)}
+.logo{display:flex;align-items:center;gap:16px}
+.logo-icon{width:65px;height:65px;border-radius:18px;background:linear-gradient(135deg,#00b7ff,#005eff);display:flex;align-items:center;justify-content:center;font-size:30px}
+.logo-text h1{font-size:28px}
+.logo-text p{margin-top:5px;font-size:13px;letter-spacing:1px;color:#dbeafe}
+.navbar{width:100%;background:#0f213d;padding:14px 18px;display:flex;flex-wrap:wrap;justify-content:center;gap:12px}
+.navbar a{text-decoration:none;color:#fff;padding:12px 20px;border-radius:12px;font-size:14px;font-weight:bold;background:rgba(255,255,255,.05);transition:.3s}
+.navbar a:hover,.navbar a.active{background:linear-gradient(135deg,#00b7ff,#005eff);transform:translateY(-3px)}
+.container{width:95%;max-width:1500px;margin:40px auto}
+.page-title{margin-bottom:30px}
+.page-title h2{font-size:40px;margin-bottom:10px}
+.page-title p{color:#64748b;font-size:16px}
+.filter-card{background:#fff;border-radius:28px;padding:35px;box-shadow:0 10px 30px rgba(0,0,0,.08);margin-bottom:35px}
+.filter-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:24px}
+.input-group{display:flex;flex-direction:column}
+.input-group label{margin-bottom:10px;font-weight:bold}
+.input-group input,.input-group select{height:54px;border-radius:14px;border:1px solid #dbe4ef;background:#f8fbff;padding:0 16px;font-size:15px;outline:none;transition:.3s}
+.input-group input:focus,.input-group select:focus{border-color:#00aaff;box-shadow:0 0 0 4px rgba(0,170,255,.12)}
+.button-area{margin-top:35px;display:flex;flex-wrap:wrap;gap:18px}
+.btn{border:none;padding:15px 28px;border-radius:15px;font-size:15px;font-weight:bold;cursor:pointer;transition:.3s}
+.primary-btn{background:linear-gradient(135deg,#00b7ff,#005eff);color:#fff}
+.secondary-btn{background:#0f172a;color:#fff}
+.print-btn{background:linear-gradient(135deg,#10b981,#059669);color:#fff}
+.btn:hover{transform:translateY(-4px)}
+.table-card{background:#fff;border-radius:28px;padding:30px;box-shadow:0 10px 30px rgba(0,0,0,.08);overflow-x:auto}
+.table-title{margin-bottom:10px}
+.table-title h3{font-size:30px}
+.meta{color:#64748b;font-size:14px;margin-bottom:18px}
+table{width:100%;border-collapse:collapse;min-width:1000px}
+thead{background:linear-gradient(135deg,#07162d,#0d2c56);color:#fff}
+th{padding:18px;text-align:left;font-size:14px}
+td{padding:16px 18px;border-bottom:1px solid #e2e8f0;font-size:14px}
+tbody tr{transition:.3s}
+tbody tr:hover{background:#f8fbff}
+.badge{padding:8px 14px;border-radius:30px;font-size:12px;font-weight:bold;color:#fff;white-space:nowrap}
+.b-assigned{background:#10b981}.b-standby{background:#f59e0b}.b-off{background:#64748b}.b-flown{background:#005eff}
+.print-area{margin-top:25px;display:flex;justify-content:flex-end}
+.notfound{background:#fee2e2;color:#991b1b;border-radius:16px;padding:22px 26px;line-height:1.7}
+.notfound b{font-size:18px}
+.hide{display:none}
+@media(max-width:768px){.topbar{flex-direction:column;gap:20px;text-align:center}.page-title h2{font-size:30px}.filter-card,.table-card{padding:22px}}
+@media print{.topbar,.navbar,.page-title,.filter-card,.print-area{display:none!important}body{background:#fff}.table-card{box-shadow:none;padding:0}table{min-width:0}th,td{padding:6px;font-size:11px}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+ <div class="logo">
+  <div class="logo-icon">📋</div>
+  <div class="logo-text"><h1>AEROJET AVIATION LIMITED</h1><p>CREW REPORTING SYSTEM</p></div>
+ </div>
+</div>
+
+<div class="navbar">
+ 
+ <a href="VOYAGE.html">VOYAGE</a>
+ <a href="REPORT.html">REPORT</a>
+ <a href="CREW.html">CREW</a>
+ <a href="#" class="active">CREWREPORT</a>
+ <a href="CREWROSTER.html">CREWROSTER</a>
+ <a href="DISPATCHER.html">DISPATCHER</a>
+ <a href="POSTHOLDER.html">POSTHOLDER</a>
+ <a href="DOCUMENTS.html">DOCUMENTS</a>
+ <a href="SUMMARY.html">SUMMARY</a>
+ <a href="CARGO.html">CARGO</a>
+ <a href="MASTER.html">MASTER</a>
+ <a href="users.html">USERS</a>
+ <a href="#">PASSWORD</a>
+ <a href="index.html">LOGOUT</a>
+</div>
+
+<div class="container">
+ <div class="page-title">
+  <h2>Crew Report Dashboard</h2>
+  <p>Roster assignments from CREWROSTER together with the crew actually flown on the VOYAGE trip reports.</p>
+ </div>
+
+ <div class="filter-card">
+  <div class="filter-grid">
+   <div class="input-group"><label>Crew Name</label><input id="q_name" placeholder="Search crew name"></div>
+   <div class="input-group"><label>Crew ID</label><input id="q_code" placeholder="Enter crew ID"></div>
+   <div class="input-group"><label>Position</label><select id="q_pos"><option value="">All positions</option></select></div>
+   <div class="input-group"><label>Flight No</label><input id="q_flight" placeholder="Flight number"></div>
+   <div class="input-group"><label>From Date</label><input type="date" id="q_from"></div>
+   <div class="input-group"><label>To Date</label><input type="date" id="q_to"></div>
+  </div>
+  <div class="button-area">
+   <button class="btn primary-btn" onclick="render()">Generate Report</button>
+   <button class="btn secondary-btn" onclick="exportCsv()">Export Excel</button>
+  </div>
+ </div>
+
+ <div class="table-card">
+  <div class="table-title"><h3>Crew Operational Reports</h3></div>
+  <div class="meta" id="meta"></div>
+  <div id="result"><p class="meta">Loading…</p></div>
+  <div class="print-area"><button class="btn print-btn" onclick="window.print()">🖨 Print Crew Report</button></div>
+ </div>
+</div>
+
+<script src="js/api.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+const esc=v=>Api.esc(v==null?'':String(v));
+const list=async t=>{const r=await Api.list(t);return Array.isArray(r)?r:(r.data||r.rows||[])};
+/* slot order on the VOYAGE form: CAPT.COM, POS. CAPT, REL. CAPT, F.OFF, POS F.OFF, REL F.OFF, GE */
+const SLOT=['Captain','Captain','Captain','First Officer','First Officer','First Officer','Engineer'];
+let ROWS=[],SHOWN=[];
+
+function build(CREW,ROS,TR){
+ const byId={},byName={};
+ CREW.forEach(c=>{byId[c.id]=c;byName[(c.name||'').trim().toLowerCase()]=c});
+ const regOf={},map=new Map();
+ const key=(n,d,f)=>[n,d,f].map(x=>String(x||'').trim().toLowerCase()).join('|');
+
+ /* actual flights from trip reports */
+ TR.forEach(r=>{
+  let sec=[],crew={};
+  try{sec=JSON.parse(r.sectors_json||'[]')}catch(e){}
+  try{crew=JSON.parse(r.crew_json||'{}')}catch(e){}
+  const date=String(r.report_date).slice(0,10),flights=sec.filter(s=>s.flight_no);
+  flights.forEach(s=>regOf[date+'|'+s.flight_no.trim().toLowerCase()]=r.ac_reg||'');
+  const people=[...(crew.cockpit||[]).map((n,i)=>[n,SLOT[i]||'Pilot']),...(crew.cabin||[]).map(n=>[n,'Cabin Crew'])]
+   .filter(([n])=>n&&n!=='NIL');
+  people.forEach(([n,slot])=>flights.forEach(s=>{
+   const c=byName[n.trim().toLowerCase()];
+   map.set(key(n,date,s.flight_no),{name:n,code:c?c.crew_code:'',pos:c&&c.position?c.position:slot,flight:s.flight_no,reg:r.ac_reg||'',date,status:'FLOWN'});
+  }));
+ });
+
+ /* roster entries (a roster line that was flown shows once, as FLOWN) */
+ ROS.forEach(r=>{
+  const c=byId[r.crew_id],name=c?c.name:'(crew removed)',date=String(r.roster_date||'').slice(0,10);
+  const k=key(name,date,r.flight_no);
+  if(map.has(k))return;
+  map.set(k,{name,code:c?c.crew_code:'',pos:c?c.position:'',flight:r.flight_no,
+   reg:regOf[date+'|'+String(r.flight_no||'').trim().toLowerCase()]||'',date,status:(r.status||'Assigned')});
+ });
+ return [...map.values()].sort((a,b)=>b.date.localeCompare(a.date)||a.name.localeCompare(b.name));
+}
+
+const badge=s=>{const k=String(s).toLowerCase();
+ const c=k==='flown'?'b-flown':k==='standby'?'b-standby':k==='off duty'?'b-off':'b-assigned';
+ return `<span class="badge ${c}">${esc(String(s).toUpperCase())}</span>`};
+
+function filtered(){
+ const n=$('q_name').value.trim().toLowerCase(),c=$('q_code').value.trim().toLowerCase(),p=$('q_pos').value,
+  f=$('q_flight').value.trim().toLowerCase(),d1=$('q_from').value,d2=$('q_to').value;
+ return ROWS.filter(r=>(!n||r.name.toLowerCase().includes(n))&&(!c||(r.code||'').toLowerCase().includes(c))&&(!p||r.pos===p)&&
+  (!f||(r.flight||'').toLowerCase().includes(f))&&(!d1||r.date>=d1)&&(!d2||r.date<=d2));
+}
+function render(){
+ SHOWN=filtered();
+ if(!SHOWN.length){
+  $('meta').textContent='';
+  $('result').innerHTML='<div class="notfound"><b>Error</b><br>The record which you are searching, not found</div>';return;
+ }
+ $('meta').textContent=SHOWN.length+' record'+(SHOWN.length===1?'':'s')+' found';
+ $('result').innerHTML=`<table><thead><tr><th>NO</th><th>CREW NAME</th><th>CREW ID</th><th>POSITION</th><th>FLIGHT NO</th><th>AIRCRAFT REG</th><th>DATE</th><th>STATUS</th></tr></thead><tbody>`+
+  SHOWN.map((r,i)=>`<tr><td>${i+1}</td><td>${esc(r.name)}</td><td>${esc(r.code)}</td><td>${esc(r.pos)}</td><td>${esc(r.flight)}</td><td>${esc(r.reg)}</td><td>${esc(r.date)}</td><td>${badge(r.status)}</td></tr>`).join('')+'</tbody></table>';
+}
+function exportCsv(){
+ if(!SHOWN.length)return alert('Nothing to export. Generate a report with results first.');
+ const q=v=>'"'+String(v==null?'':v).replace(/"/g,'""')+'"';
+ const lines=[['No','Crew Name','Crew ID','Position','Flight No','Aircraft Reg','Date','Status'].map(q).join(',')]
+  .concat(SHOWN.map((r,i)=>[i+1,r.name,r.code,r.pos,r.flight,r.reg,r.date,r.status].map(q).join(',')));
+ const a=document.createElement('a');
+ a.href=URL.createObjectURL(new Blob(['\ufeff'+lines.join('\r\n')],{type:'text/csv;charset=utf-8'}));
+ a.download='crew_report_'+new Date().toISOString().slice(0,10)+'.csv';a.click();URL.revokeObjectURL(a.href);
+}
+
+(async()=>{
+ let CREW=[],ROS=[],TR=[];
+ const fails=[];
+ try{CREW=await list('crew')}catch(e){fails.push('crew')}
+ try{ROS=await list('crew_roster')}catch(e){fails.push('crew roster')}
+ try{TR=await list('trip_reports')}catch(e){fails.push('trip reports')}
+ ROWS=build(CREW,ROS,TR);
+ const pos=[...new Set(ROWS.map(r=>r.pos).filter(Boolean))].sort();
+ $('q_pos').innerHTML='<option value="">All positions</option>'+pos.map(p=>`<option>${esc(p)}</option>`).join('');
+ render();
+ if(fails.length&&!ROWS.length)$('result').innerHTML='<div class="notfound"><b>Error</b><br>Could not load: '+esc(fails.join(', '))+'</div>';
+})();
+</script>
+</body>
+</html>

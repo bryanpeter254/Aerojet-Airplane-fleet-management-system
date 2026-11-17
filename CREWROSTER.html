@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CREW ROSTER</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Arial,Helvetica,sans-serif;background:#edf3fa;color:#0f172a}
+.topbar{width:100%;background:linear-gradient(135deg,#07162d,#0d2c56);padding:20px 30px;display:flex;align-items:center;justify-content:space-between;color:#fff;box-shadow:0 6px 25px rgba(0,0,0,.25)}
+.logo{display:flex;align-items:center;gap:16px}
+.logo-icon{width:65px;height:65px;border-radius:18px;background:linear-gradient(135deg,#00b7ff,#005eff);display:flex;align-items:center;justify-content:center;font-size:32px}
+.logo-text h1{font-size:28px}
+.logo-text p{font-size:13px;color:#dbeafe;margin-top:4px;letter-spacing:1px}
+.navbar{width:100%;background:#0f213d;display:flex;flex-wrap:wrap;justify-content:center;gap:12px;padding:14px 18px}
+.navbar a{text-decoration:none;color:#fff;padding:12px 18px;border-radius:12px;font-size:14px;font-weight:bold;background:rgba(255,255,255,.05);transition:.3s}
+.navbar a:hover,.navbar a.active{background:linear-gradient(135deg,#00b7ff,#005eff);transform:translateY(-3px)}
+.container{width:95%;max-width:1500px;margin:40px auto}
+.title{margin-bottom:25px}
+.title h2{font-size:40px}
+.title p{color:#64748b;margin-top:8px}
+.card{background:#fff;padding:30px;border-radius:28px;box-shadow:0 10px 30px rgba(0,0,0,.08);margin-bottom:30px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
+.input-group{display:flex;flex-direction:column}
+label{font-weight:bold;margin-bottom:8px}
+input,select{height:52px;border-radius:14px;border:1px solid #dbe4ef;background:#f8fbff;padding:0 15px;font-size:14px;outline:none;transition:.3s}
+input:focus,select:focus{border-color:#00aaff;box-shadow:0 0 0 4px rgba(0,170,255,.12)}
+.buttons{margin-top:25px;display:flex;gap:15px;flex-wrap:wrap}
+.btn{border:none;padding:14px 24px;border-radius:14px;font-weight:bold;cursor:pointer;transition:.3s;font-size:14px}
+.primary{background:linear-gradient(135deg,#00b7ff,#005eff);color:#fff}
+.dark{background:#0f172a;color:#fff}
+.btn:hover{transform:translateY(-4px)}
+.table-card{background:#fff;padding:30px;border-radius:28px;box-shadow:0 10px 30px rgba(0,0,0,.08);overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:1000px}
+thead{background:linear-gradient(135deg,#07162d,#0d2c56);color:#fff}
+th,td{padding:16px;text-align:left;font-size:14px}
+tbody tr{border-bottom:1px solid #e2e8f0}
+tbody tr:hover{background:#f8fbff}
+.action{display:flex;gap:10px}
+.edit{background:#f59e0b;color:#fff;padding:8px 12px;border-radius:10px;border:none;cursor:pointer;font-weight:bold}
+.delete{background:#ef4444;color:#fff;padding:8px 12px;border-radius:10px;border:none;cursor:pointer;font-weight:bold}
+.print-area{margin-top:20px;display:flex;justify-content:flex-end}
+.print-btn{background:linear-gradient(135deg,#10b981,#059669);color:#fff;border:none;padding:14px 24px;border-radius:14px;cursor:pointer;font-weight:bold}
+.hide{display:none}
+#err{background:#fee2e2;color:#991b1b;font-weight:bold}
+.editing{outline:3px solid #f59e0b}
+@media print{.topbar,.navbar,.card,.print-area,.action,th:last-child{display:none!important}body{background:#fff}.table-card{box-shadow:none;padding:0}table{min-width:0}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+ <div class="logo">
+  <div class="logo-icon">👨‍✈️</div>
+  <div class="logo-text"><h1>AEROJET AVIATION LIMITED</h1><p>CREW ROSTER MANAGEMENT</p></div>
+ </div>
+</div>
+
+<div class="navbar">
+ 
+ <a href="VOYAGE.html">VOYAGE</a>
+ <a href="REPORT.html">REPORT</a>
+ <a href="CREW.html">CREW</a>
+ <a href="CREWREPORT.html">CREWREPORT</a>
+ <a href="#" class="active">CREWROSTER</a>
+ <a href="DISPATCHER.html">DISPATCHER</a>
+ <a href="POSTHOLDER.html">POSTHOLDER</a>
+ <a href="DOCUMENTS.html">DOCUMENTS</a>
+ <a href="SUMMARY.html">SUMMARY</a>
+ <a href="CARGO.html">CARGO</a>
+ <a href="MASTER.html">MASTER</a>
+ <a href="users.html">USERS</a>
+ <a href="#">PASSWORD</a>
+ <a href="index.html">LOGOUT</a>
+</div>
+
+<div class="container">
+ <div class="title">
+  <h2>Crew Roster</h2>
+  <p>Assign crew to flights and manage duty schedules</p>
+ </div>
+
+ <div id="err" class="card hide"></div>
+
+ <div class="card" id="formCard">
+  <div class="grid">
+   <div class="input-group"><label>Crew Name</label><select id="f_crew"><option value="">Select crew</option></select></div>
+   <div class="input-group"><label>Flight No</label><input id="f_flight" placeholder="Enter flight number"></div>
+   <div class="input-group"><label>From</label><input id="f_from" placeholder="Departure"></div>
+   <div class="input-group"><label>To</label><input id="f_to" placeholder="Destination"></div>
+   <div class="input-group"><label>Date</label><input type="date" id="f_date"></div>
+   <div class="input-group"><label>Status</label>
+    <select id="f_status"><option>Assigned</option><option>Standby</option><option>Off Duty</option></select></div>
+  </div>
+  <div class="buttons">
+   <button class="btn primary" id="saveBtn" onclick="save()">Add Roster</button>
+   <button class="btn dark" onclick="clearForm()">Clear</button>
+  </div>
+ </div>
+
+ <div class="table-card">
+  <table>
+   <thead><tr><th>No</th><th>Crew Name</th><th>Flight No</th><th>From</th><th>To</th><th>Date</th><th>Status</th><th>Action</th></tr></thead>
+   <tbody id="body"></tbody>
+  </table>
+  <div class="print-area"><button class="print-btn" onclick="window.print()">🖨 Print Roster</button></div>
+ </div>
+</div>
+
+<script src="js/api.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+const esc=v=>Api.esc(v==null?'':String(v));
+const rows=async t=>{const r=await Api.list(t);return Array.isArray(r)?r:(r.data||r.rows||[])};
+const err=m=>{const b=$('err');b.textContent=m;b.classList.remove('hide');scrollTo(0,0)};
+const clearErr=()=>$('err').classList.add('hide');
+let CREW=[],ROS=[],EDIT=null;
+
+/* crew who are switched off the roster on the CREW page are not offered */
+const hidden=c=>['0','no','n','false','off'].includes(String(c.show_roster??'').trim().toLowerCase());
+const crewName=id=>{const c=CREW.find(x=>x.id==id);return c?c.name:'(crew removed)'};
+
+function fillCrew(keepId){
+ const list=CREW.filter(c=>!hidden(c)||c.id==keepId).sort((a,b)=>(a.name||'').localeCompare(b.name||''));
+ $('f_crew').innerHTML='<option value="">Select crew</option>'+list.map(c=>`<option value="${c.id}">${esc(c.name)}${c.crew_code?' ('+esc(c.crew_code)+')':''}</option>`).join('');
+}
+
+function render(){
+ const sorted=[...ROS].sort((a,b)=>String(b.roster_date||'').localeCompare(String(a.roster_date||''))||b.id-a.id);
+ $('body').innerHTML=sorted.map((r,i)=>`<tr>
+  <td>${i+1}</td><td>${esc(crewName(r.crew_id))}</td><td>${esc(r.flight_no)}</td><td>${esc(r.origin)}</td><td>${esc(r.destination)}</td>
+  <td>${esc(String(r.roster_date||'').slice(0,10))}</td><td>${esc(r.status)}</td>
+  <td class="action"><button class="edit" onclick="edit(${r.id})">Edit</button><button class="delete" onclick="del(${r.id})">Delete</button></td></tr>`).join('')
+  ||'<tr><td colspan="8">No roster entries yet. Fill in the form above and click Add Roster.</td></tr>';
+}
+
+async function load(){
+ try{CREW=await rows('crew')}catch(e){CREW=[];err('Could not load crew: '+e.message)}
+ try{ROS=await rows('crew_roster');clearErr()}catch(e){ROS=[];err('Could not load roster: '+e.message)}
+ fillCrew();render();
+}
+
+function clearForm(){
+ EDIT=null;fillCrew();
+ ['f_crew','f_flight','f_from','f_to','f_date'].forEach(k=>$(k).value='');
+ $('f_status').value='Assigned';$('saveBtn').textContent='Add Roster';$('formCard').classList.remove('editing');
+}
+function edit(id){
+ const r=ROS.find(x=>x.id==id);if(!r)return;
+ EDIT=id;fillCrew(r.crew_id);
+ $('f_crew').value=r.crew_id||'';$('f_flight').value=r.flight_no||'';$('f_from').value=r.origin||'';$('f_to').value=r.destination||'';
+ $('f_date').value=String(r.roster_date||'').slice(0,10);$('f_status').value=r.status||'Assigned';
+ $('saveBtn').textContent='Update Roster';$('formCard').classList.add('editing');scrollTo(0,0);
+}
+async function save(){
+ if(!$('f_crew').value)return alert('Please select a crew member.');
+ if(!$('f_flight').value.trim())return alert('Flight No is required.');
+ if(!$('f_date').value)return alert('Date is required.');
+ const body={crew_id:$('f_crew').value,flight_no:$('f_flight').value.trim(),origin:$('f_from').value.trim(),
+  destination:$('f_to').value.trim(),roster_date:$('f_date').value,status:$('f_status').value};
+ try{EDIT?await Api.update('crew_roster',EDIT,body):await Api.create('crew_roster',body);clearForm();await load()}
+ catch(e){err(e.message)}
+}
+async function del(id){
+ const r=ROS.find(x=>x.id==id);
+ if(confirm('Delete roster entry for '+(r?crewName(r.crew_id):'this crew')+'?'))
+  try{await Api.remove('crew_roster',id);if(EDIT==id)clearForm();await load()}catch(e){err(e.message)}
+}
+load();
+</script>
+</body>
+</html>

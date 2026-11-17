@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Voyage Management</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Arial,Helvetica,sans-serif;background:#eef4fb;color:#1e293b}
+.topbar{background:linear-gradient(135deg,#07162d,#0d2c56);padding:18px 30px;color:#fff;display:flex;align-items:center;gap:15px}
+.logo-icon{width:60px;height:60px;border-radius:16px;background:linear-gradient(135deg,#00aaff,#0066ff);display:flex;align-items:center;justify-content:center;font-size:30px}
+.topbar h1{font-size:28px}.topbar p{color:#cfe8ff;margin-top:4px;letter-spacing:1px;font-size:13px}
+.navbar{background:#0f213d;padding:14px 20px;display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+.navbar a{text-decoration:none;color:#fff;padding:12px 20px;border-radius:12px;font-size:14px;font-weight:bold;background:rgba(255,255,255,.05);transition:.3s}
+.navbar a:hover,.navbar a.active{background:linear-gradient(135deg,#00aaff,#005eff)}
+.container{width:95%;max-width:1500px;margin:40px auto}
+h2{font-size:34px;margin-bottom:6px}.sub{color:#64748b;margin-bottom:26px}
+.card{background:#fff;border-radius:24px;padding:28px;box-shadow:0 10px 30px rgba(0,0,0,.08);margin-bottom:30px;overflow-x:auto}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px;align-items:end}
+label{display:block;font-weight:700;margin-bottom:8px;font-size:14px}
+input,select,textarea{width:100%;height:46px;border:1px solid #dbe4ef;border-radius:12px;padding:0 12px;font-size:14px;background:#f8fbff;outline:none}
+textarea{height:70px;padding:10px;resize:vertical}
+input:focus,select:focus,textarea:focus{border-color:#0ea5e9;box-shadow:0 0 0 4px rgba(14,165,233,.12)}
+.btn{border:none;padding:13px 26px;border-radius:12px;font-size:15px;font-weight:bold;cursor:pointer;color:#fff}
+.b1{background:linear-gradient(135deg,#00aaff,#005eff)}.b2{background:#0f172a}.b3{background:#10b981}
+.row{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px;justify-content:space-between}
+table{width:100%;border-collapse:collapse}
+thead{background:linear-gradient(135deg,#07162d,#0d2c56);color:#fff}
+th{padding:12px;text-align:left;font-size:13px}td{padding:12px;border-bottom:1px solid #e2e8f0;font-size:14px}
+.ab{border:none;padding:9px 14px;border-radius:10px;color:#fff;font-weight:bold;cursor:pointer}
+.ed{background:#f59e0b}.dl{background:#ef4444}
+h3{font-size:22px;margin-bottom:14px}
+.ct th,.ct td{padding:6px 8px;border:1px solid #cbd5e1}.ct th{background:#0d2c56;color:#fff}
+.ct td:first-child{font-weight:bold;width:180px;background:#f1f5f9}
+.st{min-width:2100px}.st th,.st td{padding:4px;border:1px solid #cbd5e1;text-align:center;font-size:12px}
+.st input,.st select{height:34px;border-radius:8px;padding:0 6px;font-size:12px}
+.st .ro{background:#e2e8f0;font-weight:bold}
+.st tfoot td{background:#f1f5f9;font-weight:bold}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media(max-width:900px){.two{grid-template-columns:1fr}}
+.hide{display:none}
+</style></head><body>
+<div class="topbar"><div class="logo-icon">✈</div><div><h1>AEROJET AVIATION LIMITED</h1><p>VOYAGE MANAGEMENT SYSTEM</p></div></div>
+<div class="navbar">
+<a href="#" class="active">VOYAGE</a><a href="REPORT.html">REPORT</a><a href="CREW.html">CREW</a><a href="CREWREPORT.html">CREWREPORT</a><a href="CREWROSTER.html">CREWROSTER</a><a href="DISPATCHER.html">DISPATCHER</a><a href="POSTHOLDER.html">POSTHOLDER</a><a href="DOCUMENTS.html">DOCUMENTS</a><a href="SUMMARY.html">SUMMARY</a><a href="CARGO.html">CARGO</a><a href="MASTER.html">MASTER</a><a href="users.html">USERS</a><a href="USERPASSWORD.html">PASSWORD</a><a href="index.html">LOGOUT</a>
+</div>
+<div class="container">
+<div id="err" class="card hide" style="background:#fee2e2;color:#991b1b;font-weight:bold"></div>
+
+<!-- PAGE 1: LIST -->
+<div id="pgList">
+<h2>Voyage Trip Reports</h2><p class="sub">Search trip reports, or add a new one.</p>
+<div class="card">
+<div class="grid">
+<div><label>Date From</label><input type="date" id="q_from"></div>
+<div><label>Date To</label><input type="date" id="q_to"></div>
+<div><label>Registration</label><input id="q_reg" placeholder="e.g. 5Y-RNG"></div>
+<div><label>Type</label><select id="q_type"><option value="">All types</option></select></div>
+<div style="display:flex;gap:10px"><button class="btn b2" onclick="renderList()">Search</button><button class="btn b1" onclick="openForm()">Add New</button></div>
+</div></div>
+<div class="card"><table><thead><tr><th>Trip Report No</th><th>Date</th><th>Type</th><th>Registration</th><th>Sectors</th><th>Edit</th><th>Delete</th></tr></thead><tbody id="listBody"></tbody></table></div>
+</div>
+
+<!-- PAGE 2: FORM -->
+<div id="pgForm" class="hide">
+<h2 id="formTitle">New Trip Report</h2><p class="sub">Fill in the header and crew, then the flight sectors.</p>
+<div class="two">
+<div class="card" style="margin:0"><h3>Trip details</h3>
+<div class="grid" style="grid-template-columns:1fr 1fr">
+<div><label>Trip Report No</label><input id="t_no"></div>
+<div><label>Date</label><input type="date" id="t_date"></div>
+<div><label>A/C Type</label><select id="t_type"></select></div>
+<div><label>Reg</label><input id="t_reg" placeholder="5Y-RNG"></div>
+</div>
+<div style="margin-top:18px"><label>Remark</label><textarea id="t_remark"></textarea></div>
+</div>
+<div class="card" style="margin:0"><h3>Crew</h3>
+<table class="ct"><thead><tr><th>Cockpit crew</th><th>Name</th></tr></thead><tbody id="cockpit"></tbody></table>
+<table class="ct" style="margin-top:14px"><thead><tr><th>Cabin crew</th><th>Name</th></tr></thead><tbody id="cabin"></tbody></table>
+</div></div>
+<datalist id="crewNames"></datalist>
+
+<div class="card" style="margin-top:30px"><h3>Flight sectors</h3>
+<table class="st"><thead>
+<tr><th rowspan="2">FLIGHT NO</th><th rowspan="2">CLASS</th><th colspan="2">SECTOR</th><th colspan="3">BLOCK TIME</th><th colspan="3">FLIGHT TIME</th><th colspan="6">FUEL</th><th>OIL</th><th colspan="3">PAX</th><th>CARGO</th><th rowspan="2">DIST KM</th><th rowspan="2"></th></tr>
+<tr><th>FROM</th><th>TO</th><th>CHOCK OFF</th><th>CHOCK ON</th><th>BLK TIME</th><th>AIRBORNE</th><th>LANDING</th><th>FLT TIME</th><th>ON BOARD</th><th>UPLIFT KG</th><th>UPLIFT LTR</th><th>TOTAL</th><th>TRIP</th><th>REMAIN</th><th>UPLIFT</th><th>DISEMB.</th><th>EMBARKED</th><th>ON BOARD</th><th>KG</th></tr>
+</thead><tbody id="sectors"></tbody>
+<tfoot><tr><td colspan="6">Total</td><td id="s_blk">0.00</td><td colspan="2"></td><td id="s_ft">0.00</td><td></td><td id="s_upkg">0</td><td id="s_upltr">0</td><td></td><td id="s_trip">0</td><td></td><td id="s_oil">0</td><td id="s_dis">0</td><td id="s_emb">0</td><td></td><td id="s_cargo">0</td><td id="s_dist">0</td><td></td></tr></tfoot></table>
+<div class="row"><button class="btn b3" onclick="addSector()">+ Add sector</button>
+<div style="display:flex;gap:12px"><button class="btn b2" onclick="closeForm()">Back to list</button><button class="btn b1" onclick="saveReport()">Save trip report</button></div></div>
+</div></div>
+</div>
+
+<script src="js/api.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+const COCKPIT=[['CAPT.COM','capt'],['POS. CAPT','capt'],['REL. CAPT','capt'],['F.OFF','fo'],['POS F.OFF','fo'],['REL F.OFF','fo'],['GE','eng']];
+const STAFF={capt:['Rajab Kaminjo','Abdullahi Hirsi','Salat Korrow'],fo:['Hamza Affey','Mohamed','Osman Abdullahi'],eng:['Hezron Marube']};
+const POSMAP={'Pilot':'capt','Co-Pilot':'fo','Engineer':'eng'};
+const CABIN=[];
+const TYPES=['B737-800','A320','FOKKER50'];
+let R=[],EDIT=null;
+const err=m=>{const b=$('err');b.textContent=m;b.classList.remove('hide');scrollTo(0,0)};
+const num=x=>Number(x)||0;
+/* Time entry: type 0454 or 04:54 (also 454). Returns "HH:MM" or null if empty/invalid */
+const normT=t=>{const d=String(t||'').replace(/\D/g,'');if(d.length<3||d.length>4)return null;const p=d.padStart(4,'0'),h=+p.slice(0,2),m=+p.slice(2);return(h>23||m>59)?null:p.slice(0,2)+':'+p.slice(2)};
+const mins=t=>{const n=normT(t);if(!n)return null;const[a,b]=n.split(':').map(Number);return a*60+b};
+const diff=(a,b)=>{const x=mins(a),y=mins(b);if(x===null||y===null)return 0;let d=y-x;if(d<0)d+=1440;return d}; /* later time minus earlier time; handles past midnight */
+const hhmm=m=>String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0');
+const dec=m=>(m/60).toFixed(2);
+const both=m=>hhmm(m)+' ('+dec(m)+')';
+function fixTime(i){const n=normT(i.value);if(n)i.value=n;calc()}
+
+/* ----- LIST ----- */
+function renderList(){
+ const f=$('q_from').value,t=$('q_to').value,g=$('q_reg').value.trim().toLowerCase(),y=$('q_type').value;
+ const rows=R.filter(r=>(!f||r.report_date>=f)&&(!t||r.report_date<=t)&&(!g||(r.ac_reg||'').toLowerCase().includes(g))&&(!y||r.ac_type===y));
+ $('listBody').innerHTML=rows.map(r=>{let n=0;try{n=JSON.parse(r.sectors_json||'[]').length}catch(e){}
+  return `<tr><td>${Api.esc(r.trip_no)}</td><td>${Api.esc(String(r.report_date).slice(0,10))}</td><td>${Api.esc(r.ac_type)}</td><td>${Api.esc(r.ac_reg)}</td><td>${n}</td>
+  <td><button class="ab ed" onclick="openForm(${r.id})">Edit</button></td><td><button class="ab dl" onclick="delReport(${r.id})">Delete</button></td></tr>`}).join('')||'<tr><td colspan="7">No trip reports found. Click Add New to create one.</td></tr>';
+}
+async function load(){
+ try{const r=await Api.list('trip_reports');R=Array.isArray(r)?r:(r.data||r.rows||[]);}
+ catch(e){err('Could not load trip_reports: '+e.message+'. Create the table with trip_reports.sql and allow it in api.php.');R=[];}
+ renderList();
+}
+async function delReport(id){if(confirm('Delete this trip report?'))try{await Api.remove('trip_reports',id);await load()}catch(e){err(e.message)}}
+
+/* ----- FORM ----- */
+function cockpitRow(label,grp,val){
+ val=val||'NIL';const list=STAFF[grp].slice();if(val!=='NIL'&&!list.includes(val))list.push(val);
+ return `<tr><td>${label}</td><td><select>${['NIL',...list].map(n=>`<option${n===val?' selected':''}>${Api.esc(n)}</option>`).join('')}</select></td></tr>`}
+function nameRow(label,val){
+ val=val||'NIL';const list=CABIN.slice();if(val!=='NIL'&&!list.includes(val))list.push(val);
+ return `<tr><td>${label}</td><td><select>${['NIL',...list].map(n=>`<option${n===val?' selected':''}>${Api.esc(n)}</option>`).join('')}</select></td></tr>`}
+function sectorRow(s={}){
+ const c=(k,type='text',w='')=>`<td><input data-k="${k}" type="${type}" ${type==='number'?'step="any" min="0"':''} value="${Api.esc(s[k]??'')}" style="${w}" oninput="calc()"></td>`;
+ const tm=k=>`<td><input data-k="${k}" type="text" inputmode="numeric" maxlength="5" placeholder="0000" value="${Api.esc(s[k]??'')}" style="width:64px" oninput="calc()" onblur="fixTime(this)"></td>`;
+ const ob=`<td><input data-k="ob" type="number" step="any" min="0" value="${Api.esc(s.ob??'')}" data-manual="${s._manual?'1':''}" oninput="this.dataset.manual=this.value===''?'':'1';calc()" title="Auto-filled from the previous sector's REMAIN; type to override, clear to restore"></td>`;
+ const r=k=>`<td><input data-k="${k}" class="ro" readonly value="${Api.esc(s[k]??'')}"></td>`;
+ return `<tr><td><input data-k="flight_no" value="${Api.esc(s.flight_no||'')}" style="width:90px"></td>
+ <td><select data-k="cls">${['Normal','Charter','Cargo','Ferry','Positioning'].map(o=>`<option${o===(s.cls||'Normal')?' selected':''}>${o}</option>`).join('')}</select></td>
+ ${c('from','text','width:70px')}${c('to','text','width:70px')}${tm('off')}${tm('on')}${r('blk')}${tm('air')}${tm('land')}${r('ft')}
+ ${ob}${c('upkg','number')}${c('upltr','number')}${r('tot')}${c('trip','number')}${r('rem')}${c('oil','number')}${c('dis','number')}${c('emb','number')}${r('onb')}${c('cargo','number')}${c('dist','number')}
+ <td><button class="ab dl" onclick="this.closest('tr').remove();calc()">✕</button></td></tr>`;
+}
+function addSector(s){$('sectors').insertAdjacentHTML('beforeend',sectorRow(s));calc()}
+function calc(){
+ const T={blk:0,ft:0,upkg:0,upltr:0,trip:0,oil:0,dis:0,emb:0,cargo:0,dist:0};
+ let prev=null; /* REMAIN of the previous sector -> ON BOARD of the next one */
+ document.querySelectorAll('#sectors tr').forEach(tr=>{
+  const g=k=>tr.querySelector(`[data-k="${k}"]`),v=k=>g(k).value;
+  ['off','on','air','land'].forEach(k=>g(k).style.borderColor=(v(k)&&!normT(v(k)))?'#ef4444':'');
+  /* BLK TIME = CHOCK ON - CHOCK OFF ; FLT TIME = LANDING - AIRBORNE */
+  const okB=mins(v('off'))!==null&&mins(v('on'))!==null,okF=mins(v('air'))!==null&&mins(v('land'))!==null;
+  const b=okB?diff(v('off'),v('on')):0,f=okF?diff(v('air'),v('land')):0;
+  g('blk').value=okB?hhmm(b):'';g('blk').title=okB?dec(b)+' hrs':'';
+  g('ft').value=okF?hhmm(f):'';g('ft').title=okF?dec(f)+' hrs':'';
+  /* FUEL: ON BOARD (auto from previous REMAIN unless typed) */
+  const ob=g('ob');if(prev!==null&&ob.dataset.manual!=='1')ob.value=prev;
+  /* TOTAL = ON BOARD + UPLIFT KG ; REMAIN = TOTAL - TRIP */
+  const haveTot=v('ob')!==''||v('upkg')!=='';
+  const tot=num(v('ob'))+num(v('upkg'));
+  g('tot').value=haveTot?tot:'';
+  const rem=(haveTot||v('trip')!=='')?tot-num(v('trip')):null;
+  g('rem').value=rem===null?'':rem;
+  g('rem').style.color=(rem!==null&&rem<0)?'#dc2626':'';
+  g('rem').title=(rem!==null&&rem<0)?'Trip fuel is more than total fuel - check the figures':'';
+  prev=rem;
+  g('onb').value=(v('emb')||v('dis'))?Math.max(0,num(v('emb'))-num(v('dis'))):'';
+  T.blk+=b;T.ft+=f;['upkg','upltr','trip','oil','dis','emb','cargo','dist'].forEach(k=>T[k]+=num(v(k)));
+ });
+ $('s_blk').textContent=both(T.blk);$('s_ft').textContent=both(T.ft);
+ ['upkg','upltr','trip','oil','dis','emb','cargo','dist'].forEach(k=>$('s_'+k).textContent=T[k]);
+}
+function readSectors(){return [...document.querySelectorAll('#sectors tr')].map(tr=>{const o={};tr.querySelectorAll('[data-k]').forEach(i=>o[i.dataset.k]=i.value);return o})}
+function openForm(id){
+ EDIT=id||null;const r=id?R.find(x=>x.id==id):null;let crew={cockpit:[],cabin:[]},sec=[];
+ if(r){try{crew=JSON.parse(r.crew_json||'{}');sec=JSON.parse(r.sectors_json||'[]')}catch(e){}}
+ $('formTitle').textContent=r?'Edit Trip Report':'New Trip Report';
+ $('t_no').value=r?r.trip_no:String((Math.max(0,...R.map(x=>parseInt(x.trip_no)||0)))+1);
+ $('t_date').value=r?String(r.report_date).slice(0,10):new Date().toISOString().slice(0,10);
+ $('t_type').value=r?r.ac_type:'A320';$('t_reg').value=r?r.ac_reg:'';$('t_remark').value=r?(r.remark||''):'';
+ $('cockpit').innerHTML=COCKPIT.map(([l,g],i)=>cockpitRow(l,g,(crew.cockpit||[])[i])).join('');
+ $('cabin').innerHTML=Array.from({length:10},(_,i)=>nameRow('F.P.',(crew.cabin||[])[i])).join('');
+ $('sectors').innerHTML='';sec.forEach((x,i)=>{x._manual=i>0&&x.ob!==''&&x.ob!=null&&String(x.ob)!==String(sec[i-1].rem)});(sec.length?sec:[{}]).forEach(addSector);
+ $('pgList').classList.add('hide');$('pgForm').classList.remove('hide');scrollTo(0,0);
+}
+function closeForm(){$('pgForm').classList.add('hide');$('pgList').classList.remove('hide');}
+async function saveReport(){
+ if(!$('t_no').value||!$('t_date').value)return alert('Trip report no and date are required.');
+ const names=id=>[...document.querySelectorAll('#'+id+' input,#'+id+' select')].map(i=>i.value.trim()||'NIL');
+ const body={trip_no:$('t_no').value,report_date:$('t_date').value,ac_type:$('t_type').value,ac_reg:$('t_reg').value,remark:$('t_remark').value,
+  crew_json:JSON.stringify({cockpit:names('cockpit'),cabin:names('cabin')}),sectors_json:JSON.stringify(readSectors())};
+ try{EDIT?await Api.update('trip_reports',EDIT,body):await Api.create('trip_reports',body);await load();closeForm();}catch(e){err(e.message)}
+}
+
+/* ----- INIT ----- */
+(async()=>{
+ const fill=c=>{$('t_type').innerHTML=c.map(x=>`<option>${Api.esc(x)}</option>`).join('');$('q_type').innerHTML='<option value="">All types</option>'+c.map(x=>`<option>${Api.esc(x)}</option>`).join('')};
+ fill(TYPES);
+ try{const r=await Api.list('flight_types'),a=Array.isArray(r)?r:(r.data||r.rows||[]);if(a.length)fill(a.map(f=>f.code))}catch(e){}
+ try{const r=await Api.list('crew'),a=Array.isArray(r)?r:(r.data||r.rows||[]);a.forEach(c=>{const g=POSMAP[c.position];if(g&&c.name&&!STAFF[g].includes(c.name))STAFF[g].push(c.name)});a.filter(c=>!POSMAP[c.position]&&c.name).forEach(c=>{if(!CABIN.includes(c.name))CABIN.push(c.name)})}catch(e){}
+ load();
+})();
+</script></body></html>
